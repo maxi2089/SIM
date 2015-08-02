@@ -8,11 +8,13 @@
     tools:context="com.example.maxi.sim.LoginActivity">
 
 
-    <ImageView android:id="@+id/ImgFoto"
+
+    <ImageView android:id="@+id/ImgLogo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/logo_sim"
         android:contentDescription="@string/logo"
+        android:background="@drawable/ic_logo_sim_hdpi"
+        android:adjustViewBounds="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -20,16 +22,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:layout_below="@+id/ImgFoto"
+        android:layout_below="@+id/ImgLogo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:hint="@string/usuario"
         android:textColorHint="#CFCFCF"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textStyle="italic" />
 
-    <EditText android:id="@+id/TxtConstraseña"
+    <EditText android:id="@+id/TxtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -37,23 +40,32 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="30dp"
-        android:hint="@string/contraseña"
+        android:hint="@string/password"
+        android:layout_alignLeft="@+id/TxtUser"
+        android:layout_alignStart="@+id/TxtUser"
         android:textColorHint="#CFCFCF"
-         />
+        android:password="true"
+        android:singleLine="false"
+        android:editable="true"
+        android:textStyle="italic" />
 
     <Button android:id="@+id/BtnLoginIngresar"
         android:text="@string/ingresar"
-        android:layout_width="200dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/TxtPassword"
+        android:layout_alignLeft="@+id/TxtPassword"
+        android:layout_alignStart="@+id/TxtPassword"
+        android:layout_marginTop="40dp" />
 
     <Button android:id="@+id/BtnLoginRegistrarse"
         android:text="@string/registrarse"
-        android:layout_width="200dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="49dp"
         android:layout_below="@+id/BtnLoginIngresar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/BtnLoginIngresar"
+        android:layout_alignStart="@+id/BtnLoginIngresar" />
 
 </RelativeLayout>
