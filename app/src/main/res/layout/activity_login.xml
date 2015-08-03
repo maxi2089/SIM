@@ -18,44 +18,61 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <EditText android:id="@+id/TxtUser"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:layout_below="@+id/ImgLogo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:hint="@string/usuario"
-        android:textColorHint="#CFCFCF"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textStyle="italic" />
+        >
 
-    <EditText android:id="@+id/TxtPassword"
+        <EditText android:id="@+id/TxtUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:hint="@string/usuario"
+            android:textColorHint="#CFCFCF"
+            android:textStyle="italic"
+            android:text="Usuario" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:layout_below="@+id/TxtUser"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
-        android:hint="@string/password"
-        android:layout_alignLeft="@+id/TxtUser"
-        android:layout_alignStart="@+id/TxtUser"
-        android:textColorHint="#CFCFCF"
-        android:password="true"
-        android:singleLine="false"
-        android:editable="true"
-        android:textStyle="italic" />
+        android:layout_below="@+id/TiLayoutUser"
+        android:layout_marginTop="5dp">
+
+        <EditText android:id="@+id/TxtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignLeft="@+id/TxtUser"
+            android:layout_alignStart="@+id/TxtUser"
+            android:textColorHint="#CFCFCF"
+            android:hint="@string/password"
+            android:password="true"
+            android:singleLine="false"
+            android:editable="true"
+            android:textStyle="italic"
+            android:text="Contraseña" />
+
+    </android.support.design.widget.TextInputLayout>
+
 
     <Button android:id="@+id/BtnLoginIngresar"
         android:text="@string/ingresar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TxtPassword"
-        android:layout_alignLeft="@+id/TxtPassword"
-        android:layout_alignStart="@+id/TxtPassword"
+        android:layout_below="@+id/TiLayoutPass"
+        android:layout_alignLeft="@+id/TiLayoutPass"
+        android:layout_alignStart="@+id/TiLayoutPass"
         android:layout_marginTop="40dp" />
 
     <Button android:id="@+id/BtnLoginRegistrarse"
@@ -67,5 +84,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignLeft="@+id/BtnLoginIngresar"
         android:layout_alignStart="@+id/BtnLoginIngresar" />
+
+
+
 
 </RelativeLayout>

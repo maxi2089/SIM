@@ -1,5 +1,7 @@
 package com.example.maxi.sim;
 
+import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import com.example.maxi.sim.R;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 public class LoginActivity extends ActionBarActivity {
     private UserActivity user;
@@ -22,10 +25,23 @@ public class LoginActivity extends ActionBarActivity {
     private EditText txPassword;
     private TextView msgLogin;
     public static String  algoritmoEncriptacion = "SHA-256";
+    private TextInputLayout txtInputLayoutPass;
+    private TextInputLayout txtInputLayoutUser;
 
-    public boolean validarUsuario( UserActivity user){
 
-        return false;
+    public boolean validarUsuario(){
+        boolean userOk = false;
+
+        //Conectar a la BD
+        //Consulta BD que trae el dato usuario y password
+        //Obtener datos de session
+
+        if(this.user.getPassword().isEmpty())
+            txtInputLayoutPass.setError("Error: Password Incorrecto");
+        else
+            txtInputLayoutPass.setError(null);
+
+        return userOk;
     }
 
 
@@ -33,26 +49,43 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        final Calendar fechaActual = Calendar.getInstance();
+
 
         txUser = (EditText)findViewById(R.id.TxtUser);
         txPassword = (EditText)findViewById(R.id.TxtPassword);
         btnAceptar = (Button)findViewById(R.id.BtnLoginIngresar);
         btnRegistrar = (Button)findViewById(R.id.BtnLoginRegistrarse);
 
-        //String a = new String ("hola");
-        //String passEncriptada = getStringMessageDigest(a,algoritmoEncriptacion);
+        txtInputLayoutPass = (TextInputLayout)findViewById(R.id.TiLayoutPass);
+        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutPass);
 
-
-
-       // user = new UserActivity(txtUser.toString(),passEncriptada);
-
+        txtInputLayoutPass.setErrorEnabled(true);
+        txtInputLayoutUser.setErrorEnabled(true);
 
         //Implementamos el evento click del boton
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String passEncriptada = getStringMessageDigest(txPassword.toString(),algoritmoEncriptacion);
+                String passEncriptada = getStringMessageDigest(txPassword.getText().toString(), algoritmoEncriptacion);
+                user = new UserActivity(txUser.getText().toString(),passEncriptada);
+
+                if (validarUsuario()) {
+                    //Creamos el Intent
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    //Creamos la informacion a pasar entre actividades
+                    Bundle b = new Bundle();
+                    b.putString("USER", txUser.getText().toString());
+                    b.putString("FECHA",fechaActual.getTime().toString());
+                    //Aniadimos la informacion al intent
+                    intent.putExtras(b);
+                    //Iniciamos la nueva actividad
+                    startActivity(intent);
+                }else {
+                    //mostrar mensaje de error
+                }
+
                 System.out.println(passEncriptada);
 
             }
