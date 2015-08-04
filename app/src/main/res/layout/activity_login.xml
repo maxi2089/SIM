@@ -35,9 +35,13 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
             android:hint="@string/usuario"
-            android:textColorHint="#CFCFCF"
+            android:textColorHint="#ffffffff"
             android:textStyle="italic"
-            android:text="Usuario" />
+            android:selectAllOnFocus="true"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#ffffffff"
+
+            android:editable="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -55,13 +59,13 @@
             android:layout_alignParentStart="true"
             android:layout_alignLeft="@+id/TxtUser"
             android:layout_alignStart="@+id/TxtUser"
-            android:textColorHint="#CFCFCF"
+            android:textColorHint="#ffffffff"
             android:hint="@string/password"
-            android:password="true"
-            android:singleLine="false"
-            android:editable="true"
             android:textStyle="italic"
-            android:text="Contraseña" />
+            android:selectAllOnFocus="true"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#ffffffff"
+            android:editable="true" />
 
     </android.support.design.widget.TextInputLayout>
 

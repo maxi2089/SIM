@@ -29,15 +29,18 @@ public class LoginActivity extends ActionBarActivity {
     private TextInputLayout txtInputLayoutUser;
 
 
-    public boolean validarUsuario(){
+    public boolean validaUsuario(){
         boolean userOk = false;
 
+        String prueba = getStringMessageDigest("hola", algoritmoEncriptacion);
         //Conectar a la BD
         //Consulta BD que trae el dato usuario y password
         //Obtener datos de session
 
-        if(this.user.getPassword().isEmpty())
+        if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
+            txtInputLayoutPass.setErrorEnabled(true);
             txtInputLayoutPass.setError("Error: Password Incorrecto");
+        }
         else
             txtInputLayoutPass.setError(null);
 
@@ -71,7 +74,7 @@ public class LoginActivity extends ActionBarActivity {
                 String passEncriptada = getStringMessageDigest(txPassword.getText().toString(), algoritmoEncriptacion);
                 user = new UserActivity(txUser.getText().toString(),passEncriptada);
 
-                if (validarUsuario()) {
+                if (validaUsuario()) {
                     //Creamos el Intent
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     //Creamos la informacion a pasar entre actividades
