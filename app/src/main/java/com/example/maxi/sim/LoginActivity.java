@@ -40,9 +40,12 @@ public class LoginActivity extends ActionBarActivity {
         if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
             txtInputLayoutPass.setErrorEnabled(true);
             txtInputLayoutPass.setError("Error: Password Incorrecto");
+            userOk = false;
         }
-        else
+        else {
             txtInputLayoutPass.setError(null);
+            userOk = true;
+        }
 
         return userOk;
     }
@@ -74,23 +77,18 @@ public class LoginActivity extends ActionBarActivity {
                 String passEncriptada = getStringMessageDigest(txPassword.getText().toString(), algoritmoEncriptacion);
                 user = new UserActivity(txUser.getText().toString(),passEncriptada);
 
-                if (validaUsuario()) {
+               // if (validaUsuario()) {
                     //Creamos el Intent
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     //Creamos la informacion a pasar entre actividades
                     Bundle b = new Bundle();
                     b.putString("USER", txUser.getText().toString());
-                    b.putString("FECHA",fechaActual.getTime().toString());
+                    b.putString("FECHA", fechaActual.getTime().toString());
                     //Aniadimos la informacion al intent
                     intent.putExtras(b);
                     //Iniciamos la nueva actividad
                     startActivity(intent);
-                }else {
-                    //mostrar mensaje de error
-                }
-
-                System.out.println(passEncriptada);
-
+            //    }
             }
         });
     }
