@@ -2,8 +2,8 @@ package com.example.maxi.sim;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends AppCompatActivity {
     private UserActivity user;
     private Button btnAceptar;
     private Button btnRegistrar;
@@ -78,7 +78,7 @@ public class LoginActivity extends ActionBarActivity {
                 user = new UserActivity(txUser.getText().toString(),passEncriptada);
 
                // if (validaUsuario()) {
-                    //Creamos el Intent
+                    //Creamos el IntentZ
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     //Creamos la informacion a pasar entre actividades
                     Bundle b = new Bundle();
