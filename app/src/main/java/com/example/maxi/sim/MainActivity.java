@@ -1,118 +1,95 @@
 package com.example.maxi.sim;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.res.TypedArray;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.widget.ActionBarContainer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.example.maxi.sim.R;
-import android.content.res.Configuration;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.support.v4.app.Fragment;
+import android.widget.Toast;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private Toolbar toolbar;
-    private ScrimInsetsFrameLayout sifl;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
-    private ListView ndList;
+    private String[] titulos;
+    private DrawerLayout NavDrawerLayout;
+    private ListView NavList;
+    private ArrayList<Item_objct> NavItms;
+    private TypedArray NavIcons;
+    NavigationAdapter NavAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sifl = (ScrimInsetsFrameLayout)findViewById(R.id.scrimInsetsFrameLayout);
+        NavDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        //Toolbar
+        //Lista
+        NavList = (ListView) findViewById(R.id.lista);
 
-        toolbar = (Toolbar) findViewById(R.id.appbar);
-        setSupportActionBar(toolbar);
+        View header = getLayoutInflater().inflate(R.layout.header,null);
 
-        //Menu del Navigation Drawer
+        NavList.addHeaderView(header);
 
-        ndList = (ListView)findViewById(R.id.navdrawerlist);
+        NavIcons = getResources().obtainTypedArray(R.array.navigation_iconos);
 
-        final String[] opciones = new String[]{"Seccion 1", "Seccion 2", "Seccion 3"};
+        titulos = getResources().getStringArray(R.array.nav_options);
 
-        ArrayAdapter<String> ndMenuAdapter =
-                new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_activated_1, opciones);
+        NavItms = new ArrayList<Item_objct>();
 
-        ndList.setAdapter(ndMenuAdapter);
+        NavItms.add(new Item_objct(titulos[0], NavIcons.getResourceId(0, -1)));
+        NavItms.add(new Item_objct(titulos[1],NavIcons.getResourceId(1,-1)));
 
-        ndList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                Fragment fragment = null;
+        NavAdapter = new NavigationAdapter(this,NavItms);
+        NavList.setAdapter(NavAdapter);
 
-                switch (pos) {
-                    case 0:
-                        fragment = new Fragment1();
-                        break;
-                    case 1:
-                        fragment = new Fragment2();
-                        break;
-                    case 2:
-                        fragment = new Fragment3();
-                        break;
-                }
 
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .commit();
+        //Declaramos el mDrawerToggle y las imgs a utilizar
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                NavDrawerLayout,         /* DrawerLayout object */
+                R.string.app_name,  /* "open drawer" description */
+                R.string.hello_world  /* "close drawer" description */
+        ) {
 
-                ndList.setItemChecked(pos, true);
-
-                getSupportActionBar().setTitle(opciones[pos]);
-
-                drawerLayout.closeDrawer(sifl);
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                Log.e("Cerrado completo", "!!");
             }
-        });
 
-        //Drawer Layout
-
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.color_primary_dark));
-
-        drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, R.string.openDrawer, R.string.closeDrawer){
-
-            @Override
+            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
+                Log.e("Apertura completa", "!!");
             }
         };
 
-        drawerLayout.setDrawerListener(drawerToggle);
-
+        // Establecemos que mDrawerToggle declarado anteriormente sea el DrawerListener
+        NavDrawerLayout.setDrawerListener(mDrawerToggle);
+        //Establecemos que el ActionBar muestre el Boton Home
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
+        //Establecemos la accion al clickear sobre cualquier item del menu.
+        //De la misma forma que hariamos en una app comun con un listview.
+        NavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                MostrarFragment(position);
+            }
+        });
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+        MostrarFragment(1);
     }
 
     @Override
@@ -127,19 +104,55 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        int id = item.getItemId();
+       /* int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            Log.e("mDrawerToggle pushed", "x");
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-}
 
+    /*Pasando la posicion de la opcion en el menu nos mostrara el Fragment correspondiente*/
+    private void MostrarFragment(int position) {
+        // update the main content by replacing fragments
+        Fragment fragment = null;
+        switch (position) {
+            case 1:
+                fragment = new HomeFragment();
+                break;
+            case 2:
+                fragment = new EcgFragment();
+                break;
+
+
+            default:
+                //si no esta la opcion mostrara un toast y nos mandara a Home
+                Toast.makeText(getApplicationContext(),"Opcion "+titulos[position-1]+"no disponible!", Toast.LENGTH_SHORT).show();
+                fragment = new HomeFragment();
+                position=1;
+                break;
+        }
+        //Validamos si el fragment no es nulo
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            // Actualizamos el contenido segun la opcion elegida
+            NavList.setItemChecked(position, true);
+            NavList.setSelection(position);
+            //Cambiamos el titulo en donde decia "
+            setTitle(titulos[position-1]);
+            //Cerramos el menu deslizable
+            NavDrawerLayout.closeDrawer(NavList);
+        } else {
+            //Si el fragment es nulo mostramos un mensaje de error.
+            Log.e("Error  ", "MostrarFragment"+position);
+        }
+    }
+}
