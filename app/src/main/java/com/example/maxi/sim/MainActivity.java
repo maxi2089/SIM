@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView NavList;
     private ArrayList<Item_objct> NavItms;
     private TypedArray NavIcons;
-    NavigationAdapter NavAdapter;
+    private NavigationAdapter NavAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavItms.add(new Item_objct(titulos[0], NavIcons.getResourceId(0, -1)));
         NavItms.add(new Item_objct(titulos[1],NavIcons.getResourceId(1,-1)));
+        NavItms.add(new Item_objct(titulos[2],NavIcons.getResourceId(2,-1)));
 
         NavAdapter = new NavigationAdapter(this,NavItms);
         NavList.setAdapter(NavAdapter);
@@ -129,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 fragment = new EcgFragment();
                 break;
+            case 3:
+                fragment = new AdmMedicamentoFragment();
 
 
             default:

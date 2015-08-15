@@ -1,5 +1,6 @@
 package com.example.maxi.sim;
 
+import android.app.Service;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
@@ -33,11 +34,45 @@ public class LoginActivity extends AppCompatActivity {
         boolean userOk = false;
 
         String prueba = getStringMessageDigest("hola", algoritmoEncriptacion);
+        ServiceActiviy service = new ServiceActiviy();
+
+        if(service.validarConexion(this.getApplicationContext())){
+           System.out.println("Red disponible");
+        }
+        else{
+            txtInputLayoutPass.setErrorEnabled(true);
+            txtInputLayoutPass.setError("Error: Red no disponible");
+        }
+
+       /* ServiceActiviy service = new ServiceActiviy();
+
+        service.configurarMetodo("GET");
+
+        service.configurarUrl("https://");
+
+       if(service.conectar(this.getApplicationContext())){
+           if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
+               txtInputLayoutPass.setErrorEnabled(true);
+               txtInputLayoutPass.setError("Error: Password Incorrecto");
+               userOk = false;
+           }
+           else {
+               //txtInputLayoutPass.setError(null);
+               userOk = true;
+
+
+           }
+       }else{
+
+           txtInputLayoutPass.setErrorEnabled(true);
+           txtInputLayoutPass.setError("Error: Red no disponible");
+       }
+
         //Conectar a la BD
         //Consulta BD que trae el dato usuario y password
         //Obtener datos de session
 
-        if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
+        /*if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
             txtInputLayoutPass.setErrorEnabled(true);
             txtInputLayoutPass.setError("Error: Password Incorrecto");
             userOk = false;
@@ -46,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             txtInputLayoutPass.setError(null);
             userOk = true;
         }
-
+*/
         return userOk;
     }
 
@@ -77,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                 String passEncriptada = getStringMessageDigest(txPassword.getText().toString(), algoritmoEncriptacion);
                 user = new UserActivity(txUser.getText().toString(),passEncriptada);
 
-               // if (validaUsuario()) {
+             //  if (validaUsuario()) {
                     //Creamos el IntentZ
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     //Creamos la informacion a pasar entre actividades
@@ -88,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtras(b);
                     //Iniciamos la nueva actividad
                     startActivity(intent);
-            //    }
+           // }
             }
         });
     }

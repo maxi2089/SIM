@@ -16,8 +16,10 @@
     <string-array name="nav_options">
         <item>Home</item>
         <item>Electrocardiograma</item>
+        <item>Medicamento</item>
     </string-array>
     <array name="navigation_iconos">
+        <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
     </array>
