@@ -51,7 +51,7 @@ public class ServiceActiviy {
                     connection.setReadTimeout(10000);
                     // connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("User-Agent", "cliente Android 1.0");
-                    //autenticación BASIC
+                    //autenticacion BASIC
                     //connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((usuario + ":" + password).getBytes(), Base64.NO_WRAP));
                     connection.connect();
                     return true;
@@ -71,7 +71,7 @@ public class ServiceActiviy {
             NetworkInfo[] redes = connMgr.getAllNetworkInfo();
 
             for (int i = 0; i < 2; i++) {
-                // ¿Tenemos conexión? ponemos a true
+                // Si tenemos conexion ponemos a true
                 if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
                     conectado = true;
                 }
