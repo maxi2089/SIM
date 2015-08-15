@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 3:
                 fragment = new AdmMedicamentoFragment();
+                break;
 
 
             default:

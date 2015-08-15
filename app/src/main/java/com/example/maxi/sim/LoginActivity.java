@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegistrar = (Button)findViewById(R.id.BtnLoginRegistrarse);
 
         txtInputLayoutPass = (TextInputLayout)findViewById(R.id.TiLayoutPass);
-        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutPass);
+        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutUser);
 
         txtInputLayoutPass.setErrorEnabled(true);
         txtInputLayoutUser.setErrorEnabled(true);

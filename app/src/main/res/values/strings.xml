@@ -13,11 +13,13 @@
     <string name="openDrawer">Menu abierto</string>
     <string name="closeDrawer">Menu cerrado</string>
     <string name="hello_world">Hello world!</string>
+
     <string-array name="nav_options">
         <item>Home</item>
         <item>Electrocardiograma</item>
         <item>Medicamento</item>
     </string-array>
+
     <array name="navigation_iconos">
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
