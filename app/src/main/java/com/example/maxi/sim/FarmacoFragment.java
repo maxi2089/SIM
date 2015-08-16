@@ -1,6 +1,7 @@
 package com.example.maxi.sim;
 
 import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ public class FarmacoFragment extends Fragment {
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         View rootView = inflater.inflate(R.layout.fragment_farmaco,container,false);
-
         return rootView;
 
     }

@@ -17,7 +17,7 @@
     <string-array name="nav_options">
         <item>Home</item>
         <item>Electrocardiograma</item>
-        <item>Medicamento</item>
+        <item>Farmaco</item>
     </string-array>
 
     <array name="navigation_iconos">
