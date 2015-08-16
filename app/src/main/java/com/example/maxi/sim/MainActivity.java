@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new EcgFragment();
                 break;
             case 3:
-                fragment = new AdmMedicamentoFragment();
+                fragment = new FarmacoFragment();
+                break;
 
 
             default:

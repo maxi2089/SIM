@@ -10,13 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class AdmMedicamentoFragment extends Fragment {
+public class FarmacoFragment extends Fragment {
 
-    public AdmMedicamentoFragment() {
+    public FarmacoFragment() {
     }
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
-        View rootView = inflater.inflate(R.layout.adm_fragment,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_farmaco,container,false);
 
         return rootView;
 
