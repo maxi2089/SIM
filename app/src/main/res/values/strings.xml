@@ -25,4 +25,5 @@
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
     </array>
+    <string name="title_activity_monitoreo">MonitoreoActivity</string>
 </resources>
