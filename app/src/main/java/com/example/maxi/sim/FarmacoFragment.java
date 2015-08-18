@@ -31,10 +31,9 @@ public class FarmacoFragment extends Fragment {
 
 
        ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
-       System.out.println("Apellido " + ListaPaciente.get(0).getApellido());
-        //TextView txtSaludo = (TextView)this.getView().findViewById(R.id.txtSaludo);
-       // txtSaludo.setText("GILADA");
-       //txtSaludo.setText(ListaPaciente.get(0).getApellido());
+      // System.out.println("Apellido " + ListaPaciente.get(0).getApellido());
+       TextView txtSaludo = (TextView)rootView.findViewById(R.id.txtSaludo);
+       txtSaludo.setText(ListaPaciente.get(0).getApellido());
 
         return rootView;
 
