@@ -29,12 +29,25 @@ public class MainActivity extends AppCompatActivity {
     private TypedArray NavIcons;
     private NavigationAdapter NavAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
-
+    private ArrayList<Paciente> Listapaciente;
+    private Bundle pacientes;
     @Override
     protected void onCreate (Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Ejemplo de busqueda de pacientes
+        //Deberia haber una conexion a la base de datos///////////////////////////////
+        Listapaciente = new ArrayList<Paciente>();
+        Paciente paciente = new Paciente("Maximiliano","Akike","105",111,25,100,178);
+        Listapaciente.add(paciente);
+        System.out.println("Apellido" + Listapaciente.get(0).getApellido());
+
+        pacientes = new Bundle();
+        pacientes.putSerializable("LISTA", Listapaciente);
+
+        //////////////////////////////////////////////////////////////////////////////
 
         NavDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -124,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
     private void MostrarFragment(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
+
         switch (position) {
             case 1:
                 fragment = new HomeFragment();
@@ -134,17 +148,17 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 fragment = new FarmacoFragment();
                 break;
-
-
             default:
                 //si no esta la opcion mostrara un toast y nos mandara a Home
                 Toast.makeText(getApplicationContext(),"Opcion "+titulos[position-1]+"no disponible!", Toast.LENGTH_SHORT).show();
-                fragment = new HomeFragment();
                 position=1;
                 break;
+
         }
+
         //Validamos si el fragment no es nulo
         if (fragment != null) {
+            fragment.setArguments(pacientes);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 

@@ -1,9 +1,20 @@
 package com.example.maxi.sim;
 
+import java.io.Serializable;
+
 /**
  * Created by Sanchez on 15/08/2015.
  */
-public class Paciente {
+public class Paciente implements Serializable {
+    public Paciente(String nombre, String apellido, String ubicacion, int ID, int edad, int peso, int altura) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.ubicacion = ubicacion;
+        this.ID = ID;
+        this.edad = edad;
+        this.peso = peso;
+        this.altura = altura;
+    }
 
     public int getAltura() {
         return altura;
