@@ -40,9 +40,15 @@ public class MainActivity extends AppCompatActivity {
         //Ejemplo de busqueda de pacientes
         //Deberia haber una conexion a la base de datos///////////////////////////////
         Listapaciente = new ArrayList<Paciente>();
-        Paciente paciente = new Paciente("Maximiliano","Akike","105",111,25,100,178);
+
+        Paciente paciente = new Paciente("Maximiliano","Akike","105",111,111,111,111);
+        Paciente paciente2 = new Paciente("Andres","Sanchez","106",111,111,111,111);
+        Paciente paciente3 = new Paciente("Andres","Dengra","106",111,111,111,111);
+
         Listapaciente.add(paciente);
-        System.out.println("Apellido" + Listapaciente.get(0).getApellido());
+        Listapaciente.add(paciente2);
+        Listapaciente.add(paciente3);
+
 
         pacientes = new Bundle();
         pacientes.putSerializable("LISTA", Listapaciente);
