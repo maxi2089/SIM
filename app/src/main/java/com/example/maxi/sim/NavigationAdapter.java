@@ -19,15 +19,18 @@ public class NavigationAdapter extends BaseAdapter {
        super();  
        this.activity = activity;  
        this.arrayitms=listarry;
-       }     
+       }
+
    //Retorna objeto Item_objct del array list
    @Override
    public Object getItem(int position) {       
        return arrayitms.get(position);
-   }   
+   }
+
     public int getCount() {  
         return arrayitms.size();
-    }    
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -37,7 +40,8 @@ public class NavigationAdapter extends BaseAdapter {
     {  
     		TextView titulo_itm;
     		ImageView icono;
-    }  
+    }
+
    public View getView(int position, View convertView, ViewGroup parent) {  
 	   Fila view;
        LayoutInflater inflator = activity.getLayoutInflater();  

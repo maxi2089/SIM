@@ -9,16 +9,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-
+import java.util.List;
 
 
 public class FarmacoFragment extends Fragment {
     private ArrayList<Paciente> ListaPaciente;
-
+    private Spinner spinnerPaciente;
+    private Paciente pacienteActivo;
 
     public FarmacoFragment() {}
 
@@ -31,10 +34,39 @@ public class FarmacoFragment extends Fragment {
 
 
        ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
-      // System.out.println("Apellido " + ListaPaciente.get(0).getApellido());
        TextView txtSaludo = (TextView)rootView.findViewById(R.id.txtSaludo);
        txtSaludo.setText(ListaPaciente.get(0).getApellido());
 
+       spinnerPaciente = (Spinner)rootView.findViewById(R.id.listaPaciente);
+
+        List<String> pacientes = new  ArrayList<String>();
+
+        pacientes.add("Pacientes Asigandos");
+
+        for(int i=0;i<ListaPaciente.size();i++){
+            pacientes.add(ListaPaciente.get(i).getID()+" - "+ListaPaciente.get(i).getNombre()+' '+ListaPaciente.get(i).getApellido());
+        }
+
+       ArrayAdapter<String> adaptador = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_spinner_item,pacientes);
+
+        spinnerPaciente.setAdapter(adaptador);
+
+        spinnerPaciente.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+                                       long arg3) {
+                if (arg2 != 0) {
+                    //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
+                   pacienteActivo = ListaPaciente.get(arg2-1);
+                }
+                //do something here
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                //optionally do something here
+            }
+        });
         return rootView;
 
     }
