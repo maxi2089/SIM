@@ -42,8 +42,6 @@ public class FarmacoFragment extends Fragment {
 
 
        ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
-       TextView txtSaludo = (TextView)rootView.findViewById(R.id.txtSaludo);
-       txtSaludo.setText(ListaPaciente.get(0).getApellido());
 
        spinnerPaciente = (Spinner)rootView.findViewById(R.id.listaPaciente);
 
