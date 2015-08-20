@@ -9,20 +9,13 @@ import android.view.MenuItem;
 public class UserActivity {
     private String user;
     private String password;
+    private String rol;
 
     public UserActivity(String user, String password) {
         this.user = user;
         this.password = password;
     }
 
-
-    @Override
-    public String toString() {
-        return "UserActivity{" +
-                "user='" + user + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
     public String getPassword() {
         return password;
     }

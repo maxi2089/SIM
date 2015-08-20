@@ -1,6 +1,8 @@
 package com.example.maxi.sim;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,6 +26,12 @@ public class FarmacoFragment extends Fragment {
     private ArrayList<Paciente> ListaPaciente;
     private Spinner spinnerPaciente;
     private Paciente pacienteActivo;
+    private EditText volumen;
+    private EditText tiempo;
+    private TextView resultado;
+    private Button btnCalcular;
+    private Button btnEnviar;
+
 
     public FarmacoFragment() {}
 
@@ -29,8 +39,6 @@ public class FarmacoFragment extends Fragment {
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         View rootView = inflater.inflate(R.layout.fragment_farmaco,container,false);
-
-
 
 
        ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
@@ -51,15 +59,16 @@ public class FarmacoFragment extends Fragment {
 
         spinnerPaciente.setAdapter(adaptador);
 
+
+
         spinnerPaciente.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
                                        long arg3) {
                 if (arg2 != 0) {
                     //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
-                   pacienteActivo = ListaPaciente.get(arg2-1);
+                    pacienteActivo = ListaPaciente.get(arg2 - 1);
                 }
-                //do something here
             }
 
             @Override
@@ -67,6 +76,22 @@ public class FarmacoFragment extends Fragment {
                 //optionally do something here
             }
         });
+
+        volumen = (EditText) rootView.findViewById(R.id.TxtResultado);
+        tiempo =  (EditText) rootView.findViewById(R.id.TxtTiempo);
+        resultado = (TextView) rootView.findViewById(R.id.TxtResultado);
+
+        btnCalcular =  (Button) rootView.findViewById(R.id.btnCalcular);
+        btnEnviar   =  (Button) rootView.findViewById(R.id.btnEnviar);
+
+        btnCalcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+              //resultado.setText((volumen*60));
+            }
+        });
+
         return rootView;
 
     }

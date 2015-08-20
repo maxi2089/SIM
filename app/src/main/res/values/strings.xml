@@ -14,6 +14,13 @@
     <string name="closeDrawer">Menu cerrado</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="volumen">Volumen(ml)</string>
+    <string name="tiempo">Tiempo(min)</string>
+    <string name="resultado">Resultado(gotas/min)</string>
+
+
+
+
     <string-array name="nav_options">
         <item>Home</item>
         <item>Electrocardiograma</item>

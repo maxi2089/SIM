@@ -40,7 +40,6 @@
             android:selectAllOnFocus="true"
             android:textColor="#ffffffff"
             android:backgroundTint="#ffffffff"
-
             android:editable="true" />
     </android.support.design.widget.TextInputLayout>
 
