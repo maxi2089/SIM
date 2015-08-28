@@ -8,7 +8,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.maxi.sim.FarmacoFragment"
-    android:background="#018B7B">
+    android:background="#018B7B"
+    >
 
     <Spinner
         android:layout_width="wrap_content"
@@ -27,35 +28,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:background="@mipmap/ic_launcher"
-        android:layout_marginLeft="43dp"
-        android:layout_marginStart="43dp"
-        android:layout_below="@+id/listaPaciente"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:background="@mipmap/ic_launcher"
-        android:layout_below="@+id/listaPaciente"
-        android:layout_toLeftOf="@+id/libroReport"
-        android:layout_toStartOf="@+id/libroReport" />
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/TiLayoutVolumen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton2"
-        android:layout_alignLeft="@+id/imageButton"
-        android:layout_alignStart="@+id/imageButton"
-        android:layout_alignRight="@+id/imageButton2"
-        android:layout_alignEnd="@+id/imageButton2">
+        android:layout_below="@+id/listaPaciente"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="65dp">
 
         <EditText android:id="@+id/TxtVolumen"
             android:layout_width="match_parent"
@@ -82,10 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/TiLayoutVolumen"
-        android:layout_alignRight="@+id/imageButton2"
-        android:layout_alignEnd="@+id/imageButton2"
-        android:layout_alignLeft="@+id/TiLayoutVolumen"
-        android:layout_alignStart="@+id/TiLayoutVolumen">
+        android:layout_alignParentLeft="true">
 
         <EditText android:id="@+id/TxtTiempo"
             android:layout_width="match_parent"
@@ -113,28 +90,51 @@
         android:text="Calcular"
         android:id="@+id/btnCalcular"
         android:layout_below="@+id/TiLayoutTiempo"
-        android:layout_alignLeft="@+id/TiLayoutTiempo"
-        android:layout_alignStart="@+id/TiLayoutTiempo"
-        android:layout_alignRight="@+id/TiLayoutTiempo"
-        android:layout_alignEnd="@+id/TiLayoutTiempo" />
+        android:layout_alignParentLeft="true" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutResultado"
+    android:id="@+id/TiLayoutResultado"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:layout_above="@+id/TiLayoutResultadoGotas"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="24dp">
+
+    <TextView android:id="@+id/TxtResultadoVolumen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnCalcular"
-        android:layout_alignLeft="@+id/btnCalcular"
-        android:layout_alignStart="@+id/btnCalcular"
-        android:layout_marginTop="41dp"
-        android:layout_alignRight="@+id/btnCalcular"
-        android:layout_alignEnd="@+id/btnCalcular">
+        android:inputType="numberDecimal"
+        android:textColorHint="#ffffffff"
+        android:hint="@string/resultadoVolumen"
+        android:textStyle="italic"
+        android:selectAllOnFocus="true"
+        android:textColor="#ffffffff"
+        android:backgroundTint="#ffffffff"
+        android:editable="true"
+        android:layout_below="@+id/TiLayoutTiempo"
+        android:layout_alignLeft="@+id/TxtVolumen"
+        android:layout_alignStart="@+id/TxtVolumen"
+        android:layout_alignRight="@+id/TxtVolumen"
+        android:layout_alignEnd="@+id/TxtVolumen" />
 
-        <TextView android:id="@+id/TxtResultado"
+</android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutResultadoGotas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnEnviar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="48dp">
+
+        <TextView android:id="@+id/TxtResultadoGotas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:textColorHint="#ffffffff"
-            android:hint="@string/resultado"
+            android:hint="@string/resultadoGotas"
             android:textStyle="italic"
             android:selectAllOnFocus="true"
             android:textColor="#ffffffff"
@@ -147,17 +147,45 @@
             android:layout_alignEnd="@+id/TxtVolumen" />
 
     </android.support.design.widget.TextInputLayout>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enviar"
         android:id="@+id/btnEnviar"
-        android:layout_below="@+id/TiLayoutResultado"
-        android:layout_alignLeft="@+id/TiLayoutResultado"
-        android:layout_alignStart="@+id/TiLayoutResultado"
-        android:layout_alignRight="@+id/TiLayoutResultado"
-        android:layout_alignEnd="@+id/TiLayoutResultado" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/libroReport"
+        android:layout_alignEnd="@+id/libroReport" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/factorGoteo"
+        android:layout_below="@+id/listaPaciente"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="32dp"
+        android:text="Factor Goteo" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageMacroGota"
+        android:background="@drawable/ic_macro_gota"
+        android:src="@drawable/ic_macro_gota"
+        android:layout_below="@+id/listaPaciente"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageMicroGota"
+        android:src="@drawable/ic_micro_gota"
+        android:visibility="visible"
+        android:layout_below="@+id/listaPaciente"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/imageMacroGota" />
 
 
 </RelativeLayout>

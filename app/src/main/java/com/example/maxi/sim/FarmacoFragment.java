@@ -14,8 +14,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,9 +33,14 @@ public class FarmacoFragment extends Fragment {
     private Paciente pacienteActivo;
     private EditText volumen;
     private EditText tiempo;
-    private TextView resultado;
+    private TextView resultadoVolumen;
+    private TextView resultadoGotas;
+    private ImageView macroGotas;
+    private ImageView microGotas;
+    private Switch factorGoteo;
     private Button btnCalcular;
     private Button btnEnviar;
+    private Double factorG;
 
 
     public FarmacoFragment() {}
@@ -74,10 +84,36 @@ public class FarmacoFragment extends Fragment {
                 //optionally do something here
             }
         });
+        microGotas = (ImageView)rootView.findViewById(R.id.imageMicroGota);
+        macroGotas = (ImageView)rootView.findViewById(R.id.imageMacroGota);
 
-        volumen = (EditText) rootView.findViewById(R.id.TxtResultado);
-        tiempo =  (EditText) rootView.findViewById(R.id.TxtTiempo);
-        resultado = (TextView) rootView.findViewById(R.id.TxtResultado);
+        factorGoteo = (Switch) rootView.findViewById(R.id.factorGoteo);
+
+        factorGoteo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if(isChecked){
+                    //MicroGota
+                    macroGotas.setVisibility(View.INVISIBLE);
+                    microGotas.setVisibility(View.VISIBLE);
+                    factorG=60.0;
+                }else{
+                    //MacroGota
+                    macroGotas.setVisibility(View.VISIBLE);
+                    microGotas.setVisibility(View.INVISIBLE);
+                    factorG=20.0;
+                }
+
+            }
+        });
+
+        volumen   = (EditText) rootView.findViewById(R.id.TxtVolumen);
+        tiempo    = (EditText) rootView.findViewById(R.id.TxtTiempo);
+        resultadoVolumen = (TextView) rootView.findViewById(R.id.TxtResultadoVolumen);
+        resultadoGotas = (TextView) rootView.findViewById(R.id.TxtResultadoGotas);
 
         btnCalcular =  (Button) rootView.findViewById(R.id.btnCalcular);
         btnEnviar   =  (Button) rootView.findViewById(R.id.btnEnviar);
@@ -85,8 +121,31 @@ public class FarmacoFragment extends Fragment {
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Double nVol,nTiempo,nResultado;
 
-              //resultado.setText((volumen*60));
+                nVol = Double.parseDouble(volumen.getText().toString());
+                nTiempo = Double.parseDouble(tiempo.getText().toString());
+                nResultado = nVol/(nTiempo/60);
+                resultadoVolumen.setText(nResultado.toString()+" ml/Hr");
+                System.out.println("Resultado " + nResultado);
+                nResultado= (nVol * factorG)/(nTiempo*60);
+                resultadoGotas.setText(nResultado.toString()+" Gotas/min");
+
+            }
+        });
+
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Conectarse con el web service para que envie el msj al enfermero a cargo
+                //Se postea en el libro report
+                String msj = new String();
+
+                msj = "Administrar:xxxxxx \n"
+                        +"Factor Goteo(ml x h): "+resultadoVolumen.getText()+"\n"
+                        +"Factor Goteo(gotas x min): "+resultadoGotas.getText()+"\n"
+                ;
+
             }
         });
 

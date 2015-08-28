@@ -16,7 +16,8 @@
 
     <string name="volumen">Volumen(ml)</string>
     <string name="tiempo">Tiempo(min)</string>
-    <string name="resultado">Resultado(gotas/min)</string>
+    <string name="resultadoGotas">Resultado(gotas/min)</string>
+    <string name="resultadoVolumen">Resultado(Volumen/min)</string>
 
 
 
