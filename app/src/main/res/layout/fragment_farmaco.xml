@@ -187,5 +187,15 @@
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/imageMacroGota" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/pruebaT"
+        android:layout_alignBottom="@+id/factorGoteo"
+        android:layout_toRightOf="@+id/imageMacroGota"
+        android:layout_toEndOf="@+id/imageMacroGota" />
+
 
 </RelativeLayout>

@@ -1,11 +1,13 @@
 package com.example.maxi.sim;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +44,10 @@ public class FarmacoFragment extends Fragment {
     private Button btnCalcular;
     private Button btnEnviar;
     private Double factorG;
-
-
+    private ImageButton btnReport;
+    private Integer libroReportFlag;
+    private String org;
+    private TextView pruebaT;
     public FarmacoFragment() {}
 
 
@@ -51,10 +56,10 @@ public class FarmacoFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_farmaco,container,false);
 
 
-       ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
+        ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
 
-       spinnerPaciente = (Spinner)rootView.findViewById(R.id.listaPaciente);
-
+        spinnerPaciente = (Spinner)rootView.findViewById(R.id.listaPaciente);
+        btnReport = (ImageButton) rootView.findViewById(R.id.libroReport);
         List<String> pacientes = new  ArrayList<String>();
 
         pacientes.add("Pacientes Asigandos");
@@ -63,11 +68,18 @@ public class FarmacoFragment extends Fragment {
             pacientes.add(ListaPaciente.get(i).getID()+" - "+ListaPaciente.get(i).getNombre()+' '+ListaPaciente.get(i).getApellido());
         }
 
-       ArrayAdapter<String> adaptador = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_spinner_item,pacientes);
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_spinner_item,pacientes);
 
         spinnerPaciente.setAdapter(adaptador);
 
+        pruebaT = (TextView)rootView.findViewById(R.id.pruebaT);
 
+        org = (String)getArguments().getString("ORG");
+
+        if(org.compareTo("LIBRO_REPORT")==0){
+            pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
+            pruebaT.setText(pacienteActivo.getNombre());
+        }
 
         spinnerPaciente.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -76,6 +88,8 @@ public class FarmacoFragment extends Fragment {
                 if (arg2 != 0) {
                     //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
                     pacienteActivo = ListaPaciente.get(arg2 - 1);
+                    pruebaT.setText(pacienteActivo.getNombre());
+
                 }
             }
 
@@ -123,11 +137,16 @@ public class FarmacoFragment extends Fragment {
             public void onClick(View v) {
                 Double nVol,nTiempo,nResultado;
 
+                //Obtenemos los valores ingresados de volumen y tiempo
                 nVol = Double.parseDouble(volumen.getText().toString());
                 nTiempo = Double.parseDouble(tiempo.getText().toString());
+
+                //Calculamos el resultado en  ml/hr
                 nResultado = nVol/(nTiempo/60);
                 resultadoVolumen.setText(nResultado.toString()+" ml/Hr");
                 System.out.println("Resultado " + nResultado);
+
+                //Calculamos el resultado en  gotas/min
                 nResultado= (nVol * factorG)/(nTiempo*60);
                 resultadoGotas.setText(nResultado.toString()+" Gotas/min");
 
@@ -149,7 +168,46 @@ public class FarmacoFragment extends Fragment {
             }
         });
 
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              MostrarFragment();
+            }
+        });
         return rootView;
 
+    }
+
+
+
+
+
+    private void MostrarFragment() {
+        // update the main content by replacing fragments
+        Fragment fragment =  new LibroReportFragment();
+        if(pacienteActivo != null) {
+
+            //Validamos si el fragment no es nulo
+            if (fragment != null) {
+
+                //Creamos  Bundle que guardara los datos para enviar al fragment de paciente
+                Bundle  datos = new Bundle();
+
+                datos.putSerializable("PACIENTE", pacienteActivo);
+                datos.putSerializable("LISTA", ListaPaciente);
+                datos.putString("ORIGEN", "FarmacoFragment");
+
+                fragment.setArguments(datos);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            } else {
+                //Si el fragment es nulo mostramos un mensaje de error.
+                Log.e("Error  ", "No se puedo encontrara el fragmento LibroReportFragment");
+            }
+        }
+        else{
+            Log.e("Error  ", "No seleecion paciente");
+
+        }
     }
 }

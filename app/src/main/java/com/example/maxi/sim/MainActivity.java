@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         NavItms.add(new Item_objct(titulos[0], NavIcons.getResourceId(0, -1)));
         NavItms.add(new Item_objct(titulos[1],NavIcons.getResourceId(1,-1)));
         NavItms.add(new Item_objct(titulos[2],NavIcons.getResourceId(2,-1)));
+        NavItms.add(new Item_objct(titulos[3],NavIcons.getResourceId(3,-1)));
+
 
         NavAdapter = new NavigationAdapter(this,NavItms);
         NavList.setAdapter(NavAdapter);
@@ -154,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 fragment = new FarmacoFragment();
                 break;
+            case 4:
+                fragment = new LibroReportFragment();
+                break;
             default:
                 //si no esta la opcion mostrara un toast y nos mandara a Home
                 Toast.makeText(getApplicationContext(),"Opcion "+titulos[position-1]+"no disponible!", Toast.LENGTH_SHORT).show();
@@ -164,7 +170,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Validamos si el fragment no es nulo
         if (fragment != null) {
+            pacientes.putString("ORG", "MAIN");
             fragment.setArguments(pacientes);
+
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 

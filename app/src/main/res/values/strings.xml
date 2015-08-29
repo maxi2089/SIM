@@ -26,9 +26,11 @@
         <item>Home</item>
         <item>Electrocardiograma</item>
         <item>Farmaco</item>
+        <item>Libro Report</item>
     </string-array>
 
     <array name="navigation_iconos">
+        <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
