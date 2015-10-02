@@ -1,0 +1,1 @@
+{"idLibroReport":1,"fechaAlta":"sep 1, 2015","estado":"ACTIVO","paciente":{"idPaciente":1,"dni":26520555,"nombre":"Andres","apellido":"Dengra","edad":37,"altura":1.82,"peso":88.0},"medicions":[{"fecha":"sep 26, 2015","descripcion":"Oxigeno","oxigenoEnSangre":88.0},{"fecha":"sep 26, 2015","descripcion":"Temperatura","temperatura":36.0}]}
