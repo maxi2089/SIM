@@ -2,15 +2,9 @@ package com.example.maxi.sim;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,18 +14,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class FarmacoFragment extends Fragment {
-    private ArrayList<Paciente> ListaPaciente;
+   // private ArrayList<Paciente> ListaPaciente;
+    private ListaPacientes ListaPaciente;
+
     private Spinner spinnerPaciente;
     private Paciente pacienteActivo;
     private EditText volumen;
@@ -43,7 +37,7 @@ public class FarmacoFragment extends Fragment {
     private Switch factorGoteo;
     private Button btnCalcular;
     private Button btnEnviar;
-    private Double factorG;
+    private Double factorG = 60.00;
     private ImageButton btnReport;
     private Integer libroReportFlag;
     private String org;
@@ -55,8 +49,9 @@ public class FarmacoFragment extends Fragment {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         View rootView = inflater.inflate(R.layout.fragment_farmaco,container,false);
 
+        ListaPaciente = ListaPacientes.getInstance();
 
-        ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
+       //ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
 
         spinnerPaciente = (Spinner)rootView.findViewById(R.id.listaPaciente);
         btnReport = (ImageButton) rootView.findViewById(R.id.libroReport);
@@ -64,8 +59,12 @@ public class FarmacoFragment extends Fragment {
 
         pacientes.add("Pacientes Asigandos");
 
-        for(int i=0;i<ListaPaciente.size();i++){
-            pacientes.add(ListaPaciente.get(i).getID()+" - "+ListaPaciente.get(i).getNombre()+' '+ListaPaciente.get(i).getApellido());
+        /*for(int i=0;i<ListaPaciente..size();i++){
+            pacientes.add(ListaPaciente..get(i).getIdPaciente()+" - "+ListaPaciente.get(i).getNombre()+' '+ListaPaciente.get(i).getApellido());
+        }*/
+
+        for(int i=0;i<ListaPaciente.getLista().size();i++){
+            pacientes.add(ListaPaciente.getLista().get(i).getIdPaciente()+" - "+ListaPaciente.getLista().get(i).getNombre()+' '+ListaPaciente.getLista().get(i).getApellido());
         }
 
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_spinner_item,pacientes);
@@ -87,7 +86,7 @@ public class FarmacoFragment extends Fragment {
                                        long arg3) {
                 if (arg2 != 0) {
                     //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
-                    pacienteActivo = ListaPaciente.get(arg2 - 1);
+                    pacienteActivo = ListaPaciente.getLista().get(arg2 - 1);
                     pruebaT.setText(pacienteActivo.getNombre());
 
                 }
@@ -194,7 +193,7 @@ public class FarmacoFragment extends Fragment {
                 Bundle  datos = new Bundle();
 
                 datos.putSerializable("PACIENTE", pacienteActivo);
-                datos.putSerializable("LISTA", ListaPaciente);
+                datos.putSerializable("LISTA", ListaPaciente.getLista());
                 datos.putString("ORIGEN", "FarmacoFragment");
 
                 fragment.setArguments(datos);

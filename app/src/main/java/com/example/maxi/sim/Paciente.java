@@ -3,57 +3,58 @@ package com.example.maxi.sim;
 import java.io.Serializable;
 
 /**
- * Created by Sanchez on 15/08/2015.
+ * Created by yamila on 26/09/2015.
  */
 public class Paciente implements Serializable {
-    public Paciente(String nombre, String apellido, String ubicacion, int ID, int edad, int peso, int altura) {
+    private Integer idPaciente;
+    private Integer dni;
+    private String nombre;
+    private String apellido;
+    private Integer edad;
+    private Double altura;
+    private Double peso;
+    private LibroReport libroreport;
+    //private String diagnostico;//FALTA AGREGAR SET Y GETTER Y EN TODOS LOS FRAGMENT QUE SE USA
+
+
+
+    public Paciente() {
+    }
+
+
+    public Paciente(Integer idPaceinte, String nombre, String apellido, Integer dni, Integer edad, Double altura, Double peso) {
+        this.idPaciente = idPaceinte;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.ubicacion = ubicacion;
-        this.ID = ID;
+        this.dni = dni;
         this.edad = edad;
-        this.peso = peso;
         this.altura = altura;
-    }
-
-    public int getAltura() {
-        return altura;
-    }
-
-    public void setAltura(int altura) {
-        this.altura = altura;
-    }
-
-    public int getPeso() {
-        return peso;
-    }
-
-    public void setPeso(int peso) {
         this.peso = peso;
+        //this.diagnostico =  diagnostico;
     }
 
-    public int getEdad() {
-        return edad;
+   /* public String getDiagnostico() {
+        return diagnostico;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+    }
+   */
+    public Integer getIdPaciente() {
+        return idPaciente;
     }
 
-    public int getID() {
-        return ID;
+    public void setIdPaciente(Integer idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public Integer getDni() {
+        return dni;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setDni(Integer dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {
@@ -64,19 +65,43 @@ public class Paciente implements Serializable {
         this.nombre = nombre;
     }
 
-    private String nombre;
-    private String apellido;
-
-    public String getUbicacion() {
-        return ubicacion;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
-    private String ubicacion;
-    private int ID;
-    private int edad, peso, altura;
+    public Integer getEdad() {
+        return edad;
+    }
 
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public Double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(Double altura) {
+        this.altura = altura;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
+
+    public LibroReport getLibroreport() {
+        return libroreport;
+    }
+
+    public void setLibroreport(LibroReport libroreport) {
+        this.libroreport = libroreport;
+    }
 }

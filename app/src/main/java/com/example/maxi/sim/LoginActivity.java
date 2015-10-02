@@ -1,6 +1,5 @@
 package com.example.maxi.sim;
 
-import android.app.Service;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
@@ -12,14 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.maxi.sim.R;
+import org.json.JSONException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
 public class LoginActivity extends AppCompatActivity {
-    private UserActivity user;
+    private Usuario usuarioLogin;
     private Button btnAceptar;
     private Button btnRegistrar;
     private EditText txUser;
@@ -30,28 +29,21 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout txtInputLayoutUser;
 
 
-    public boolean validaUsuario(){
+    public boolean validaUsuario() throws JSONException {
         boolean userOk = false;
+        Usuario usuarioBD = new Usuario();
 
         String prueba = getStringMessageDigest("hola", algoritmoEncriptacion);
         ServiceActiviy service = new ServiceActiviy();
 
         if(service.validarConexion(this.getApplicationContext())){
            System.out.println("Red disponible");
-        }
-        else{
-            txtInputLayoutPass.setErrorEnabled(true);
-            txtInputLayoutPass.setError("Error: Red no disponible");
-        }
+            service.configurarMetodo("GET");
 
-       /* ServiceActiviy service = new ServiceActiviy();
+            service.configurarUrl("http://192.168.0.4:8080/simWebService/resources/UsuarioResource?usuario=" + usuarioLogin.getUser());
 
-        service.configurarMetodo("GET");
-
-        service.configurarUrl("https://");
-
-       if(service.conectar(this.getApplicationContext())){
-           if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
+            if(service.conectar(this.getApplicationContext())){
+           /*if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
                txtInputLayoutPass.setErrorEnabled(true);
                txtInputLayoutPass.setError("Error: Password Incorrecto");
                userOk = false;
@@ -61,27 +53,47 @@ public class LoginActivity extends AppCompatActivity {
                userOk = true;
 
 
-           }
-       }else{
+           }*/
+                System.out.println("Antes del GET");
+                String datos;
+                datos = service.get();
+                if (datos.isEmpty()) {
+                    txtInputLayoutPass.setErrorEnabled(true);
+                    txtInputLayoutPass.setError("Error: No se pudo recuperar datos del usuario");
+                    userOk = false;
+                } else {
+                    usuarioBD.parserJsonUsuario(datos);
+                    System.out.println("User " + usuarioBD.getUser());
+                    System.out.println("Rol "+usuarioBD.getRol());
 
-           txtInputLayoutPass.setErrorEnabled(true);
-           txtInputLayoutPass.setError("Error: Red no disponible");
-       }
+                    if(usuarioBD.getUser().compareTo(usuarioLogin.getUser())== 0
+                            && usuarioBD.getPassword().compareTo(usuarioLogin.getPassword())==0){
+                        System.out.println("Usuario OK");
+                        userOk = true;
+                    }
+                    else{
+                        txtInputLayoutPass.setErrorEnabled(true);
+                        txtInputLayoutPass.setError("Error: Usuario Invalido");
+                        userOk = false;
+                    }
+                }
+                System.out.println("..................");
+            }else{
 
-        //Conectar a la BD
-        //Consulta BD que trae el dato usuario y password
-        //Obtener datos de session
-
-        /*if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
+                txtInputLayoutPass.setErrorEnabled(true);
+                txtInputLayoutPass.setError("Error: Red no disponible");
+            }
+        }
+        else{
             txtInputLayoutPass.setErrorEnabled(true);
-            txtInputLayoutPass.setError("Error: Password Incorrecto");
+            txtInputLayoutPass.setError("Error: Red no disponible");
             userOk = false;
         }
-        else {
-            txtInputLayoutPass.setError(null);
-            userOk = true;
-        }
-*/
+
+
+
+
+
         return userOk;
     }
 
@@ -110,20 +122,24 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String passEncriptada = getStringMessageDigest(txPassword.getText().toString(), algoritmoEncriptacion);
-                user = new UserActivity(txUser.getText().toString(),passEncriptada);
+                usuarioLogin = new Usuario(txUser.getText().toString(),passEncriptada);
 
-             //  if (validaUsuario()) {
-                    //Creamos el IntentZ
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    //Creamos la informacion a pasar entre actividades
-                    Bundle b = new Bundle();
-                    b.putString("USER", txUser.getText().toString());
-                    b.putString("FECHA", fechaActual.getTime().toString());
-                    //Aniadimos la informacion al intent
-                    intent.putExtras(b);
-                    //Iniciamos la nueva actividad
-                    startActivity(intent);
-           // }
+                //try {
+                    //if (validaUsuario()) {
+                          //Creamos el Intent
+                          Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                          //Creamos la informacion a pasar entre actividades
+                          Bundle b = new Bundle();
+                          b.putString("USER", txUser.getText().toString());
+                          b.putString("FECHA", fechaActual.getTime().toString());
+                          //Aniadimos la informacion al intent
+                          intent.putExtras(b);
+                          //Iniciamos la nueva actividad
+                          startActivity(intent);
+                // }
+               // } catch (JSONException e) {
+              //      e.printStackTrace();
+               // }
             }
         });
     }

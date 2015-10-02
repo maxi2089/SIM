@@ -49,11 +49,11 @@ public class MonitoreoActivity extends AppCompatActivity {
         for (int i = 0; i < ASIGNADOS; i++) {
 
             listaMonitoreo[i][0] = i;
-            listaPacientes[i].setID(i);
+            listaPacientes[i].setIdPaciente(i);
             listaPacientes[i].setNombre("Paciente" + i);
             listaPacientes[i].setApellido("");
             listaPacientes[i].setEdad(30 + i);
-            listaPacientes[i].setUbicacion("Sala " + i);
+            //listaPacientes[i].setHabitacion("Sala " + i);
 
         }
     }

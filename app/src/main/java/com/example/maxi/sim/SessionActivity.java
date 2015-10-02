@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class SessionActivity {
     private int sessionID;
-    private UserActivity user;
+    private Usuario user;
     private Date   fechaConexion;
 
     public Date getFechaConexion(){
@@ -15,7 +15,7 @@ public class SessionActivity {
         this.fechaConexion = fechaConexion;
     }
 
-    public SessionActivity(int sessionID, UserActivity user,Date fechaConexion) {
+    public SessionActivity(int sessionID, Usuario user,Date fechaConexion) {
 
         this.sessionID = sessionID;
         this.user = user;
@@ -31,11 +31,11 @@ public class SessionActivity {
         this.sessionID = sessionID;
     }
 
-    public UserActivity getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(UserActivity user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 

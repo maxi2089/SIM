@@ -3,6 +3,7 @@ package com.example.maxi.sim;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.StrictMode;
 import android.util.Base64;
 
 import org.apache.http.client.HttpClient;
@@ -25,7 +26,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ServiceActiviy {
         private URL url;
-        private HttpsURLConnection connection;
+        private HttpURLConnection connection;
         private String requestMethod;
 
         public void configurarMetodo(String metodo){
@@ -34,6 +35,7 @@ public class ServiceActiviy {
 
         public void configurarUrl(String urlString){
             try {
+                System.out.println("URL "+ urlString);
                 this.url = new URL(urlString);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -44,20 +46,41 @@ public class ServiceActiviy {
 
             try {
                 if (validarConexion(context)) {
-                    connection = (HttpsURLConnection) url.openConnection();
+                    int SDK_INT = android.os.Build.VERSION.SDK_INT;
+                    if (SDK_INT > 8)
+                    {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                                .permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        //your codes here
+
+
+
+                    System.out.println("Valida Conexion");
+                    connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod(requestMethod);
                     connection.setDoInput(true);
-                    connection.setConnectTimeout(5000);
-                    connection.setReadTimeout(10000);
+                    connection.setConnectTimeout(10000);
+                    connection.setReadTimeout(15000);
                     // connection.setRequestProperty("Content-Type", "application/json");
-                    connection.setRequestProperty("User-Agent", "cliente Android 1.0");
+                    //connection.setRequestProperty("User-Agent", "cliente Android 1.0");
                     //autenticacion BASIC
                     //connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((usuario + ":" + password).getBytes(), Base64.NO_WRAP));
+                    System.out.println("Antes de Conectar");
+
                     connection.connect();
+                    System.out.println("Despues de Conectar");
+
                     return true;
+                    }
+                    else
+                        return false;
                 }
-                else
+                else {
+                    System.out.println("No hay conexion");
+
                     return false;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
@@ -81,7 +104,8 @@ public class ServiceActiviy {
 
 
 
-        public void get(){
+        public String get(){
+            int cant=0;
             try {
 
                 InputStream in = new BufferedInputStream(connection.getInputStream());
@@ -93,32 +117,33 @@ public class ServiceActiviy {
 
                 //
                 while ((line = buffered.readLine()) != null) {
+                    cant++;
+                    System.out.println("Linea "+cant+line);
+
                     fullLines.append(line);
                 }
 
                 String result = fullLines.toString();
 
-                JSONArray objetos = new JSONArray(result);
+                System.out.println("Resultado" + result);
 
+                //JSONArray objetos = new JSONArray(result);
+
+                //JSONObject objeto = new JSONObject(result);
+                //System.out.println("Linea "+objeto.getString("nombre"));
+                //System.out.println("Linea "+objeto.);
+
+/*
                 for(int i=0;i<objetos.length();i++){
 
                     JSONObject objeto = new JSONObject(objetos.getJSONObject(i).toString());
+                    System.out.println("Linea " + i + " " + objeto.toString());
 
-                    /*
-
-                        cada objecto sera compuesto por esto
-                        {
-                            country: "pais",
-                            capital:"capital"
-                        }
-
-                    */
-
-                }
+                }*/
+                return result;
             }catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+            return null;
         }
 }

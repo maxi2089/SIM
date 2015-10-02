@@ -27,6 +27,12 @@
         <item>Electrocardiograma</item>
         <item>Farmaco</item>
         <item>Libro Report</item>
+        <item>Signos Vitales</item>
+        <item>Glucosa</item>
+        <item>Cerrar Sesion</item>
+
+
+
     </string-array>
 
     <array name="navigation_iconos">
@@ -34,6 +40,14 @@
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
+        <item>@drawable/ecg_icono</item>
+        <item>@drawable/ecg_icono</item>
+        <item>@drawable/ecg_icono</item>
+
+
     </array>
     <string name="title_activity_monitoreo">MonitoreoActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
