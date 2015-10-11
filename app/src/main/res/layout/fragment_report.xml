@@ -122,15 +122,6 @@
         android:layout_above="@+id/btnVolver"
         android:layout_marginTop="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="{&quot;idLibroReport&quot;:1,&quot;fechaAlta&quot;:&quot;2015-09-15&quot;,&quot;estado&quot;:&quot;ACTIVO&quot;,&quot;paciente&quot;:{&quot;idPaciente&quot;:1,&quot;dni&quot;:26520555,&quot;nombre&quot;:&quot;Andres&quot;,&quot;apellido&quot;:&quot;Dengra&quot;,&quot;edad&quot;:37,&quot;altura&quot;:1.82,&quot;peso&quot;:88.0},&quot;medicions&quot;:[{&quot;fecha&quot;:&quot;2015-09-15&quot;,&quot;descripcion&quot;:&quot;Oxigeno&quot;,&quot;oxigenoEnSangre&quot;:88.0},{&quot;fecha&quot;:&quot;2015-09-15&quot;,&quot;descripcion&quot;:&quot;Temperatura&quot;,&quot;temperatura&quot;:36.0}]}"
-        android:id="@+id/textView3"
-        android:layout_alignBottom="@+id/btnVolver"
-        android:layout_alignRight="@+id/txtNombre"
-        android:layout_alignEnd="@+id/txtNombre"
-        android:visibility="invisible" />
+
 
 </RelativeLayout>

@@ -1,5 +1,226 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.example.maxi.sim.SignosVitalesFragment">
+    android:layout_height="match_parent" tools:context="com.example.maxi.sim.SignosVitalesFragment"
+    android:background="@color/color_backgroud">
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/txtPaciente"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:textColor="@color/color_texto"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutSaturometria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPaciente"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp"
+        android:showDividers="middle"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@+id/cbSaturometria"
+        android:layout_toStartOf="@+id/cbSaturometria">
+
+        <android.support.v7.widget.AppCompatEditText android:id="@+id/editSaturometria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|numberDecimal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:hint="@string/Saturometria"
+            android:textColorHint="@color/color_texto"
+            android:textStyle="italic"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/color_texto"
+            android:editable="true"
+            android:enabled="false"
+            android:foregroundTint="@color/color_texto" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutFrecRespiratoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TiLayoutSaturometria"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp"
+        android:layout_toLeftOf="@+id/cbFrecRespiratoria"
+        android:layout_toStartOf="@+id/cbFrecRespiratoria"
+        android:layout_marginLeft="5dp">
+
+        <android.support.v7.widget.AppCompatEditText android:id="@+id/editFrecRespiratoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|numberDecimal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:hint="@string/FrecuRepiratoria"
+            android:textColorHint="@color/color_accent"
+            android:textStyle="italic"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/color_texto"
+            android:backgroundTint="@color/color_accent"
+            android:editable="true"
+            android:enabled="false" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutTemperatura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TiLayoutFrecRespiratoria"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp"
+        android:layout_toLeftOf="@+id/cbTemperatura"
+        android:layout_toStartOf="@+id/cbTemperatura"
+        android:layout_marginLeft="5dp">
+
+        <android.support.v7.widget.AppCompatEditText android:id="@+id/editTemperatura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|numberDecimal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:hint="@string/Temperatura"
+            android:textColorHint="@color/color_accent"
+            android:textStyle="italic"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/color_texto"
+            android:backgroundTint="@color/color_accent"
+            android:editable="true"
+            android:enabled="false" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutTensionArterial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TiLayoutTemperatura"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp"
+        android:layout_toLeftOf="@+id/cbTensionArterial"
+        android:layout_toStartOf="@+id/cbTensionArterial"
+        android:layout_marginLeft="5dp">
+
+        <android.support.v7.widget.AppCompatEditText android:id="@+id/editTensionArteria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|numberDecimal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:hint="@string/TensionArterial"
+            android:textColorHint="@color/color_accent"
+            android:textStyle="italic"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/color_texto"
+            android:backgroundTint="@color/color_accent"
+            android:editable="true"
+            android:enabled="false" />
+    </android.support.design.widget.TextInputLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbFrecRespiratoria"
+        android:layout_alignBottom="@+id/TiLayoutFrecRespiratoria"
+        android:layout_alignLeft="@+id/cbSaturometria"
+        android:layout_alignStart="@+id/cbSaturometria" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbSaturometria"
+        android:layout_alignBottom="@+id/TiLayoutSaturometria"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="35dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbTemperatura"
+        android:layout_above="@+id/TiLayoutTensionArterial"
+        android:layout_alignLeft="@+id/cbFrecRespiratoria"
+        android:layout_alignStart="@+id/cbFrecRespiratoria" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbTensionArterial"
+        android:layout_alignBottom="@+id/TiLayoutTensionArterial"
+        android:layout_alignLeft="@+id/cbTemperatura"
+        android:layout_alignStart="@+id/cbTemperatura" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        android:id="@+id/btnGuardar"
+        android:layout_below="@+id/TiLayoutTensionArterial"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_primary" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:src="@android:drawable/stat_notify_error"
+        android:background="@color/color_backgroud"
+        android:layout_alignTop="@+id/cbSaturometria"
+        android:layout_toRightOf="@+id/cbFrecRespiratoria"
+        android:layout_toEndOf="@+id/cbFrecRespiratoria"
+        android:layout_alignBottom="@+id/cbSaturometria" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton3"
+        android:src="@android:drawable/stat_notify_error"
+        android:background="@color/color_backgroud"
+        android:layout_alignBottom="@+id/cbFrecRespiratoria"
+        android:layout_alignLeft="@+id/imageButton2"
+        android:layout_alignStart="@+id/imageButton2"
+        android:layout_alignTop="@+id/cbFrecRespiratoria" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton4"
+        android:src="@android:drawable/stat_notify_error"
+        android:background="@color/color_backgroud"
+        android:layout_alignTop="@+id/cbTemperatura"
+        android:layout_toRightOf="@+id/cbTemperatura"
+        android:layout_toEndOf="@+id/cbTemperatura"
+        android:layout_alignBottom="@+id/cbTemperatura" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton5"
+        android:src="@android:drawable/stat_notify_error"
+        android:background="@color/color_backgroud"
+        android:layout_alignTop="@+id/cbTensionArterial"
+        android:layout_alignLeft="@+id/imageButton4"
+        android:layout_alignStart="@+id/imageButton4"
+        android:layout_alignBottom="@+id/cbTensionArterial" />
+
+
+</RelativeLayout>

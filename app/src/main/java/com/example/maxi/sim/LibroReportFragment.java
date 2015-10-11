@@ -64,13 +64,9 @@ public class LibroReportFragment extends Fragment {
         ListaEvento.add(evento);
         ListaEvento.add(evento);
         ListaEvento.add(evento);*/
-
-        TextView dat = (TextView)rootView.findViewById(R.id.textView3);
-        String datos = new String();
-        datos = dat.getText().toString();
         //PRUEBA
 
-        getEventos(rootView.getContext(),datos);
+        getEventos(rootView.getContext());
 
         //Argumentos provenientes del Fragmento de Lista de Pacientes
         //Paciente Seleccionado
@@ -93,7 +89,7 @@ public class LibroReportFragment extends Fragment {
         txtNombre.setText(pacienteReport.getNombre()+" "+pacienteReport.getApellido());
         txtDNI.setText("DNI: "+pacienteReport.getDni());
         txtAltura.setText("Altura: "+pacienteReport.getAltura().toString());
-        txtPeso.setText("Peso:  " + pacienteReport.getPeso().toString());
+        txtPeso.setText("Peso:  " + pacienteReport.getAltura().toString());
         txtEdad.setText("Edad: "+pacienteReport.getEdad().toString());
        // txtDiagnostico.setText("Diagnostico: "+pacienteReport.getDiagnostico());
         txtDiagnostico.setText("Diagnostico: "+pacienteReport.getNombre());
@@ -186,91 +182,85 @@ public class LibroReportFragment extends Fragment {
 
     }
 
-    public void getEventos(Context context,String dat) {
+    public void getEventos(Context context) {
 
         Evento evento;
 
-       /* ServiceActiviy service = new ServiceActiviy();
+       ServiceActiviy service = new ServiceActiviy();
 
         if (service.validarConexion(context)) {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl("http://192.168.0.4:8080/simWebService/resources/LibroReportResource?id=1");
-*/
-          // if (service.conectar(context)) {
-                String datos;
-                //datos = service.get();
-                datos = dat;
-                try {
+            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/LibroReportResource?id=1");
 
-                    JSONObject objeto = new JSONObject(datos);
+          if (service.conectar(context,1)) {
+              String datos;
+             // datos = service.get();
+            //  System.out.println("Datos: " + datos);
 
-                    Gson gson = new GsonBuilder()
-                            .setDateFormat("yyyy-MM-dd")
-                            .create();
+              datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
+              System.out.println("Datos: " + datos);
 
-                    LibroReport libroreport = gson.fromJson(datos, LibroReport.class);
-                    System.out.println("Datos: " + libroreport.getPaciente().getApellido());
+              Gson gson = new GsonBuilder()
+                      .setDateFormat("yyyy-MM-dd")
+                      .create();
 
-                    if(!libroreport.getMedicions().isEmpty()){
+              LibroReport libroreport = gson.fromJson(datos, LibroReport.class);
+              System.out.println("Paciente: " + libroreport.getPaciente().getApellido());
 
-                        for ( Iterator iterador = libroreport.getMedicions().iterator(); iterador.hasNext(); ) {
-                            evento = new Evento();
-                            MedicionDto medDto =(MedicionDto) iterador.next();
+              if (!libroreport.getMedicions().isEmpty()) {
 
-                            if( medDto.getTemperatura()!= null){
+                  for (Iterator iterador = libroreport.getMedicions().iterator(); iterador.hasNext(); ) {
+                      evento = new Evento();
+                      MedicionDto medDto = (MedicionDto) iterador.next();
 
-                                evento.setFecha(medDto.getFecha().toString());
-                                evento.setRegistro("Temperatura: " + medDto.getTemperatura() + " ºC");
-                                evento.setResponsable(medDto.getDescripcion());
+                      if (medDto.getTemperatura() != null) {
 
-                            }else{
-                                if((medDto.getGlucosa()!=null) && !(medDto.getGlucosa().isEmpty())) {
-                                    evento.setFecha(medDto.getFecha().toString());
-                                    evento.setRegistro("Nivel de Glucosa " + medDto.getGlucosa());
-                                    evento.setResponsable(medDto.getDescripcion());
-                                }else{
-                                    if( (medDto.getFreceunciaRespiratoria()!=null) &&  !(medDto.getFreceunciaRespiratoria().isEmpty())){
-                                        evento.setFecha(medDto.getFecha().toString());
-                                        evento.setRegistro("Frecuencia Respiratoria: " + medDto.getFreceunciaRespiratoria() + " Respiraciones/Min");
-                                        evento.setResponsable(medDto.getDescripcion());
+                          evento.setFecha(medDto.getFecha().toString());
+                          evento.setRegistro("Temperatura: " + medDto.getTemperatura() + " ºC");
+                          evento.setResponsable(medDto.getDescripcion());
 
-                                    }else{
+                      } else {
+                          if ((medDto.getGlucosa() != null) && !(medDto.getGlucosa().isEmpty())) {
+                              evento.setFecha(medDto.getFecha().toString());
+                              evento.setRegistro("Nivel de Glucosa " + medDto.getGlucosa());
+                              evento.setResponsable(medDto.getDescripcion());
+                          } else {
+                              if ((medDto.getFreceunciaRespiratoria() != null) && !(medDto.getFreceunciaRespiratoria().isEmpty())) {
+                                  evento.setFecha(medDto.getFecha().toString());
+                                  evento.setRegistro("Frecuencia Respiratoria: " + medDto.getFreceunciaRespiratoria() + " Respiraciones/Min");
+                                  evento.setResponsable(medDto.getDescripcion());
 
-                                        if(medDto.getOxigenoEnSangre()!=null){
+                              } else {
 
-                                            evento.setFecha(medDto.getFecha().toString());
-                                            evento.setRegistro("Saturometria: " + medDto.getOxigenoEnSangre() + " SpO2");
-                                            evento.setResponsable(medDto.getDescripcion());
+                                  if (medDto.getOxigenoEnSangre() != null) {
 
-                                        }else
-                                        if(medDto.getTensionArterial()!=null){
-                                            evento.setFecha(medDto.getFecha().toString());
-                                            evento.setRegistro("Tension Arterial: " + medDto.getTensionArterial());
-                                            evento.setResponsable(medDto.getDescripcion());
-                                        }
+                                      evento.setFecha(medDto.getFecha().toString());
+                                      evento.setRegistro("Saturometria: " + medDto.getOxigenoEnSangre() + " SpO2");
+                                      evento.setResponsable(medDto.getDescripcion());
+                                      System.out.println("Oxigeno: " + medDto.getDescripcion());
 
-                                    }
 
-                                }
-                            }
-                            ListaEvento.add(evento);
-                       }
+                                  } else if (medDto.getTensionArterial() != null) {
+                                      evento.setFecha(medDto.getFecha().toString());
+                                      evento.setRegistro("Tension Arterial: " + medDto.getTensionArterial());
+                                      evento.setResponsable(medDto.getDescripcion());
+                                  }
 
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                              }
 
-           /*}
+                          }
+                      }
+                      ListaEvento.add(evento);
+                  }
+
+              }
+
+          }
         } else {
             System.out.println("Red No disponible");
-            Toast toast = Toast.makeText(context,"Red No Disponible",Toast.LENGTH_LONG);
-            toast.show();
-        }*/
+
+        }
     }
-
-
-
 }

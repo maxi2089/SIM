@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
             service.configurarUrl("http://192.168.0.4:8080/simWebService/resources/UsuarioResource?usuario=" + usuarioLogin.getUser());
 
-            if(service.conectar(this.getApplicationContext())){
+            if(service.conectar(this.getApplicationContext(),0)){
            /*if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
                txtInputLayoutPass.setErrorEnabled(true);
                txtInputLayoutPass.setError("Error: Password Incorrecto");
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegistrar = (Button)findViewById(R.id.BtnLoginRegistrarse);
 
         txtInputLayoutPass = (TextInputLayout)findViewById(R.id.TiLayoutPass);
-        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutUser);
+        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutSaturometria);
 
         txtInputLayoutPass.setErrorEnabled(true);
         txtInputLayoutUser.setErrorEnabled(true);

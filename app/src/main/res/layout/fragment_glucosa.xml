@@ -1,6 +1,66 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.example.maxi.sim.GlucosaFragment">
+    android:layout_height="match_parent" tools:context="com.example.maxi.sim.GlucosaFragment"
+    android:background="@color/color_backgroud">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/txtPaciente"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:textColor="@color/color_texto"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
-</FrameLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TiLayoutGlucosa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:layout_below="@+id/txtPaciente"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <EditText android:id="@+id/TxtGlucosa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignLeft="@+id/TxtUser"
+            android:layout_alignStart="@+id/TxtUser"
+            android:textColorHint="#ffffffff"
+            android:hint="@string/Glucosa"
+            android:textStyle="italic"
+            android:selectAllOnFocus="true"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#ffffffff"
+            android:editable="true"
+            android:enabled="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Evaluar"
+        android:id="@+id/button"
+        android:layout_below="@+id/TiLayoutGlucosa"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
+
+</RelativeLayout>

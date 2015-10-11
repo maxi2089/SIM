@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class ListaPacientesFragment  extends Fragment {
    // private ArrayList<Paciente> ListaPaciente;
    private ListaPacientes ListaPaciente;
+   private  fragmentActivo fragActivo;
 
     private  String origen;
 
@@ -30,10 +31,13 @@ public class ListaPacientesFragment  extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
          View rootView = inflater.inflate(R.layout.fragment_lista_paciente, container, false);
 
-        origen = (String) getArguments().getString("ORIGEN");
+
+
+       // origen = (String) getArguments().getString("ORIGEN");
         //ListaPaciente = (ArrayList<Paciente>) getArguments().getSerializable("LISTA");
         ListaPaciente = ListaPacientes.getInstance();
 
+        fragActivo = fragmentActivo.getInstance();
 
         ArrayAdapter<Paciente> adaptador = new pacienteAdapter(rootView.getContext());
         ListView listaPaciente = (ListView) rootView.findViewById(R.id.listView);
@@ -41,11 +45,26 @@ public class ListaPacientesFragment  extends Fragment {
 
         listaPaciente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                Fragment fragment = new LibroReportFragment();
+                Fragment fragment;
+                if (fragActivo.getData().compareTo("LISTA_FARMACO") == 0) {
+                    fragment = new FarmacoFragment();
+                    fragActivo.setData("FARMACO");
+                } else if (fragActivo.getData().compareTo("LISTA_SIGNOS") == 0) {
+                    fragActivo.setData("SIGNOS");
+                    fragment = new SignosVitalesFragment();
+                } else if (fragActivo.getData().compareTo("LISTA_REPORT") == 0) {
+                    fragActivo.setData("REPORT");
+                    fragment = new LibroReportFragment();
+                } else/* fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) */{
+                     fragment = new GlucosaFragment();
+                    fragActivo.setData("GLUCOSA");
+
+                }
+
                 if (fragment != null) {
                     System.out.println("ESTOY EN LISTA" + ListaPaciente.getLista().get(position).getApellido());
 
-                    Bundle  datos = new Bundle();
+                    Bundle datos = new Bundle();
 
                     datos.putSerializable("PACIENTE", ListaPaciente.getLista().get(position));
                     datos.putSerializable("LISTA", ListaPaciente.getLista());
@@ -60,7 +79,8 @@ public class ListaPacientesFragment  extends Fragment {
                     //Si el fragment es nulo mostramos un mensaje de error.
                     Log.e("Error  ", "MostrarFragment" + position);
                 }
-            }
+
+                }
 
         });
         return rootView;

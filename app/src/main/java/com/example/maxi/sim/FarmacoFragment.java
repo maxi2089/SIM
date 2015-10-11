@@ -1,12 +1,16 @@
 package com.example.maxi.sim;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +32,6 @@ public class FarmacoFragment extends Fragment {
    // private ArrayList<Paciente> ListaPaciente;
     private ListaPacientes ListaPaciente;
 
-    private Spinner spinnerPaciente;
     private Paciente pacienteActivo;
     private EditText volumen;
     private EditText tiempo;
@@ -41,19 +46,18 @@ public class FarmacoFragment extends Fragment {
     private ImageButton btnReport;
     private Integer libroReportFlag;
     private String org;
-    private TextView pruebaT;
+    private TextView txtPaciente;
+    private  View rootView;
     public FarmacoFragment() {}
 
 
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
-        View rootView = inflater.inflate(R.layout.fragment_farmaco,container,false);
+         rootView = inflater.inflate(R.layout.fragment_farmaco, container, false);
 
         ListaPaciente = ListaPacientes.getInstance();
 
        //ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
-
-        spinnerPaciente = (Spinner)rootView.findViewById(R.id.listaPaciente);
         btnReport = (ImageButton) rootView.findViewById(R.id.libroReport);
         List<String> pacientes = new  ArrayList<String>();
 
@@ -67,36 +71,17 @@ public class FarmacoFragment extends Fragment {
             pacientes.add(ListaPaciente.getLista().get(i).getIdPaciente()+" - "+ListaPaciente.getLista().get(i).getNombre()+' '+ListaPaciente.getLista().get(i).getApellido());
         }
 
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_spinner_item,pacientes);
 
-        spinnerPaciente.setAdapter(adaptador);
 
-        pruebaT = (TextView)rootView.findViewById(R.id.pruebaT);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
 
-        org = (String)getArguments().getString("ORG");
+        org = (String)getArguments().getString("ORIGEN");
 
-        if(org.compareTo("LIBRO_REPORT")==0){
+        if(org.compareTo("ListaPacientesFragment")==0){
             pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
-            pruebaT.setText(pacienteActivo.getNombre());
+            txtPaciente.setText(pacienteActivo.getNombre()+" "+pacienteActivo.getApellido());
         }
 
-        spinnerPaciente.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-                                       long arg3) {
-                if (arg2 != 0) {
-                    //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
-                    pacienteActivo = ListaPaciente.getLista().get(arg2 - 1);
-                    pruebaT.setText(pacienteActivo.getNombre());
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                //optionally do something here
-            }
-        });
         microGotas = (ImageView)rootView.findViewById(R.id.imageMicroGota);
         macroGotas = (ImageView)rootView.findViewById(R.id.imageMacroGota);
 
@@ -135,21 +120,24 @@ public class FarmacoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Double nVol,nTiempo,nResultado;
+               // getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                InputMethodManager inputMethodManager = (InputMethodManager)  getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
                 //Obtenemos los valores ingresados de volumen y tiempo
                 nVol = Double.parseDouble(volumen.getText().toString());
                 nTiempo = Double.parseDouble(tiempo.getText().toString());
-
                 //Calculamos el resultado en  ml/hr
-                nResultado = nVol/(nTiempo/60);
-                resultadoVolumen.setText(nResultado.toString()+" ml/Hr");
+                nResultado = nVol / (nTiempo / 60);
+                resultadoVolumen.setText(nResultado.toString() + " ml/Hr");
                 System.out.println("Resultado " + nResultado);
 
                 //Calculamos el resultado en  gotas/min
-                nResultado= (nVol * factorG)/(nTiempo*60);
-                resultadoGotas.setText(nResultado.toString()+" Gotas/min");
+                nResultado = (nVol * factorG) / (nTiempo * 60);
+                resultadoGotas.setText(nResultado.toString() + " Gotas/min");
+                }
 
-            }
+
         });
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
@@ -157,9 +145,17 @@ public class FarmacoFragment extends Fragment {
             public void onClick(View v) {
                 //Conectarse con el web service para que envie el msj al enfermero a cargo
                 //Se postea en el libro report
-                String msj = new String();
+                String datos = new String();
+              //  datos ="{"+"\""+"idPaciente"+"\":"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+"}";
+            // datos ="{"+"\""+"idLibroReport"+"\""+":"+0+","+"\""+"fechaAlta"+"\":"+"\""+"2015-09-16"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\""+":"+"{"+"\""+"idPaciente"+"\""+":"+0+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}}";
+              datos ="{"+"\""+"fechaAlta"+"\":"+"\""+"Oct 10, 2015"+"\""+","+"\""+"fechaBaja"+"\""+":"+"\""+"Oct 15, 2015"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\""+":"+"{"+"\""+"idPaciente"+"\""+":"+0+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"[]"+"}";
 
-                msj = "Administrar:xxxxxx \n"
+           try {
+                    setFarmaco(rootView.getContext(),datos);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                datos = "Administrar:xxxxxx \n"
                         +"Factor Goteo(ml x h): "+resultadoVolumen.getText()+"\n"
                         +"Factor Goteo(gotas x min): "+resultadoGotas.getText()+"\n"
                 ;
@@ -207,6 +203,31 @@ public class FarmacoFragment extends Fragment {
         else{
             Log.e("Error  ", "No seleecion paciente");
 
+        }
+    }
+
+
+    private void setFarmaco(Context farmacoContext, String datos) throws IOException {
+
+        ServiceActiviy service = new ServiceActiviy();
+
+        if (service.validarConexion(farmacoContext)) {
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("POST");
+            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/PacienteResource");
+
+             if (service.conectar(farmacoContext,datos.getBytes().length)) {
+                 System.out.println("Datos "+"\n"+datos);
+                 service.post(datos);
+                 System.out.println("-------------");
+
+             }
+         }
+        else{
+            System.out.println("Red No disponible");
+            Toast toast = Toast.makeText(farmacoContext,"Red No Disponible",Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 }

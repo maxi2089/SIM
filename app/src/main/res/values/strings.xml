@@ -18,6 +18,12 @@
     <string name="tiempo">Tiempo(min)</string>
     <string name="resultadoGotas">Resultado(gotas/min)</string>
     <string name="resultadoVolumen">Resultado(Volumen/min)</string>
+    <string name="Saturometria">Saturometria</string>
+    <string name="FrecuRepiratoria">Frecuencia Respiratoria</string>
+    <string name="Temperatura">Temperatura</string>
+    <string name="TensionArterial">Saturometria</string>
+    <string name="Glucosa">Glucosa</string>
+
 
 
 

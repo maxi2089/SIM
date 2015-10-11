@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,8 +43,7 @@ public class ServiceActiviy {
             }
         }
 
-        public boolean conectar(Context context)  {
-
+        public boolean conectar(Context context,int longitud)  {
             try {
                 if (validarConexion(context)) {
                     int SDK_INT = android.os.Build.VERSION.SDK_INT;
@@ -59,7 +59,18 @@ public class ServiceActiviy {
                     System.out.println("Valida Conexion");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod(requestMethod);
-                    connection.setDoInput(true);
+
+                    if(requestMethod.compareTo("POST")==0){
+                        System.out.println("POST");
+                        connection.setDoOutput(true);
+                        //connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                        connection.setFixedLengthStreamingMode(longitud);
+                    }
+                    else{
+                        System.out.println("GET");
+
+                        connection.setDoInput(true);
+                    }
                     connection.setConnectTimeout(10000);
                     connection.setReadTimeout(15000);
                     // connection.setRequestProperty("Content-Type", "application/json");
@@ -114,7 +125,6 @@ public class ServiceActiviy {
                 StringBuilder fullLines = new StringBuilder();
 
                 String line;
-
                 //
                 while ((line = buffered.readLine()) != null) {
                     cant++;
@@ -140,10 +150,22 @@ public class ServiceActiviy {
                     System.out.println("Linea " + i + " " + objeto.toString());
 
                 }*/
+
                 return result;
             }catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
         }
+
+    public void post(String dato) throws IOException {
+
+        //Send request
+        DataOutputStream out = new DataOutputStream (connection.getOutputStream ());
+        out.writeBytes (dato);
+        out.flush ();
+        out.close ();
+        connection.disconnect();
+
+    }
 }

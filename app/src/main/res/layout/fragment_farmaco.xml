@@ -11,20 +11,12 @@
     android:background="@color/color_backgroud"
     >
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listaPaciente"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/libroReport"
         android:background="@mipmap/ic_launcher"
-        android:layout_alignRight="@+id/listaPaciente"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -32,7 +24,7 @@
         android:id="@+id/TiLayoutVolumen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/listaPaciente"
+        android:layout_below="@+id/libroReport"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="65dp">
@@ -42,17 +34,18 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:hint="@string/volumen"
-            android:textColorHint="#ffffffff"
+            android:textColorHint="@color/color_texto"
             android:textStyle="italic"
             android:selectAllOnFocus="true"
-            android:textColor="#ffffffff"
-            android:backgroundTint="#ffffffff"
+            android:textColor="@color/color_texto"
+            android:backgroundTint="@color/color_texto"
             android:editable="true"
             android:layout_above="@+id/TxtTiempo"
             android:layout_alignRight="@+id/imageButton2"
             android:layout_alignEnd="@+id/imageButton2"
             android:layout_alignLeft="@+id/imageButton"
-            android:layout_alignStart="@+id/imageButton" />
+            android:layout_alignStart="@+id/imageButton"
+            android:autoText="false" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -68,11 +61,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:textColorHint="#ffffffff"
+            android:textColorHint="@color/color_texto"
             android:hint="@string/tiempo"
             android:textStyle="italic"
             android:selectAllOnFocus="true"
-            android:textColor="#ffffffff"
+            android:textColor="@color/color_texto"
             android:backgroundTint="#ffffffff"
             android:editable="true"
             android:layout_below="@+id/TiLayoutTiempo"
@@ -85,38 +78,44 @@
 
 
     <Button
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Calcular"
         android:id="@+id/btnCalcular"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
         android:layout_below="@+id/TiLayoutTiempo"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true" />
 
     <android.support.design.widget.TextInputLayout
     android:id="@+id/TiLayoutResultado"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-        android:layout_above="@+id/TiLayoutResultadoGotas"
+        android:layout_below="@+id/btnCalcular"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="24dp">
+        android:layout_marginTop="36dp">
 
     <TextView android:id="@+id/TxtResultadoVolumen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:textColorHint="#ffffffff"
+        android:textColorHint="@color/color_texto"
         android:hint="@string/resultadoVolumen"
         android:textStyle="italic"
         android:selectAllOnFocus="true"
-        android:textColor="#ffffffff"
-        android:backgroundTint="#ffffffff"
-        android:editable="true"
+        android:textColor="@color/color_texto"
+        android:backgroundTint="@color/color_texto"
+        android:editable="false"
         android:layout_below="@+id/TiLayoutTiempo"
         android:layout_alignLeft="@+id/TxtVolumen"
         android:layout_alignStart="@+id/TxtVolumen"
         android:layout_alignRight="@+id/TxtVolumen"
-        android:layout_alignEnd="@+id/TxtVolumen" />
+        android:layout_alignEnd="@+id/TxtVolumen"
+        android:autoText="false"
+        android:gravity="bottom" />
 
 </android.support.design.widget.TextInputLayout>
 
@@ -124,22 +123,22 @@
         android:id="@+id/TiLayoutResultadoGotas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnEnviar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="48dp">
+        android:layout_below="@+id/TiLayoutResultado"
+        android:layout_alignRight="@+id/libroReport"
+        android:layout_alignEnd="@+id/libroReport"
+        android:layout_marginTop="37dp">
 
         <TextView android:id="@+id/TxtResultadoGotas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:textColorHint="#ffffffff"
+            android:textColorHint="@color/color_texto"
             android:hint="@string/resultadoGotas"
             android:textStyle="italic"
             android:selectAllOnFocus="true"
-            android:textColor="#ffffffff"
-            android:backgroundTint="#ffffffff"
-            android:editable="true"
+            android:textColor="@color/color_texto"
+            android:backgroundTint="@color/color_texto"
+            android:editable="false"
             android:layout_below="@+id/TiLayoutTiempo"
             android:layout_alignLeft="@+id/TxtVolumen"
             android:layout_alignStart="@+id/TxtVolumen"
@@ -152,21 +151,25 @@
         android:layout_height="wrap_content"
         android:text="Enviar"
         android:id="@+id/btnEnviar"
-        android:layout_alignParentBottom="true"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        android:layout_alignRight="@+id/libroReport"
+        android:layout_alignEnd="@+id/libroReport"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/libroReport"
-        android:layout_alignEnd="@+id/libroReport" />
+        android:layout_below="@+id/TiLayoutResultadoGotas"
+        android:layout_marginTop="30dp" />
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/factorGoteo"
-        android:layout_below="@+id/listaPaciente"
+        android:layout_below="@+id/txtPaciente"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="32dp"
-        android:text="Factor Goteo" />
+        android:text="Factor Goteo"
+        android:textColor="@color/color_texto" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -174,8 +177,8 @@
         android:id="@+id/imageMacroGota"
         android:background="@drawable/ic_macro_gota"
         android:src="@drawable/ic_macro_gota"
-        android:layout_below="@+id/listaPaciente"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/libroReport" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -183,19 +186,23 @@
         android:id="@+id/imageMicroGota"
         android:src="@drawable/ic_micro_gota"
         android:visibility="visible"
-        android:layout_below="@+id/listaPaciente"
+        android:layout_below="@+id/txtPaciente"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/imageMacroGota" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/pruebaT"
-        android:layout_alignBottom="@+id/factorGoteo"
-        android:layout_toRightOf="@+id/imageMacroGota"
-        android:layout_toEndOf="@+id/imageMacroGota" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/txtPaciente"
+        android:layout_above="@+id/imageMacroGota"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/color_texto"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
