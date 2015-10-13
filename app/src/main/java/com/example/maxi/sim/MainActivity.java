@@ -1,31 +1,20 @@
 package com.example.maxi.sim;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.TypedArray;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.support.v7.app.NotificationCompat.*;
 
-import android.support.v7.internal.widget.ActionBarContainer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -33,12 +22,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Vector;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -74,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         // Listapaciente = new ArrayList<Paciente>();
         Paciente paciente;
 
-       ServiceActiviy service = new ServiceActiviy();
+       SimWebService service = new SimWebService();
         if(service.validarConexion(this.getApplicationContext())){
             System.out.println("Red disponible");
 
@@ -316,6 +300,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (fragActivo.getData() == "GLUCOSA") {
             System.out.println("GLUCOSA");
             MostrarFragment(6);
+        }else if (fragActivo.getData() == "CREAR_LIBRO_REPORT") {
+            //Estoy en la pantalla de dar alta de un paciente o libro report
+            //Si presionan ATRAS vuelve a la lista de seleccionar paciente para libro report
+            System.out.println("CREAR_LIBRO_REPORT");
+            MostrarFragment(4);
         } else {
             MostrarFragment(1);
         }

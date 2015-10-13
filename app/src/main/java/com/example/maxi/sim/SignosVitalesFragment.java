@@ -7,7 +7,6 @@ import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-
-import static com.example.maxi.sim.R.color.color_texto;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class SignosVitalesFragment extends Fragment {
@@ -37,6 +36,7 @@ public class SignosVitalesFragment extends Fragment {
     private TextInputLayout lyTensionArterial;
 
     private Button btnGuardar;
+    private Button btnAnalizar;
     private View rootView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -44,13 +44,13 @@ public class SignosVitalesFragment extends Fragment {
 
         pacienteActivo = (Paciente) getArguments().getSerializable("PACIENTE");
 
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtTitulo);
 
         txtPaciente.setText(pacienteActivo.getNombre() + " " + pacienteActivo.getApellido());
 
 
         //
-        lySaturometria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutSaturometria);
+        lySaturometria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutUsuario);
         lySaturometria.bringToFront();
         lyFrecRespiratoria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutFrecRespiratoria);
         lyTemperatura = (TextInputLayout)rootView.findViewById(R.id.TiLayoutTemperatura);
@@ -133,14 +133,168 @@ public class SignosVitalesFragment extends Fragment {
             public void onClick(View v) {
                 //Conectarse con el web service para que envie el msj al enfermero a cargo
                 //Se postea en el libro report
-                String datos = new String();
-                datos ="{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+"}";
-                try {
-                    setSignosVitales(rootView.getContext(),datos);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String vSaturometria = editSaturometria.getText().toString();
+                String vTensionArterial = editTensionArterial.getText().toString();
+                String vTemperatura = editTemperatura.getText().toString();
+                String vFrecRespiratoria = editFrecRespiratoria.getText().toString();
 
+                if ((editSaturometria.isEnabled()&& !vSaturometria.equals(""))
+                        || (editTensionArterial.isEnabled()&& !vTensionArterial.equals("") )
+                        || (editTemperatura.isEnabled() && !vTemperatura.equals(""))
+                        || (editFrecRespiratoria.isEnabled()&& !vFrecRespiratoria.equals(""))) {
+
+
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                    String currentDateandTime = sdf.format(new Date());
+
+                    //Variable para armar el dato JSON
+                    //String datosJson = new String();
+                    String comillasJson = "\"";
+                    String descJson = comillasJson + "descripcion" + comillasJson + ":";
+                    String fechaJson = comillasJson + "fecha" + comillasJson + ":" + comillasJson + currentDateandTime.toString() + comillasJson;
+
+                    //datos ="{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+"}";
+                    StringBuilder datosJson = new StringBuilder();
+
+                    datosJson.append("{");//"
+                    datosJson.append(comillasJson);//"
+                    datosJson.append("idLibroReport");
+                    datosJson.append(comillasJson);//"
+                    datosJson.append(":");
+                    datosJson.append("5");
+                    datosJson.append(",");
+                    datosJson.append(comillasJson);//"
+                    datosJson.append("medicions");
+                    datosJson.append(comillasJson);//"
+                    datosJson.append(":[");
+
+                    //Auxiliares
+                    boolean primero = false;
+
+                    if (editSaturometria.isEnabled() && !vSaturometria.equals("")) {
+
+                        datosJson.append("{");
+                        datosJson.append(fechaJson);
+
+                        datosJson.append(",");
+
+                        datosJson.append(descJson);
+                        datosJson.append(comillasJson);//"
+                        datosJson.append("Oxigeno");
+                        datosJson.append(comillasJson); //"
+
+                        datosJson.append(",");
+
+                        datosJson.append(comillasJson); //"
+                        datosJson.append("oxigenoEnSangre");
+                        datosJson.append(comillasJson);// "
+                        datosJson.append(":");
+                        datosJson.append(vSaturometria);
+                        datosJson.append("}");
+
+                        primero = true;
+
+                    }
+
+                    if (editTensionArterial.isEnabled() && !vTensionArterial.equals("")) {
+
+                        if (primero) {
+                            datosJson.append(",");
+                        } else {
+                            primero = true;
+                        }
+                        datosJson.append("{");
+                        datosJson.append(fechaJson);
+
+                        datosJson.append(",");
+
+                        datosJson.append(descJson);
+                        datosJson.append(comillasJson);//"
+                        datosJson.append("Tension Arterial");
+                        datosJson.append(comillasJson); //"
+
+                        datosJson.append(",");
+
+                        datosJson.append(comillasJson); //"
+                        datosJson.append("TensionArterial");
+                        datosJson.append(comillasJson);// "
+                        datosJson.append(":");
+                        datosJson.append(vSaturometria);
+                        datosJson.append("}");
+
+
+                    }
+                    if (editTemperatura.isEnabled() && !vTemperatura.equals("")) {
+
+                        if (primero) {
+                            datosJson.append(",");
+                        } else {
+                            primero = true;
+                        }
+                        datosJson.append("{");
+                        datosJson.append(fechaJson);
+
+                        datosJson.append(",");
+
+                        datosJson.append(descJson);
+                        datosJson.append(comillasJson);//"
+                        datosJson.append("Temperatura");
+                        datosJson.append(comillasJson); //"
+
+                        datosJson.append(",");
+
+                        datosJson.append(comillasJson); //"
+                        datosJson.append("temperatura");
+                        datosJson.append(comillasJson);// "
+                        datosJson.append(":");
+                        datosJson.append(vTemperatura);
+                        datosJson.append("}");
+
+                    }
+                    if (editFrecRespiratoria.isEnabled() && !vFrecRespiratoria.equals("")) {
+
+                        if (primero) {
+                            datosJson.append(",");
+                        }
+                        datosJson.append("{");
+                        datosJson.append(fechaJson);
+
+                        datosJson.append(",");
+
+                        datosJson.append(descJson);
+                        datosJson.append(comillasJson);//"
+                        datosJson.append("Frecuencia Respiratoria");
+                        datosJson.append(comillasJson); //"
+
+                        datosJson.append(",");
+
+                        datosJson.append(comillasJson); //"
+                        datosJson.append("FrecuenciaRespiratoria");
+                        datosJson.append(comillasJson);// "
+                        datosJson.append(":");
+                        datosJson.append(vFrecRespiratoria);
+                        datosJson.append("}");
+                    }
+                    datosJson.append("]}");
+
+                    try {
+                        System.out.println(datosJson.toString());
+                        setSignosVitales(rootView.getContext(),datosJson);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        });
+
+        btnAnalizar = (Button) rootView.findViewById(R.id.btnAnalizar);
+
+        btnAnalizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -150,9 +304,9 @@ public class SignosVitalesFragment extends Fragment {
 
     }
 
-    private void setSignosVitales(Context farmacoContext, String datos) throws IOException {
+    private void setSignosVitales(Context farmacoContext, StringBuilder datos) throws IOException {
 
-        ServiceActiviy service = new ServiceActiviy();
+        SimWebService service = new SimWebService();
 
         if (service.validarConexion(farmacoContext)) {
             System.out.println("Red disponible");
@@ -160,9 +314,9 @@ public class SignosVitalesFragment extends Fragment {
             service.configurarMetodo("POST");
             service.configurarUrl("http://192.168.0.6:8080/simWebService/resources/MedicionResource");
 
-            if (service.conectar(farmacoContext,datos.getBytes().length)) {
+            if (service.conectar(farmacoContext,datos.toString().getBytes().length)) {
                 System.out.println("Datos "+"\n"+datos);
-                service.post(datos);
+                service.post(datos.toString());
                 System.out.println("-------------");
 
             }
@@ -172,5 +326,9 @@ public class SignosVitalesFragment extends Fragment {
             Toast toast = Toast.makeText(farmacoContext,"Red No Disponible",Toast.LENGTH_LONG);
             toast.show();
         }
+    }
+
+    private void analizarMediciones(){
+
     }
 }

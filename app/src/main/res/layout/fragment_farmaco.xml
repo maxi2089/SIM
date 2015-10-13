@@ -164,7 +164,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/factorGoteo"
-        android:layout_below="@+id/txtPaciente"
+        android:layout_below="@+id/txtTitulo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="32dp"
@@ -186,7 +186,7 @@
         android:id="@+id/imageMicroGota"
         android:src="@drawable/ic_micro_gota"
         android:visibility="visible"
-        android:layout_below="@+id/txtPaciente"
+        android:layout_below="@+id/txtTitulo"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/imageMacroGota" />
 
@@ -195,7 +195,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/txtPaciente"
+        android:id="@+id/txtTitulo"
         android:layout_above="@+id/imageMacroGota"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

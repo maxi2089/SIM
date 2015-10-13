@@ -23,6 +23,17 @@
     <string name="Temperatura">Temperatura</string>
     <string name="TensionArterial">Saturometria</string>
     <string name="Glucosa">Glucosa</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Apellido">Apellido</string>
+    <string name="Dni">DNI</string>
+    <string name="Edad">Edad</string>
+
+    <string name="Altura">Altura</string>
+    <string name="Peso">Peso</string>
+
+
+
+
 
 
 

@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutSaturometria"
+        android:id="@+id/TiLayoutUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ImgLogo"
@@ -48,7 +48,7 @@
         android:id="@+id/TiLayoutPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TiLayoutSaturometria"
+        android:layout_below="@+id/TiLayoutUsuario"
         android:layout_marginTop="5dp">
 
         <EditText android:id="@+id/TxtPassword"

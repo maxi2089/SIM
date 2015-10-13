@@ -14,10 +14,22 @@ public class Usuario {
     private String password;
     private String rol;
 
-    public Usuario() {}
-    public Usuario(String user, String password) {
+
+    public Usuario() {
+    }
+
+    public Usuario(String user, String password, String rol) {
         this.user = user;
         this.password = password;
+        this.rol = rol;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getPassword() {
@@ -28,21 +40,12 @@ public class Usuario {
         this.password = password;
     }
 
-    public String getUser() {
-
-        return user;
-    }
-
     public String getRol() {
         return rol;
     }
 
     public void setRol(String rol) {
         this.rol = rol;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public void parserJsonUsuario( String usuario) throws JSONException {

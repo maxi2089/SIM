@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         Usuario usuarioBD = new Usuario();
 
         String prueba = getStringMessageDigest("hola", algoritmoEncriptacion);
-        ServiceActiviy service = new ServiceActiviy();
+        SimWebService service = new SimWebService();
 
         if(service.validarConexion(this.getApplicationContext())){
            System.out.println("Red disponible");
@@ -63,12 +63,15 @@ public class LoginActivity extends AppCompatActivity {
                     userOk = false;
                 } else {
                     usuarioBD.parserJsonUsuario(datos);
+
                     System.out.println("User " + usuarioBD.getUser());
                     System.out.println("Rol "+usuarioBD.getRol());
 
                     if(usuarioBD.getUser().compareTo(usuarioLogin.getUser())== 0
                             && usuarioBD.getPassword().compareTo(usuarioLogin.getPassword())==0){
+
                         System.out.println("Usuario OK");
+                        usuarioLogin.setRol(usuarioBD.getRol());
                         userOk = true;
                     }
                     else{
@@ -89,11 +92,6 @@ public class LoginActivity extends AppCompatActivity {
             txtInputLayoutPass.setError("Error: Red no disponible");
             userOk = false;
         }
-
-
-
-
-
         return userOk;
     }
 
@@ -111,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegistrar = (Button)findViewById(R.id.BtnLoginRegistrarse);
 
         txtInputLayoutPass = (TextInputLayout)findViewById(R.id.TiLayoutPass);
-        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutSaturometria);
+        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutUsuario);
 
         txtInputLayoutPass.setErrorEnabled(true);
         txtInputLayoutUser.setErrorEnabled(true);
@@ -122,20 +120,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String passEncriptada = getStringMessageDigest(txPassword.getText().toString(), algoritmoEncriptacion);
-                usuarioLogin = new Usuario(txUser.getText().toString(),passEncriptada);
+                usuarioLogin =  new  Usuario(txUser.getText().toString(),passEncriptada,"ADMINISTRADOR");
 
                 //try {
                     //if (validaUsuario()) {
-                          //Creamos el Intent
-                          Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                          //Creamos la informacion a pasar entre actividades
-                          Bundle b = new Bundle();
-                          b.putString("USER", txUser.getText().toString());
-                          b.putString("FECHA", fechaActual.getTime().toString());
-                          //Aniadimos la informacion al intent
-                          intent.putExtras(b);
-                          //Iniciamos la nueva actividad
-                          startActivity(intent);
+                      //Si se valida correctamente el usuario se crea la sesion para dicho usuario
+                      Sesion  SesionUsuario = Sesion.getInstance(1,usuarioLogin,fechaActual.getTime());
+                      Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                      //Creamos la informacion a pasar entre actividades
+                      Bundle b = new Bundle();
+                      b.putString("USER", txUser.getText().toString());
+                      b.putString("FECHA", fechaActual.getTime().toString());
+                      //Aniadimos la informacion al intent
+                      intent.putExtras(b);
+                      //Iniciamos la nueva actividad
+                      startActivity(intent);
                 // }
                // } catch (JSONException e) {
               //      e.printStackTrace();

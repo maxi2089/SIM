@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,21 +24,44 @@ public class ListaPacientesFragment  extends Fragment {
    // private ArrayList<Paciente> ListaPaciente;
    private ListaPacientes ListaPaciente;
    private  fragmentActivo fragActivo;
-
-    private  String origen;
+   private ImageButton btnCrearLibReport;
+   private  String origen;
+   private Sesion SesionUsuario;
 
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
          View rootView = inflater.inflate(R.layout.fragment_lista_paciente, container, false);
 
+        //Seccion seleccionada
+        fragActivo = fragmentActivo.getInstance();
+        SesionUsuario = Sesion.getInstance(1,null,null);
+        if (fragActivo.getData().compareTo("LISTA_REPORT") == 0
+                && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0) {
 
+            btnCrearLibReport = (ImageButton) rootView.findViewById(R.id.btnCrearLibReport);
+            btnCrearLibReport.setVisibility(View.VISIBLE);
 
-       // origen = (String) getArguments().getString("ORIGEN");
-        //ListaPaciente = (ArrayList<Paciente>) getArguments().getSerializable("LISTA");
+            btnCrearLibReport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Fragment fragment;
+
+                    fragment = new CrearLibroReportFragment();
+                    fragActivo.setData("CREAR_LIBRO_REPORT");
+
+                    if (fragment != null) {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                    } else {
+                        Log.e("Error  ", "Crear Libro Report");
+                    }
+                }
+            });
+        }
+
         ListaPaciente = ListaPacientes.getInstance();
 
-        fragActivo = fragmentActivo.getInstance();
 
         ArrayAdapter<Paciente> adaptador = new pacienteAdapter(rootView.getContext());
         ListView listaPaciente = (ListView) rootView.findViewById(R.id.listView);
@@ -46,6 +70,8 @@ public class ListaPacientesFragment  extends Fragment {
         listaPaciente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 Fragment fragment;
+
+                //CREO EL FRAGMENT DEPENDIENDO DE QUE ITEM DEL NAVIGATION DRAWER FUE SELCCIONADO
                 if (fragActivo.getData().compareTo("LISTA_FARMACO") == 0) {
                     fragment = new FarmacoFragment();
                     fragActivo.setData("FARMACO");
@@ -55,8 +81,8 @@ public class ListaPacientesFragment  extends Fragment {
                 } else if (fragActivo.getData().compareTo("LISTA_REPORT") == 0) {
                     fragActivo.setData("REPORT");
                     fragment = new LibroReportFragment();
-                } else/* fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) */{
-                     fragment = new GlucosaFragment();
+                } else/* fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) */ {
+                    fragment = new GlucosaFragment();
                     fragActivo.setData("GLUCOSA");
 
                 }
@@ -80,7 +106,7 @@ public class ListaPacientesFragment  extends Fragment {
                     Log.e("Error  ", "MostrarFragment" + position);
                 }
 
-                }
+            }
 
         });
         return rootView;

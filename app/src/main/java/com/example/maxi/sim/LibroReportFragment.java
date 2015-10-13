@@ -3,10 +3,8 @@ package com.example.maxi.sim;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +17,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 /**texto
  * Created by yamila on 27/08/2015.
@@ -186,7 +179,7 @@ public class LibroReportFragment extends Fragment {
 
         Evento evento;
 
-       ServiceActiviy service = new ServiceActiviy();
+       SimWebService service = new SimWebService();
 
         if (service.validarConexion(context)) {
             System.out.println("Red disponible");

@@ -9,16 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,7 +69,7 @@ public class FarmacoFragment extends Fragment {
 
 
 
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtTitulo);
 
         org = (String)getArguments().getString("ORIGEN");
 
@@ -146,10 +142,32 @@ public class FarmacoFragment extends Fragment {
                 //Conectarse con el web service para que envie el msj al enfermero a cargo
                 //Se postea en el libro report
                 String datos = new String();
-              //  datos ="{"+"\""+"idPaciente"+"\":"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+"}";
             // datos ="{"+"\""+"idLibroReport"+"\""+":"+0+","+"\""+"fechaAlta"+"\":"+"\""+"2015-09-16"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\""+":"+"{"+"\""+"idPaciente"+"\""+":"+0+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}}";
-              datos ="{"+"\""+"fechaAlta"+"\":"+"\""+"Oct 10, 2015"+"\""+","+"\""+"fechaBaja"+"\""+":"+"\""+"Oct 15, 2015"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\""+":"+"{"+"\""+"idPaciente"+"\""+":"+0+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"[]"+"}";
-
+              //datos ="{"+"\""+"fechaAlta"+"\":"+"\""+"Oct 10, 2015"+"\""+","+"\""+"fechaBaja"+"\""+":"+"\""+"Oct 15, 2015"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\""+":"+"{"+"\""+"idPaciente"+"\""+":"+0+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"[]"+"}";
+               datos= "{"
+                        +"\""+"fechaAlta"+"\":"+"\""+"Oct 10, 2015 9:24:43 PM"+"\""
+                        +","
+                        +"\""+"fechaBaja"+"\""+":"+"\""+"Oct 10, 2015 9:24:43 PM"+"\""
+                        +","
+                        +"\""+"estado"+"\":"+"\""+"Activo"+"\""
+                        +","
+                        +"\""+"paciente"+"\""+":"+"{"
+                        +"\""+"idPaciente"+"\""+":"+0
+                        +","
+                        +"\""+"dni"+"\":"+"34"
+                        +","
+                        +"\""+"nombre"+"\":"+"\""+"Maxi"+"\""
+                        +","
+                        +"\""+"apellido"+"\":"+"\""+"Akike"+"\""
+                        +","
+                        +"\""+"edad"+"\":"+"26"
+                        +","
+                        +"\""+"altura"+"\":"+"1.8"
+                        +","
+                        +"\""+"peso"+"\""+":"+"90.0"+"}"
+                        +","
+                        +"\""+"medicions"+"\""+":"
+                        +"[]"+"}";
            try {
                     setFarmaco(rootView.getContext(),datos);
                 } catch (IOException e) {
@@ -201,7 +219,7 @@ public class FarmacoFragment extends Fragment {
             }
         }
         else{
-            Log.e("Error  ", "No seleecion paciente");
+            Log.e("Error  ", "No selecciono paciente paciente");
 
         }
     }
@@ -209,13 +227,13 @@ public class FarmacoFragment extends Fragment {
 
     private void setFarmaco(Context farmacoContext, String datos) throws IOException {
 
-        ServiceActiviy service = new ServiceActiviy();
+        SimWebService service = new SimWebService();
 
         if (service.validarConexion(farmacoContext)) {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/PacienteResource");
+            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/LibroReportResource");
 
              if (service.conectar(farmacoContext,datos.getBytes().length)) {
                  System.out.println("Datos "+"\n"+datos);
