@@ -8,16 +8,16 @@
     android:layout_alignParentLeft="true"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
+    android:src="@mipmap/ic_corazon"
     android:layout_centerVertical="true" />
     <TextView
         android:id="@+id/title_item"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/icon"
-        android:textColor="#FAFAFA"
+        android:textColor="@color/color_texto"
         android:gravity="center_vertical"
-        android:paddingRight="40dp"
-        android:paddingTop="28dp"
-        android:paddingBottom="5dp"
-        />
+        android:text="TITULO"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true" />
 </RelativeLayout>

@@ -5,9 +5,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
 	tools:context="com.example.maxi.sim.HomeFragment"
-    >
+    android:background="@color/color_backgroud">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="USUARIO"
+        android:id="@+id/txtUsuario"
+        android:textColor="@color/color_texto"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="ROL"
+        android:id="@+id/txtRol"
+        android:layout_below="@+id/txtUsuario"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/color_texto" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        android:layout_below="@+id/txtRol"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/txtRo"
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

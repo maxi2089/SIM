@@ -3,12 +3,13 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context="com.example.maxi.sim.FarmacoFragment"
+    android:background="@color/color_backgroud"
+
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.maxi.sim.FarmacoFragment"
-    android:background="@color/color_backgroud"
     >
 
 
@@ -18,7 +19,8 @@
         android:id="@+id/libroReport"
         android:background="@mipmap/ic_launcher"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:src="@mipmap/ic_report" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/TiLayoutVolumen"
@@ -41,8 +43,8 @@
             android:backgroundTint="@color/color_texto"
             android:editable="true"
             android:layout_above="@+id/TxtTiempo"
-            android:layout_alignRight="@+id/imageButton2"
-            android:layout_alignEnd="@+id/imageButton2"
+            android:layout_alignRight="@+id/btnAlertaSaturometria"
+            android:layout_alignEnd="@+id/btnAlertaSaturometria"
             android:layout_alignLeft="@+id/imageButton"
             android:layout_alignStart="@+id/imageButton"
             android:autoText="false" />
@@ -164,7 +166,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/factorGoteo"
-        android:layout_below="@+id/txtTitulo"
+        android:layout_below="@+id/txtPaciente"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="32dp"
@@ -186,7 +188,7 @@
         android:id="@+id/imageMicroGota"
         android:src="@drawable/ic_micro_gota"
         android:visibility="visible"
-        android:layout_below="@+id/txtTitulo"
+        android:layout_below="@+id/txtPaciente"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/imageMacroGota" />
 
@@ -195,7 +197,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/txtTitulo"
+        android:id="@+id/txtPaciente"
         android:layout_above="@+id/imageMacroGota"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

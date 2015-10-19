@@ -13,7 +13,7 @@ public class Paciente implements Serializable {
     private Integer edad;
     private Double altura;
     private Double peso;
-    private LibroReport libroreport;
+//    private LibroReport libroreport;
     //private String diagnostico;//FALTA AGREGAR SET Y GETTER Y EN TODOS LOS FRAGMENT QUE SE USA
 
 
@@ -97,11 +97,4 @@ public class Paciente implements Serializable {
         this.peso = peso;
     }
 
-    public LibroReport getLibroreport() {
-        return libroreport;
-    }
-
-    public void setLibroreport(LibroReport libroreport) {
-        this.libroreport = libroreport;
-    }
 }

@@ -7,11 +7,14 @@ import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -35,22 +38,40 @@ public class SignosVitalesFragment extends Fragment {
     private TextInputLayout lyTemperatura;
     private TextInputLayout lyTensionArterial;
 
-    private Button btnGuardar;
-    private Button btnAnalizar;
-    private View rootView;
+    private ImageButton btnGuardar;
+    private ImageButton btnAnalizar;
+
+    private String vSaturometria;
+    private String vTensionArterial;
+    private String vTemperatura;
+    private String vFrecRespiratoria;
+
+    private  View rootView;
+
+    private  ValoresMedicion FrecuenciaRepiratoria;
+    private ValoresMedicion TensionArterial;
+    private ValoresMedicion Temperatura;
+
+    private ImageButton btnAlertaSaturometria;
+    private ImageButton btnAlertaFrecRespiratoria;
+    private ImageButton btnAlertaTemperatura;
+    private ImageButton btnAlertaTensionArterial;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_signos_vitales, container, false);
 
+        fragmentActivo fragActivo =  fragmentActivo.getInstance();
+        fragActivo.setData("SIGNOS");
+
         pacienteActivo = (Paciente) getArguments().getSerializable("PACIENTE");
 
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtTitulo);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
 
         txtPaciente.setText(pacienteActivo.getNombre() + " " + pacienteActivo.getApellido());
 
 
         //
-        lySaturometria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutUsuario);
+        lySaturometria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutSaturometria);
         lySaturometria.bringToFront();
         lyFrecRespiratoria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutFrecRespiratoria);
         lyTemperatura = (TextInputLayout)rootView.findViewById(R.id.TiLayoutTemperatura);
@@ -68,11 +89,15 @@ public class SignosVitalesFragment extends Fragment {
         cbTemperatura = (CheckBox)rootView.findViewById(R.id.cbTemperatura);
         cbTensionArterial = (CheckBox)rootView.findViewById(R.id.cbTensionArterial);
 
+        btnAlertaSaturometria = (ImageButton) rootView.findViewById(R.id.btnAlertaSaturometria);
+        btnAlertaFrecRespiratoria =  (ImageButton) rootView.findViewById(R.id.btnAlertaFrecRes);
+        btnAlertaTemperatura =  (ImageButton) rootView.findViewById(R.id.btnAlertaTemp);
+        btnAlertaTensionArterial =  (ImageButton) rootView.findViewById(R.id.btnAlertaTensionArt);
 
 
 
         //Guardar
-        btnGuardar = (Button) rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
 
         cbSaturometria.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,10 +158,10 @@ public class SignosVitalesFragment extends Fragment {
             public void onClick(View v) {
                 //Conectarse con el web service para que envie el msj al enfermero a cargo
                 //Se postea en el libro report
-                String vSaturometria = editSaturometria.getText().toString();
-                String vTensionArterial = editTensionArterial.getText().toString();
-                String vTemperatura = editTemperatura.getText().toString();
-                String vFrecRespiratoria = editFrecRespiratoria.getText().toString();
+                 vSaturometria = editSaturometria.getText().toString();
+                 vTensionArterial = editTensionArterial.getText().toString();
+                 vTemperatura = editTemperatura.getText().toString();
+                 vFrecRespiratoria = editFrecRespiratoria.getText().toString();
 
                 if ((editSaturometria.isEnabled()&& !vSaturometria.equals(""))
                         || (editTensionArterial.isEnabled()&& !vTensionArterial.equals("") )
@@ -152,7 +177,7 @@ public class SignosVitalesFragment extends Fragment {
                     //String datosJson = new String();
                     String comillasJson = "\"";
                     String descJson = comillasJson + "descripcion" + comillasJson + ":";
-                    String fechaJson = comillasJson + "fecha" + comillasJson + ":" + comillasJson + currentDateandTime.toString() + comillasJson;
+                    String fechaJson = comillasJson + "fecha" + comillasJson + ":" + comillasJson + "Oct 10, 2015 9:24:43 PM"/*currentDateandTime.toString()*/ + comillasJson;
 
                     //datos ="{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+"}";
                     StringBuilder datosJson = new StringBuilder();
@@ -164,17 +189,13 @@ public class SignosVitalesFragment extends Fragment {
                     datosJson.append(":");
                     datosJson.append("5");
                     datosJson.append(",");
-                    datosJson.append(comillasJson);//"
-                    datosJson.append("medicions");
-                    datosJson.append(comillasJson);//"
-                    datosJson.append(":[");
 
                     //Auxiliares
                     boolean primero = false;
 
                     if (editSaturometria.isEnabled() && !vSaturometria.equals("")) {
 
-                        datosJson.append("{");
+                       // datosJson.append("{");
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -191,7 +212,7 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
                         datosJson.append(vSaturometria);
-                        datosJson.append("}");
+                        //datosJson.append("}");
 
                         primero = true;
 
@@ -204,7 +225,7 @@ public class SignosVitalesFragment extends Fragment {
                         } else {
                             primero = true;
                         }
-                        datosJson.append("{");
+                       // datosJson.append("{");
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -221,7 +242,6 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
                         datosJson.append(vSaturometria);
-                        datosJson.append("}");
 
 
                     }
@@ -232,7 +252,7 @@ public class SignosVitalesFragment extends Fragment {
                         } else {
                             primero = true;
                         }
-                        datosJson.append("{");
+                        //datosJson.append("{");
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -249,7 +269,6 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
                         datosJson.append(vTemperatura);
-                        datosJson.append("}");
 
                     }
                     if (editFrecRespiratoria.isEnabled() && !vFrecRespiratoria.equals("")) {
@@ -257,7 +276,7 @@ public class SignosVitalesFragment extends Fragment {
                         if (primero) {
                             datosJson.append(",");
                         }
-                        datosJson.append("{");
+                        //datosJson.append("{");
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -274,13 +293,12 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
                         datosJson.append(vFrecRespiratoria);
-                        datosJson.append("}");
                     }
-                    datosJson.append("]}");
+                    datosJson.append("}");
 
                     try {
                         System.out.println(datosJson.toString());
-                        setSignosVitales(rootView.getContext(),datosJson);
+                        putSignosVitales(rootView.getContext(), datosJson);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -290,11 +308,17 @@ public class SignosVitalesFragment extends Fragment {
 
         });
 
-        btnAnalizar = (Button) rootView.findViewById(R.id.btnAnalizar);
+        btnAnalizar = (ImageButton) rootView.findViewById(R.id.btnAnalizar);
 
         btnAnalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                try {
+                    analizarMediciones();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -304,7 +328,7 @@ public class SignosVitalesFragment extends Fragment {
 
     }
 
-    private void setSignosVitales(Context farmacoContext, StringBuilder datos) throws IOException {
+    private void putSignosVitales(Context farmacoContext, StringBuilder datos) throws IOException {
 
         SimWebService service = new SimWebService();
 
@@ -312,7 +336,7 @@ public class SignosVitalesFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.6:8080/simWebService/resources/MedicionResource");
+            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/MedicionResource");
 
             if (service.conectar(farmacoContext,datos.toString().getBytes().length)) {
                 System.out.println("Datos "+"\n"+datos);
@@ -328,7 +352,134 @@ public class SignosVitalesFragment extends Fragment {
         }
     }
 
-    private void analizarMediciones(){
+    private void analizarMediciones() throws IOException {
 
+        vTensionArterial = editTensionArterial.getText().toString();
+        vTemperatura = editTemperatura.getText().toString();
+        vFrecRespiratoria = editFrecRespiratoria.getText().toString();
+
+        if((editTensionArterial.isEnabled()&& !vTensionArterial.equals(""))){
+
+
+            getFrecRespiratoriaValores(rootView.getContext(),pacienteActivo.getEdad().toString());
+
+            float valorTensionArterial = Float.parseFloat(vTensionArterial);
+
+            if( valorTensionArterial > TensionArterial.getValorMinimo()
+                    && valorTensionArterial < TensionArterial.getValorMinimo()){
+
+                btnAlertaTensionArterial.setVisibility(View.VISIBLE);
+
+            }
+
+        }
+
+        if((editFrecRespiratoria.isEnabled()&& !vFrecRespiratoria.equals(""))){
+
+            ValoresMedicion FrecuenciaRespiratoria = new ValoresMedicion();
+            getTemperaturaValores(rootView.getContext(),pacienteActivo.getEdad().toString());
+
+            float valorFreRepiratoria = Float.parseFloat(vFrecRespiratoria);
+
+            if( valorFreRepiratoria > TensionArterial.getValorMinimo()
+                    && valorFreRepiratoria < TensionArterial.getValorMinimo()){
+
+                btnAlertaFrecRespiratoria.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if((editTemperatura.isEnabled()&& !vTemperatura.equals(""))){
+
+            ValoresMedicion Temperatura = new ValoresMedicion();
+            getTemperaturaValores(rootView.getContext(),pacienteActivo.getEdad().toString());
+
+            float valorTemperatura = Float.parseFloat(vTemperatura);
+
+            if( valorTemperatura > TensionArterial.getValorMinimo()
+                    && valorTemperatura < TensionArterial.getValorMinimo()){
+                btnAlertaTemperatura.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void getFrecRespiratoriaValores(Context farmacoContext, String edad) throws IOException {
+        SimWebService service = new SimWebService();
+
+        if (service.validarConexion(farmacoContext)) {
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("POST");
+            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+
+            if (service.conectar(farmacoContext,1)){
+                String datos;
+                datos = service.get();
+
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd")
+                        .create();
+
+                FrecuenciaRepiratoria = gson.fromJson(datos, ValoresMedicion.class) ;
+
+            }
+        }
+        else{
+            System.out.println("Red No disponible");
+            Toast toast = Toast.makeText(farmacoContext,"Red No Disponible",Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    private void getTemperaturaValores(Context farmacoContext, String edad) throws IOException {
+        SimWebService service = new SimWebService();
+        if (service.validarConexion(farmacoContext)) {
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("GET");
+            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+
+            if (service.conectar(farmacoContext,1)){
+                String datos;
+                datos = service.get();
+
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd")
+                        .create();
+                Temperatura =gson.fromJson(datos, ValoresMedicion.class) ;
+
+            }
+        }
+        else{
+            System.out.println("Red No disponible");
+            Toast toast = Toast.makeText(farmacoContext,"Red No Disponible",Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+    private void getTensionArterialValores(Context farmacoContext, String edad) throws IOException {
+        SimWebService service = new SimWebService();
+
+        if (service.validarConexion(farmacoContext)) {
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("POST");
+            service.configurarUrl("\"http://192.168.0.3:8080/simWebService/resources/ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+
+            if (service.conectar(farmacoContext,1)){
+                String datos;
+                datos = service.get();
+
+
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd")
+                        .create();
+                TensionArterial =gson.fromJson(datos, ValoresMedicion.class) ;
+
+            }
+        }
+        else{
+            System.out.println("Red No disponible");
+            Toast toast = Toast.makeText(farmacoContext,"Red No Disponible",Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 }

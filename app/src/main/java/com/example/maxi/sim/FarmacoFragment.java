@@ -51,32 +51,18 @@ public class FarmacoFragment extends Fragment {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
          rootView = inflater.inflate(R.layout.fragment_farmaco, container, false);
 
-        ListaPaciente = ListaPacientes.getInstance();
+        fragmentActivo fragActivo =  fragmentActivo.getInstance();
+        fragActivo.setData("FARMACO");
 
        //ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
         btnReport = (ImageButton) rootView.findViewById(R.id.libroReport);
-        List<String> pacientes = new  ArrayList<String>();
 
-        pacientes.add("Pacientes Asigandos");
-
-        /*for(int i=0;i<ListaPaciente..size();i++){
-            pacientes.add(ListaPaciente..get(i).getIdPaciente()+" - "+ListaPaciente.get(i).getNombre()+' '+ListaPaciente.get(i).getApellido());
-        }*/
-
-        for(int i=0;i<ListaPaciente.getLista().size();i++){
-            pacientes.add(ListaPaciente.getLista().get(i).getIdPaciente()+" - "+ListaPaciente.getLista().get(i).getNombre()+' '+ListaPaciente.getLista().get(i).getApellido());
-        }
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
 
 
+        pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
+        txtPaciente.setText(pacienteActivo.getNombre()+" "+pacienteActivo.getApellido());
 
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtTitulo);
-
-        org = (String)getArguments().getString("ORIGEN");
-
-        if(org.compareTo("ListaPacientesFragment")==0){
-            pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
-            txtPaciente.setText(pacienteActivo.getNombre()+" "+pacienteActivo.getApellido());
-        }
 
         microGotas = (ImageView)rootView.findViewById(R.id.imageMicroGota);
         macroGotas = (ImageView)rootView.findViewById(R.id.imageMacroGota);
@@ -207,7 +193,6 @@ public class FarmacoFragment extends Fragment {
                 Bundle  datos = new Bundle();
 
                 datos.putSerializable("PACIENTE", pacienteActivo);
-                datos.putSerializable("LISTA", ListaPaciente.getLista());
                 datos.putString("ORIGEN", "FarmacoFragment");
 
                 fragment.setArguments(datos);

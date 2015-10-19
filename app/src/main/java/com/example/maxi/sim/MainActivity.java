@@ -2,6 +2,7 @@ package com.example.maxi.sim;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
+
 
 
         Notificacion notificacion= new  Notificacion(this.getApplicationContext());
@@ -55,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         ListaPaciente = ListaPacientes.getInstance();
 
-        // Listapaciente = new ArrayList<Paciente>();
         Paciente paciente;
 
        SimWebService service = new SimWebService();
@@ -64,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             service.configurarMetodo("GET");
             service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/PacienteResource?id=1");
+
             if(service.conectar(this.getApplicationContext(),0)) {
                 String datos;
                 datos = service.get();
@@ -252,8 +258,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Validamos si el fragment no es nulo
         if (fragment != null) {
-            //  pacientes.putString("ORG", "MAIN");
-            // fragment.setArguments(pacientes);
 
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
@@ -312,5 +316,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 }

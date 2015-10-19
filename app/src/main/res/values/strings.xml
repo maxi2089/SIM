@@ -13,6 +13,7 @@
     <string name="openDrawer">Menu abierto</string>
     <string name="closeDrawer">Menu cerrado</string>
     <string name="hello_world">Hello world!</string>
+    <string name="titulo_registrar_usuario">Registrarse</string>
 
     <string name="volumen">Volumen(ml)</string>
     <string name="tiempo">Tiempo(min)</string>
@@ -27,6 +28,11 @@
     <string name="Apellido">Apellido</string>
     <string name="Dni">DNI</string>
     <string name="Edad">Edad</string>
+    <string name="FechaNac">Fecha Nacimiento</string>
+    <string name="Telefono">Telefono o Celular</string>
+    <string name="Email">Correo Electronico</string>
+
+
 
     <string name="Altura">Altura</string>
     <string name="Peso">Peso</string>
@@ -53,10 +59,10 @@
     </string-array>
 
     <array name="navigation_iconos">
-        <item>@drawable/ecg_icono</item>
-        <item>@drawable/ecg_icono</item>
-        <item>@drawable/ecg_icono</item>
-        <item>@drawable/ecg_icono</item>
+        <item>@mipmap/ic_corazon</item>
+        <item>@mipmap/ic_corazon</item>
+        <item>@mipmap/ic_farmaco</item>
+        <item>@mipmap/ic_report</item>
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
@@ -67,4 +73,6 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_registrar_usuario">RegistrarUsuarioActivity</string>
+    <string name="title_activity_add_new_photo">AddNewPhoto</string>
 </resources>

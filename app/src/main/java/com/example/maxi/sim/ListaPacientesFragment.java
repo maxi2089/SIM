@@ -36,8 +36,10 @@ public class ListaPacientesFragment  extends Fragment {
         //Seccion seleccionada
         fragActivo = fragmentActivo.getInstance();
         SesionUsuario = Sesion.getInstance(1,null,null);
+
+        //SI ES ADMINISTRADOR SE ACTIVA UN BOTON QUE PERMITE CREAR LIBROS REPORTS
         if (fragActivo.getData().compareTo("LISTA_REPORT") == 0
-                && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0) {
+                /* && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0*/) {
 
             btnCrearLibReport = (ImageButton) rootView.findViewById(R.id.btnCrearLibReport);
             btnCrearLibReport.setVisibility(View.VISIBLE);
@@ -74,16 +76,12 @@ public class ListaPacientesFragment  extends Fragment {
                 //CREO EL FRAGMENT DEPENDIENDO DE QUE ITEM DEL NAVIGATION DRAWER FUE SELCCIONADO
                 if (fragActivo.getData().compareTo("LISTA_FARMACO") == 0) {
                     fragment = new FarmacoFragment();
-                    fragActivo.setData("FARMACO");
                 } else if (fragActivo.getData().compareTo("LISTA_SIGNOS") == 0) {
-                    fragActivo.setData("SIGNOS");
                     fragment = new SignosVitalesFragment();
                 } else if (fragActivo.getData().compareTo("LISTA_REPORT") == 0) {
-                    fragActivo.setData("REPORT");
                     fragment = new LibroReportFragment();
                 } else/* fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) */ {
                     fragment = new GlucosaFragment();
-                    fragActivo.setData("GLUCOSA");
 
                 }
 

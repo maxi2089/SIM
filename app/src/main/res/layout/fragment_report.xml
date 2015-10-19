@@ -7,19 +7,6 @@
     tools:context="com.example.maxi.sim.LibroReportFragment"
     android:background="@color/color_backgroud">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Volver"
-        android:id="@+id/btnVolver"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:visibility="invisible" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,28 +85,34 @@
         android:layout_toLeftOf="@+id/txtNombre"
         android:layout_toStartOf="@+id/txtNombre"
         android:layout_alignParentTop="true" />
-
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        android:id="@+id/txtRo"
+        android:layout_below="@+id/txtDiagnostico"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Diagnostico: Infarto Agudo del Miocardio"
         android:id="@+id/txtDiagnostico"
+        android:textColor="@color/color_texto"
         android:layout_below="@+id/imageViewPaciente"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/color_texto" />
+        android:layout_marginTop="10dp" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listEventos"
+        android:layout_below="@+id/txtRo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtDiagnostico"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/btnVolver"
         android:layout_marginTop="10dp" />
 
 

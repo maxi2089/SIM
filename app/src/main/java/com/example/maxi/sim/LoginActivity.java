@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
 public class LoginActivity extends AppCompatActivity {
@@ -31,30 +31,19 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean validaUsuario() throws JSONException {
         boolean userOk = false;
-        Usuario usuarioBD = new Usuario();
 
-        String prueba = getStringMessageDigest("hola", algoritmoEncriptacion);
+
         SimWebService service = new SimWebService();
-
         if(service.validarConexion(this.getApplicationContext())){
-           System.out.println("Red disponible");
+
+            System.out.println("Red disponible");
             service.configurarMetodo("GET");
 
-            service.configurarUrl("http://192.168.0.4:8080/simWebService/resources/UsuarioResource?usuario=" + usuarioLogin.getUser());
+            service.configurarUrl("http://192.168.0.4:8080/simWebService/resources/UsuarioResource?usuario=" + usuarioLogin.getUsuario());
+
+
 
             if(service.conectar(this.getApplicationContext(),0)){
-           /*if(this.user.getPassword().isEmpty() || this.user.getPassword() != prueba) {
-               txtInputLayoutPass.setErrorEnabled(true);
-               txtInputLayoutPass.setError("Error: Password Incorrecto");
-               userOk = false;
-           }
-           else {
-               //txtInputLayoutPass.setError(null);
-               userOk = true;
-
-
-           }*/
-                System.out.println("Antes del GET");
                 String datos;
                 datos = service.get();
                 if (datos.isEmpty()) {
@@ -62,16 +51,23 @@ public class LoginActivity extends AppCompatActivity {
                     txtInputLayoutPass.setError("Error: No se pudo recuperar datos del usuario");
                     userOk = false;
                 } else {
-                    usuarioBD.parserJsonUsuario(datos);
 
-                    System.out.println("User " + usuarioBD.getUser());
+                    Gson gson = new Gson();
+
+                    Usuario usuarioBD = gson.fromJson(datos, Usuario.class);
+
+                    System.out.println("User " + usuarioBD.getUsuario());
                     System.out.println("Rol "+usuarioBD.getRol());
 
-                    if(usuarioBD.getUser().compareTo(usuarioLogin.getUser())== 0
+                    if(usuarioBD.getUsuario().compareTo(usuarioLogin.getUsuario())== 0
                             && usuarioBD.getPassword().compareTo(usuarioLogin.getPassword())==0){
 
                         System.out.println("Usuario OK");
+                        usuarioLogin.setPassword("");
+                        usuarioLogin.setDni(usuarioBD.getDni());
+                        usuarioLogin.setNombre(usuarioBD.getNombre());
                         usuarioLogin.setRol(usuarioBD.getRol());
+                        usuarioLogin.setIdUsuario(usuarioBD.getIdUsuario());
                         userOk = true;
                     }
                     else{
@@ -95,12 +91,12 @@ public class LoginActivity extends AppCompatActivity {
         return userOk;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         final Calendar fechaActual = Calendar.getInstance();
+        this.setTitle("Bienvenido a SIM!");
 
 
         txUser = (EditText)findViewById(R.id.TxtUser);
@@ -109,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegistrar = (Button)findViewById(R.id.BtnLoginRegistrarse);
 
         txtInputLayoutPass = (TextInputLayout)findViewById(R.id.TiLayoutPass);
-        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutUsuario);
+        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutSaturometria);
 
         txtInputLayoutPass.setErrorEnabled(true);
         txtInputLayoutUser.setErrorEnabled(true);
@@ -119,64 +115,41 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String passEncriptada = getStringMessageDigest(txPassword.getText().toString(), algoritmoEncriptacion);
-                usuarioLogin =  new  Usuario(txUser.getText().toString(),passEncriptada,"ADMINISTRADOR");
+                ContraseñaEnciptada passEncriptada = new ContraseñaEnciptada();
 
+                passEncriptada.EncriptarContraseña(txPassword.getText().toString(),algoritmoEncriptacion);
+
+                usuarioLogin =  new  Usuario(txUser.getText().toString(),passEncriptada.getPasswordEncriptada());
                 //try {
                     //if (validaUsuario()) {
                       //Si se valida correctamente el usuario se crea la sesion para dicho usuario
                       Sesion  SesionUsuario = Sesion.getInstance(1,usuarioLogin,fechaActual.getTime());
                       Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                      //Creamos la informacion a pasar entre actividades
-                      Bundle b = new Bundle();
-                      b.putString("USER", txUser.getText().toString());
-                      b.putString("FECHA", fechaActual.getTime().toString());
-                      //Aniadimos la informacion al intent
-                      intent.putExtras(b);
-                      //Iniciamos la nueva actividad
+               // Intent intent = new Intent(LoginActivity.this, AddNewPhoto.class);
+                //intent.setAction(Intent.ACTION_SEND);
+                //intent.setType("image/*");
+                //Iniciamos la nueva actividad
                       startActivity(intent);
                 // }
-               // } catch (JSONException e) {
-              //      e.printStackTrace();
-               // }
+                // } catch (JSONException e) {
+                //     e.printStackTrace();
+                // }
+            }
+        });
+
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(LoginActivity.this, RegistrarUsuarioActivity.class);
+                //Iniciamos la nueva actividad
+                startActivity(intent);
+
             }
         });
     }
 
-    /***
-     * Convierte un arreglo de bytes a String usando valores hexadecimales
-     * @param digest arreglo de bytes a convertir
-     * @return String creado a partir de <code>digest</code>
-     */
-    private static String toHexadecimal(byte[] digest){
-        String hash = "";
-        for(byte aux : digest) {
-            int b = aux & 0xff;
-            if (Integer.toHexString(b).length() == 1) hash += "0";
-            hash += Integer.toHexString(b);
-        }
-        return hash;
-    }
 
-            /***
-             * Encripta un mensaje de texto mediante algoritmo de resumen de mensaje.
-             * @param message texto a encriptar
-             * @param algorithm algoritmo de encriptacion, puede ser: MD2, MD5, SHA-1, SHA-256, SHA-384, SHA-512
-             * @return mensaje encriptado
-             */
-    public static String getStringMessageDigest(String message, String algorithm){
-        byte[] digest = null;
-        byte[] buffer = message.getBytes();
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-            messageDigest.reset();
-            messageDigest.update(buffer);
-            digest = messageDigest.digest();
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println("Error creando Digest");
-        }
-        return toHexadecimal(digest);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

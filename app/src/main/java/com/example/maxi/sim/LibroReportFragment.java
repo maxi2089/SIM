@@ -28,7 +28,6 @@ public class LibroReportFragment extends Fragment {
     private String origen;
     private Button volverOrigen;
     //private ArrayList<Paciente> ListaPaciente;
-    private ListaPacientes ListaPaciente;
 
     private TextView txtNombre;
     private TextView txtDNI;
@@ -41,11 +40,12 @@ public class LibroReportFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View  rootView = inflater.inflate(R.layout.fragment_report, container, false);
-        fragmentActivo fragActivo = fragmentActivo.getInstance();
 
-        fragActivo.setData("LIBROREPORT");
         //Instanciamos el objeto Lista de eventos
         ListaEvento = new ArrayList<Evento>();
+
+        fragmentActivo fragActivo =  fragmentActivo.getInstance();
+        fragActivo.setData("REPORT");
 
         //PRUEBA
        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -66,9 +66,6 @@ public class LibroReportFragment extends Fragment {
         pacienteReport = (Paciente)getArguments().getSerializable("PACIENTE");
         //Origen del fragment
         origen = (String) getArguments().getString("ORIGEN");
-        //Lista de Paciente asignados al usuario
-        ListaPaciente = ListaPacientes.getInstance();
-        //ListaPaciente = (ArrayList<Paciente>) getArguments().getSerializable("LISTA");
 
         //Configuramos los elementos visuales del report
         txtNombre = (TextView)rootView.findViewById(R.id.txtNombre);
@@ -101,10 +98,8 @@ public class LibroReportFragment extends Fragment {
         //Si el libro report fue abirto del menu de farmaco se crea un boton volver a farmaco
         if(origen.compareTo("FarmacoFragment")== 0){
 
-            volverOrigen = (Button) rootView.findViewById(R.id.btnVolver);
-            volverOrigen.setVisibility(View.VISIBLE);
 
-            volverOrigen.setOnClickListener(new View.OnClickListener() {
+          /*  volverOrigen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Fragment fragment = null;
@@ -114,7 +109,6 @@ public class LibroReportFragment extends Fragment {
                         volverOrigen.setVisibility(View.INVISIBLE);
 
                         Bundle pacientes = new Bundle();
-                        pacientes.putSerializable("LISTA",ListaPaciente.getLista());
                         pacientes.putSerializable("PACIENTE",pacienteReport);
                         pacientes.putString("ORG","LIBRO_REPORT");
 
@@ -128,7 +122,7 @@ public class LibroReportFragment extends Fragment {
                     }
                 }
             });
-
+*/
 
         }
        /* if(pacienteReport != null){
@@ -189,10 +183,11 @@ public class LibroReportFragment extends Fragment {
 
           if (service.conectar(context,1)) {
               String datos;
-             // datos = service.get();
+              datos = service.get();
             //  System.out.println("Datos: " + datos);
 
-              datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
+             // datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
+             // datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
               System.out.println("Datos: " + datos);
 
               Gson gson = new GsonBuilder()
