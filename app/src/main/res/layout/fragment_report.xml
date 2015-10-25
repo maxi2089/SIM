@@ -5,18 +5,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.maxi.sim.LibroReportFragment"
-    android:background="@color/color_backgroud">
+    android:background="#111111">
 
+    <RelativeLayout
+        android:id="@+id/cabeceraLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_secondary"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Juan Perez"
         android:id="@+id/txtNombre"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/txtDNI"
-        android:layout_alignStart="@+id/txtDNI"
-        android:textColor="@color/color_texto" />
+        android:textColor="@color/color_texto"
+        android:layout_below="@+id/lineaDiv2"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,10 +35,11 @@
         android:text="DNI:"
         android:id="@+id/txtDNI"
         android:phoneNumber="false"
+        android:textColor="@color/color_texto"
         android:layout_below="@+id/txtNombre"
-        android:layout_alignLeft="@+id/txtAltura"
-        android:layout_alignStart="@+id/txtAltura"
-        android:textColor="@color/color_texto" />
+        android:layout_alignStart="@+id/txtNombre"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,64 +47,65 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Altura:"
         android:id="@+id/txtAltura"
-        android:layout_below="@+id/txtDNI"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/color_texto" />
+        android:textColor="@color/color_texto"
+        android:layout_alignStart="@+id/txtDNI"
+        android:layout_below="@+id/txtEdad"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Peso:"
-        android:id="@+id/txtPeso"
-        android:layout_below="@+id/txtAltura"
-        android:layout_alignLeft="@+id/txtAltura"
-        android:layout_alignStart="@+id/txtAltura"
-        android:textColor="@color/color_texto" />
-
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Edad:"
         android:id="@+id/txtEdad"
-        android:layout_below="@+id/txtPeso"
-        android:layout_alignLeft="@+id/txtPeso"
-        android:layout_alignStart="@+id/txtPeso"
-        android:textColor="@color/color_texto" />
+        android:textColor="@color/color_texto"
+        android:layout_below="@+id/txtDNI"
+        android:layout_alignStart="@+id/txtAltura"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Peso:"
+            android:id="@+id/txtPeso"
+            android:textColor="@color/color_texto"
+            android:layout_alignStart="@+id/txtAltura"
+            android:layout_below="@+id/txtAltura"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
         android:src="@drawable/ic_advertencia"
-        android:background="#0a3f60"
-        android:layout_alignBottom="@+id/txtAltura"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="37dp"
-        android:layout_marginEnd="37dp" />
+        android:background="@color/color_secondary"
+        android:layout_alignBottom="@+id/txtDiagnostico"
+        android:layout_toRightOf="@+id/txtDiagnostico"
+        android:layout_toEndOf="@+id/txtDiagnostico" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageViewPaciente"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@mipmap/ic_logo_sim"
-        android:layout_alignBottom="@+id/txtEdad"
-        android:layout_toLeftOf="@+id/txtNombre"
-        android:layout_toStartOf="@+id/txtNombre"
-        android:layout_alignParentTop="true" />
-    <View
+        <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#ffffff"
-        android:id="@+id/txtRo"
-        android:layout_below="@+id/txtDiagnostico"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp" />
+        android:id="@+id/lineaDiv1"
+            android:layout_below="@+id/txtPeso"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            android:id="@+id/lineaDiv2"
+            android:layout_below="@+id/textView3"
+            android:layout_alignStart="@+id/lineaDiv1"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,20 +113,76 @@
         android:text="Diagnostico: Infarto Agudo del Miocardio"
         android:id="@+id/txtDiagnostico"
         android:textColor="@color/color_texto"
-        android:layout_below="@+id/imageViewPaciente"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        android:layout_alignTop="@+id/lineaDiv1"
+        android:layout_alignStart="@+id/txtPeso"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Libro Report: "
+            android:id="@+id/textView3"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/color_texto"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAsignarReponsable"
+            android:src="@mipmap/ic_asignar_responsable"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="Gestion de Asignaciones"
+            android:layout_alignBottom="@+id/lineaDiv2" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnEliminar"
+            android:src="@android:drawable/ic_menu_delete"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btnAsignarReponsable"
+            android:layout_toStartOf="@+id/btnAsignarReponsable"
+            android:layout_alignBottom="@+id/btnAsignarReponsable" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnModificar"
+            android:src="@android:drawable/ic_input_get"
+            android:layout_toLeftOf="@+id/btnEliminar"
+            android:layout_toStartOf="@+id/btnEliminar"
+            android:layout_alignBottom="@+id/btnEliminar"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/detalleLayout"
+        android:layout_below="@+id/cabeceraLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#010101"
+        android:layout_marginTop="5dp"
+        >
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listEventos"
-        android:layout_below="@+id/txtRo"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
+        android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

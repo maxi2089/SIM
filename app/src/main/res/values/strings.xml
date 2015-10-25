@@ -61,13 +61,11 @@
     <array name="navigation_iconos">
         <item>@mipmap/ic_corazon</item>
         <item>@mipmap/ic_corazon</item>
-        <item>@mipmap/ic_farmaco</item>
-        <item>@mipmap/ic_report</item>
+        <item>@mipmap/ic_goteo</item>
+        <item>@mipmap/ic_libro_report</item>
+        <item>@mipmap/ic_signos_vitales</item>
         <item>@drawable/ecg_icono</item>
         <item>@drawable/ecg_icono</item>
-        <item>@drawable/ecg_icono</item>
-
-
     </array>
     <string name="title_activity_monitoreo">MonitoreoActivity</string>
 

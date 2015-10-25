@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegistrar = (Button)findViewById(R.id.BtnLoginRegistrarse);
 
         txtInputLayoutPass = (TextInputLayout)findViewById(R.id.TiLayoutPass);
-        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutSaturometria);
+        txtInputLayoutUser = (TextInputLayout)findViewById(R.id.TiLayoutUsuario);
 
         txtInputLayoutPass.setErrorEnabled(true);
         txtInputLayoutUser.setErrorEnabled(true);
@@ -117,14 +117,20 @@ public class LoginActivity extends AppCompatActivity {
 
                 ContraseñaEnciptada passEncriptada = new ContraseñaEnciptada();
 
-                passEncriptada.EncriptarContraseña(txPassword.getText().toString(),algoritmoEncriptacion);
+                passEncriptada.EncriptarContraseña(txPassword.getText().toString(), algoritmoEncriptacion);
+                //prueba
+                Rol rol = new Rol();
+                rol.setIdRol(1);
+                rol.setNombreRol("Enfermero");
+                //usuarioLogin =  new  Usuario(txUser.getText().toString(),passEncriptada.getPasswordEncriptada());
+                usuarioLogin =  new  Usuario(1,rol,34,"maximiliano","maxi",passEncriptada.getPasswordEncriptada());
 
-                usuarioLogin =  new  Usuario(txUser.getText().toString(),passEncriptada.getPasswordEncriptada());
                 //try {
                     //if (validaUsuario()) {
                       //Si se valida correctamente el usuario se crea la sesion para dicho usuario
-                      Sesion  SesionUsuario = Sesion.getInstance(1,usuarioLogin,fechaActual.getTime());
-                      Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                 Sesion  SesionUsuario = Sesion.getInstance(1,usuarioLogin,fechaActual.getTime());
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                // Intent intent = new Intent(LoginActivity.this, AddNewPhoto.class);
                 //intent.setAction(Intent.ACTION_SEND);
                 //intent.setType("image/*");

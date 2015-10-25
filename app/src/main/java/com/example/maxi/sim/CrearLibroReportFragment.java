@@ -9,13 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Handler;
 
 /**
  * Created by yamila on 12/10/2015.
@@ -38,12 +36,17 @@ public class CrearLibroReportFragment extends Fragment {
 
     private Button btnGuardar;
     private View rootView;
+    private fragmentActivo fragActivo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_crear_libro_report, container, false);
+
+        fragActivo = fragmentActivo.getInstance();
+        fragActivo.setData("CREAR_LIBRO_REPORT");
+
 
 
         TiLayoutNombre = (TextInputLayout) rootView.findViewById(R.id.TiLayoutNombre);

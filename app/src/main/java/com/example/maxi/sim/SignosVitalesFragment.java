@@ -22,7 +22,7 @@ import java.util.Date;
 
 
 public class SignosVitalesFragment extends Fragment {
-    private Paciente pacienteActivo;
+    private PacienteActivo pacienteActivo;
     private TextView txtPaciente;
     private EditText editSaturometria;
     private EditText editFrecRespiratoria;
@@ -57,21 +57,23 @@ public class SignosVitalesFragment extends Fragment {
     private ImageButton btnAlertaTemperatura;
     private ImageButton btnAlertaTensionArterial;
 
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_signos_vitales, container, false);
 
         fragmentActivo fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("SIGNOS");
 
-        pacienteActivo = (Paciente) getArguments().getSerializable("PACIENTE");
+       // pacienteActivo = (Paciente) getArguments().getSerializable("PACIENTE");
+        pacienteActivo = PacienteActivo.getInstance();
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtLibroReport);
 
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
-
-        txtPaciente.setText(pacienteActivo.getNombre() + " " + pacienteActivo.getApellido());
+        txtPaciente.setText(pacienteActivo.getPaciente().getNombre() + " " + pacienteActivo.getPaciente().getApellido());
 
 
         //
-        lySaturometria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutSaturometria);
+        lySaturometria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutUsuario);
         lySaturometria.bringToFront();
         lyFrecRespiratoria = (TextInputLayout)rootView.findViewById(R.id.TiLayoutFrecRespiratoria);
         lyTemperatura = (TextInputLayout)rootView.findViewById(R.id.TiLayoutTemperatura);
@@ -328,17 +330,17 @@ public class SignosVitalesFragment extends Fragment {
 
     }
 
-    private void putSignosVitales(Context farmacoContext, StringBuilder datos) throws IOException {
+    private void putSignosVitales(Context Context, StringBuilder datos) throws IOException {
 
         SimWebService service = new SimWebService();
 
-        if (service.validarConexion(farmacoContext)) {
+        if (service.validarConexion(Context)) {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/MedicionResource");
+            service.configurarUrl(URL+"MedicionResource");
 
-            if (service.conectar(farmacoContext,datos.toString().getBytes().length)) {
+            if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos "+"\n"+datos);
                 service.post(datos.toString());
                 System.out.println("-------------");
@@ -347,57 +349,66 @@ public class SignosVitalesFragment extends Fragment {
         }
         else{
             System.out.println("Red No disponible");
-            Toast toast = Toast.makeText(farmacoContext,"Red No Disponible",Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(Context, "Red No Disponible", Toast.LENGTH_LONG);
             toast.show();
         }
     }
 
     private void analizarMediciones() throws IOException {
 
-        vTensionArterial = editTensionArterial.getText().toString();
-        vTemperatura = editTemperatura.getText().toString();
+        vTensionArterial  = editTensionArterial.getText().toString();
+        vTemperatura      = editTemperatura.getText().toString();
         vFrecRespiratoria = editFrecRespiratoria.getText().toString();
 
         if((editTensionArterial.isEnabled()&& !vTensionArterial.equals(""))){
 
-
-            getFrecRespiratoriaValores(rootView.getContext(),pacienteActivo.getEdad().toString());
+            getTensionArterialValores(rootView.getContext(), pacienteActivo.getPaciente().getEdad().toString());
 
             float valorTensionArterial = Float.parseFloat(vTensionArterial);
 
-            if( valorTensionArterial > TensionArterial.getValorMinimo()
-                    && valorTensionArterial < TensionArterial.getValorMinimo()){
+            if( valorTensionArterial < TensionArterial.getValorMinimo()
+                    || valorTensionArterial > TensionArterial.getValorMaximo()){
 
                 btnAlertaTensionArterial.setVisibility(View.VISIBLE);
 
+            }else{
+                btnAlertaTensionArterial.setVisibility(View.INVISIBLE);
             }
 
         }
 
         if((editFrecRespiratoria.isEnabled()&& !vFrecRespiratoria.equals(""))){
 
-            ValoresMedicion FrecuenciaRespiratoria = new ValoresMedicion();
-            getTemperaturaValores(rootView.getContext(),pacienteActivo.getEdad().toString());
+            getFrecRespiratoriaValores(rootView.getContext(), pacienteActivo.getPaciente().getEdad().toString());
+
 
             float valorFreRepiratoria = Float.parseFloat(vFrecRespiratoria);
 
-            if( valorFreRepiratoria > TensionArterial.getValorMinimo()
-                    && valorFreRepiratoria < TensionArterial.getValorMinimo()){
+
+            if( valorFreRepiratoria < FrecuenciaRepiratoria.getValorMinimo()
+                    || valorFreRepiratoria > FrecuenciaRepiratoria.getValorMaximo()){
 
                 btnAlertaFrecRespiratoria.setVisibility(View.VISIBLE);
+            }else{
+
+                btnAlertaFrecRespiratoria.setVisibility(View.INVISIBLE);
+
             }
         }
 
         if((editTemperatura.isEnabled()&& !vTemperatura.equals(""))){
 
-            ValoresMedicion Temperatura = new ValoresMedicion();
-            getTemperaturaValores(rootView.getContext(),pacienteActivo.getEdad().toString());
+            getTemperaturaValores(rootView.getContext(),pacienteActivo.getPaciente().getEdad().toString());
 
             float valorTemperatura = Float.parseFloat(vTemperatura);
 
-            if( valorTemperatura > TensionArterial.getValorMinimo()
-                    && valorTemperatura < TensionArterial.getValorMinimo()){
+            if( valorTemperatura < Temperatura.getValorMinimo()
+                    || valorTemperatura > Temperatura.getValorMaximo()){
                 btnAlertaTemperatura.setVisibility(View.VISIBLE);
+            }
+            else{
+                btnAlertaTemperatura.setVisibility(View.INVISIBLE);
+
             }
         }
     }
@@ -408,8 +419,8 @@ public class SignosVitalesFragment extends Fragment {
         if (service.validarConexion(farmacoContext)) {
             System.out.println("Red disponible");
 
-            service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+            service.configurarMetodo("GET");
+            service.configurarUrl(URL+"ValoresFrecuenciaRespiratoriaResource?edad="+edad);
 
             if (service.conectar(farmacoContext,1)){
                 String datos;
@@ -436,7 +447,7 @@ public class SignosVitalesFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+            service.configurarUrl(URL+"ValoresFrecuenciaRespiratoriaResource?edad="+edad);
 
             if (service.conectar(farmacoContext,1)){
                 String datos;
@@ -461,8 +472,8 @@ public class SignosVitalesFragment extends Fragment {
         if (service.validarConexion(farmacoContext)) {
             System.out.println("Red disponible");
 
-            service.configurarMetodo("POST");
-            service.configurarUrl("\"http://192.168.0.3:8080/simWebService/resources/ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+            service.configurarMetodo("GET");
+            service.configurarUrl(URL+"ValoresFrecuenciaRespiratoriaResource?edad="+edad);
 
             if (service.conectar(farmacoContext,1)){
                 String datos;

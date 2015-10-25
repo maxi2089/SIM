@@ -2,7 +2,6 @@ package com.example.maxi.sim;
 
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -23,9 +22,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TypedArray NavIcons;
     private NavigationAdapter NavAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
-    private ListaPacientes ListaPaciente;
-    //private Bundle pacientes;
+    private String URL ="http://192.168.0.3:8080/simWebService/resources/MedicionResource";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,59 +50,11 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         int notif_ref = 1;
-        notifManager.notify(notif_ref,notificacion.getNotificacion("Titulo","Contenido","Resumen","ContenidoResumido"));
+        notifManager.notify(notif_ref, notificacion.getNotificacion("Titulo", "Contenido", "Resumen", "ContenidoResumido"));
         notif_ref = 2;
-        notifManager.notify(notif_ref,notificacion.getNotificacion("Titulo","Contenido","Resumen","ContenidoResumido"));
+        notifManager.notify(notif_ref, notificacion.getNotificacion("Titulo", "Contenido", "Resumen", "ContenidoResumido"));
 
 
-        ListaPaciente = ListaPacientes.getInstance();
-
-        Paciente paciente;
-
-       SimWebService service = new SimWebService();
-        if(service.validarConexion(this.getApplicationContext())){
-            System.out.println("Red disponible");
-
-            service.configurarMetodo("GET");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/PacienteResource?id=1");
-
-            if(service.conectar(this.getApplicationContext(),0)) {
-                String datos;
-                datos = service.get();
-                  // paciente = new Paciente();
-                    Gson gson = new GsonBuilder()
-                            .setDateFormat("yyyy-MM-dd")
-                            .create();
-                    System.out.println("GEEET "+datos);
-
-                    paciente  = gson.fromJson(datos, Paciente.class);
-                   // paciente.parserJsonPaciente(datos);
-                    ListaPaciente.setLista(paciente);
-
-            }
-            else {
-               // ListaPaciente.setLista(paciente);
-
-                //Listapaciente.add(paciente);
-
-            }
-        }
-        else{
-            System.out.println("Red No disponible");
-          //  ListaPaciente.setLista(paciente);
-
-            // Listapaciente.add(paciente);
-
-
-        }
-        paciente = new Paciente(111, "Maximiliano", "Akike", 34809913,/*"105"*/25, 5.23, 8.3/*,"Infarto Agudo del Miocardio"*/);
-
-        ListaPaciente.setLista(paciente);
-        ListaPaciente.setLista(paciente);
-        ListaPaciente.setLista(paciente);
-
-           /* pacientes = new Bundle();
-            pacientes.putSerializable("LISTA", ListaPaciente.getLista());*/
 
         //////////////////////////////////////////////////////////////////////////////
 
@@ -171,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
         NavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                MostrarFragment(position);
+                MostrarFragment(position,"MAIN");
             }
         });
 
-        MostrarFragment(1);
+        MostrarFragment(1,"MAIN");
 
 
     }
@@ -207,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*Pasando la posicion de la opcion en el menu nos mostrara el Fragment correspondiente*/
-    private void MostrarFragment(int position) {
+    private void MostrarFragment(int position,String origen) {
         // update the main content by replacing fragments
         Fragment fragment = null;
         fragmentActivo fragActivo = fragmentActivo.getInstance();
@@ -217,9 +165,9 @@ public class MainActivity extends AppCompatActivity {
                 fragActivo.setData("HOME");
                 break;
             case 2:
-                fragment = new EcgFragment();
-                fragActivo.setData("ECG");
-
+                /*fragment = new EcgFragment();
+                fragActivo.setData("ECG");*/
+                fragment = new GestorAsignacionesFragment();
                 break;
             case 3:
                 fragActivo.setData("LISTA_FARMACO");
@@ -247,6 +195,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 break;
+            case 8:
+                fragment = new LibroReportFragment();
+                position = 4;
+                break;
+
             default:
                 //si no esta la opcion mostrara un toast y nos mandara a Home
                 Toast.makeText(getApplicationContext(), "Opcion " + titulos[position - 1] + "no disponible!", Toast.LENGTH_SHORT).show();
@@ -255,10 +208,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
         //Validamos si el fragment no es nulo
         if (fragment != null) {
 
+            Bundle bundle = new Bundle();
+
+            bundle.putString("ORIGEN",origen);
+
+            fragment.setArguments(bundle);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
@@ -283,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
         if (fragActivo.getData() == "HOME") {
             System.out.println("home");
 
-            //  DialogFragment dialog = new Dialogo();
-            // dialog.show(getSupportFragmentManager(), "dialog");
+            //DialogFragment dialog = new Dialogo();
+            //dialog.show(getSupportFragmentManager(), "dialog");
             this.onPause();
 
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -294,23 +251,35 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (fragActivo.getData() == "FARMACO") {
             System.out.println("FARMACO");
-            MostrarFragment(3);
+            MostrarFragment(3,"MAIN");
         } else if (fragActivo.getData() == "REPORT") {
             System.out.println("REPORT");
-            MostrarFragment(4);
+            MostrarFragment(4,"MAIN");
         } else if (fragActivo.getData() == "SIGNOS") {
             System.out.println("SIGNOS");
-            MostrarFragment(5);
+            MostrarFragment(5,"MAIN");
         } else if (fragActivo.getData() == "GLUCOSA") {
             System.out.println("GLUCOSA");
-            MostrarFragment(6);
+            MostrarFragment(6,"MAIN");
         }else if (fragActivo.getData() == "CREAR_LIBRO_REPORT") {
             //Estoy en la pantalla de dar alta de un paciente o libro report
             //Si presionan ATRAS vuelve a la lista de seleccionar paciente para libro report
             System.out.println("CREAR_LIBRO_REPORT");
-            MostrarFragment(4);
-        } else {
-            MostrarFragment(1);
+            MostrarFragment(4,"MAIN");
+        } else if (fragActivo.getData() == "ASIGNAR_REPONSABLE") {
+            System.out.println("ASIGNAR_REPONSABLE");
+            MostrarFragment(8,"GESTOR_ASIGNACIONES");
+
+        } else if (fragActivo.getData() == "MODIFICAR_LIBRO_REPORT") {
+            System.out.println("MODIFICAR_LIBRO_REPORT");
+            MostrarFragment(8,"MODIFICAR_LIBRO_REPORT");
+
+        }else if (fragActivo.getData() == "MODIFICAR_USUARIO") {
+            System.out.println("MODIFICAR_USUARIO");
+            MostrarFragment(1,"MODIFICAR_USUARIO");
+
+        }else {
+            MostrarFragment(1,"MAIN");
         }
         System.out.println("Salir del ONpresed");
 

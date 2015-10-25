@@ -1,18 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.example.maxi.sim.GlucosaFragment"
-    android:background="@color/color_backgroud"
+    android:background="#010101"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
+    <RelativeLayout
+        android:id="@+id/cabeceraLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_secondary">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/txtPaciente"
+        android:id="@+id/txtLibroReport"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -20,15 +25,23 @@
         android:textColor="@color/color_texto"
         style="@style/Base.TextAppearance.AppCompat.Title"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="5dp" />
 
+        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/detalleLayout"
+        android:layout_below="@+id/cabeceraLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_backgroud">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/TiLayoutGlucosa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="53dp"
-        android:layout_below="@+id/txtPaciente"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="5dp"
@@ -66,5 +79,5 @@
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp" />
-
+</RelativeLayout>
 </RelativeLayout>

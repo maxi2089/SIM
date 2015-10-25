@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#71dbd3d9">
+    android:background="#c5c5cf">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,13 +12,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/color_texto"
+        android:textColor="#e8444444"
         android:cursorVisible="false"
         android:textStyle="bold"
         style="@style/Base.V7.Widget.AppCompat.EditText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/color_secondary" />
+        android:backgroundTint="@color/color_texto"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,16 +28,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/txtRegistro"
-        android:textColor="@color/color_texto"
+        android:textColor="#e8444444"
+        android:textStyle="bold"
+        style="@style/Base.V7.Widget.AppCompat.EditText"
+        android:backgroundTint="@color/color_texto"
+        android:layout_below="@+id/txtFecha"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"
-        android:textStyle="bold"
-        android:layout_below="@+id/txtFecha"
-        style="@style/Base.V7.Widget.AppCompat.EditText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/color_secondary" />
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +46,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/txtResponsable"
-        android:textColor="@color/color_texto"
+        android:textColor="#e8444444"
         android:layout_below="@+id/txtRegistro"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -52,7 +55,9 @@
         style="@style/Base.V7.Widget.AppCompat.EditText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/color_secondary" />
+        android:backgroundTint="@color/color_texto"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
 
 
 </RelativeLayout>

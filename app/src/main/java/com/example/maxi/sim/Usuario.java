@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class Usuario implements Serializable {
@@ -18,6 +20,7 @@ public class Usuario implements Serializable {
     private String nombre;
     private String usuario;
     private String password;
+    private Set<Paciente> pacientes = new HashSet<>();
 
     public Usuario() {
     }

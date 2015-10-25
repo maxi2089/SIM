@@ -3,17 +3,23 @@ package com.example.maxi.sim;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
@@ -21,25 +27,27 @@ import java.util.ArrayList;
  * Created by yamila on 04/09/2015.
  */
 public class ListaPacientesFragment  extends Fragment {
-   // private ArrayList<Paciente> ListaPaciente;
-   private ListaPacientes ListaPaciente;
-   private  fragmentActivo fragActivo;
-   private ImageButton btnCrearLibReport;
-   private  String origen;
-   private Sesion SesionUsuario;
-
-
+    private ListaPacientes ListaPaciente;
+    private fragmentActivo fragActivo;
+    private ImageButton btnCrearLibReport;
+    private String origen;
+    private Sesion SesionUsuario;
+    private PacienteActivo pacienteActivo;
+    private  ListView listaPaciente;
+    private View rootView;
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/PacienteResource?id=";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-         View rootView = inflater.inflate(R.layout.fragment_lista_paciente, container, false);
+          rootView = inflater.inflate(R.layout.fragment_lista_paciente, container, false);
 
         //Seccion seleccionada
         fragActivo = fragmentActivo.getInstance();
         SesionUsuario = Sesion.getInstance(1,null,null);
+        pacienteActivo = PacienteActivo.getInstance();
 
         //SI ES ADMINISTRADOR SE ACTIVA UN BOTON QUE PERMITE CREAR LIBROS REPORTS
         if (fragActivo.getData().compareTo("LISTA_REPORT") == 0
-                /* && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0*/) {
+               /* && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0*/) {
 
             btnCrearLibReport = (ImageButton) rootView.findViewById(R.id.btnCrearLibReport);
             btnCrearLibReport.setVisibility(View.VISIBLE);
@@ -50,7 +58,6 @@ public class ListaPacientesFragment  extends Fragment {
                     Fragment fragment;
 
                     fragment = new CrearLibroReportFragment();
-                    fragActivo.setData("CREAR_LIBRO_REPORT");
 
                     if (fragment != null) {
                         FragmentManager fragmentManager = getFragmentManager();
@@ -60,16 +67,17 @@ public class ListaPacientesFragment  extends Fragment {
                     }
                 }
             });
+
+
         }
+        getListaPacientes();
 
-        ListaPaciente = ListaPacientes.getInstance();
+        ArrayAdapter<Paciente>  adaptador = new pacienteAdapter(rootView.getContext());
+        listaPaciente = (ListView) rootView.findViewById(R.id.listView);
 
-
-        ArrayAdapter<Paciente> adaptador = new pacienteAdapter(rootView.getContext());
-        ListView listaPaciente = (ListView) rootView.findViewById(R.id.listView);
         listaPaciente.setAdapter(adaptador);
 
-        listaPaciente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       listaPaciente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 Fragment fragment;
 
@@ -80,19 +88,21 @@ public class ListaPacientesFragment  extends Fragment {
                     fragment = new SignosVitalesFragment();
                 } else if (fragActivo.getData().compareTo("LISTA_REPORT") == 0) {
                     fragment = new LibroReportFragment();
-                } else/* fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) */ {
+                } else /*if( fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) )*/  {
                     fragment = new GlucosaFragment();
-
                 }
+
 
                 if (fragment != null) {
                     System.out.println("ESTOY EN LISTA" + ListaPaciente.getLista().get(position).getApellido());
 
                     Bundle datos = new Bundle();
 
-                    datos.putSerializable("PACIENTE", ListaPaciente.getLista().get(position));
-                    datos.putSerializable("LISTA", ListaPaciente.getLista());
+                   // datos.putSerializable("PACIENTE", ListaPaciente.getLista().get(position));
+                   // datos.putSerializable("LISTA", ListaPaciente.getLista());
                     datos.putString("ORIGEN", "ListaPacientesFragment");
+                    System.out.println(ListaPaciente.getLista().get(position).getNombre());
+                    pacienteActivo.setPaciente(ListaPaciente.getLista().get(position));
 
                     fragment.setArguments(datos);
 
@@ -107,6 +117,7 @@ public class ListaPacientesFragment  extends Fragment {
             }
 
         });
+
         return rootView;
     }
 
@@ -144,4 +155,44 @@ public class ListaPacientesFragment  extends Fragment {
 
 
         }
+    private void getListaPacientes(){
+        ListaPaciente = ListaPacientes.getInstance();
+
+        Paciente paciente;
+
+        SimWebService service = new SimWebService();
+        if(service.validarConexion(rootView.getContext())){
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("GET");
+            service.configurarUrl(URL+"1");
+
+            if(service.conectar(rootView.getContext(),0)) {
+                String datos;
+                datos = service.get();
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd")
+                        .create();
+                System.out.println("GET: "+datos);
+
+                paciente  = gson.fromJson(datos, Paciente.class);
+                ListaPaciente.setLista(paciente);
+
+            }
+            else {
+                System.out.println("No se recuperaron datos");
+
+            }
+        }
+        else{
+            System.out.println("Red No disponible");
+        }
+        paciente = new Paciente(6, "Maximiliano", "Akike", 34809917,/*"105"*/42, 1.7, 90.0/*,"Infarto Agudo del Miocardio"*/);
+
+        ListaPaciente.setLista(paciente);
+        ListaPaciente.setLista(paciente);
+        ListaPaciente.setLista(paciente);
+    }
+
+
 }

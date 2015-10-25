@@ -1,9 +1,6 @@
 package com.example.maxi.sim;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,8 +21,9 @@ public class GlucosaFragment extends Fragment {
 
     private Button   btnGuardar;
     private TextView txtPaciente;
-    private Paciente pacienteActivo;
     private EditText TxtGlucosa;
+    private PacienteActivo pacienteActivo;
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/MedicionResource";
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -34,10 +33,11 @@ public class GlucosaFragment extends Fragment {
         fragmentActivo fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("GLUCOSA");
 
-        txtPaciente = (TextView) rootView.findViewById(R.id.txtPaciente);
+        txtPaciente = (TextView) rootView.findViewById(R.id.txtLibroReport);
         TxtGlucosa = (EditText) rootView.findViewById(R.id.TxtGlucosa);
-        pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
-        txtPaciente.setText(pacienteActivo.getNombre()+" "+pacienteActivo.getApellido());
+        pacienteActivo = PacienteActivo.getInstance();
+        //pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
+        txtPaciente.setText(pacienteActivo.getPaciente().getNombre()+" "+pacienteActivo.getPaciente().getApellido());
 
 
         btnGuardar = (Button) rootView.findViewById(R.id.btnGuardar);
@@ -107,7 +107,7 @@ public class GlucosaFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/MedicionResource");
+            service.configurarUrl(URL);
 
             if (service.conectar(farmacoContext,datos.toString().getBytes().length)) {
                 System.out.println("Datos "+"\n"+datos);

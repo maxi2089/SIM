@@ -21,7 +21,7 @@ public class Dialogo extends DialogFragment {
 
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(getActivity());
-            String titulo  = getArguments().getString("TITULO");
+            String titulo   = getArguments().getString("TITULO");
             String mensaje  = getArguments().getString("MENSAJE");
 
             builder.setMessage(mensaje)

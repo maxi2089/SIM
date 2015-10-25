@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.maxi.sim.FarmacoFragment"
-    android:background="@color/color_backgroud"
+    android:background="#010101"
 
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,21 +12,48 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     >
 
+    <RelativeLayout
+        android:id="@+id/cabeceraLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_secondary">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/txtLibroReport"
+        android:textColor="@color/color_texto"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/libroReport"
         android:background="@mipmap/ic_launcher"
+        android:src="@mipmap/ic_libro_report"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@mipmap/ic_report" />
+        android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/detalleLayout"
+        android:layout_below="@+id/cabeceraLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_backgroud">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/TiLayoutVolumen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/libroReport"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="65dp">
@@ -126,8 +153,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/TiLayoutResultado"
-        android:layout_alignRight="@+id/libroReport"
-        android:layout_alignEnd="@+id/libroReport"
         android:layout_marginTop="37dp">
 
         <TextView android:id="@+id/TxtResultadoGotas"
@@ -155,23 +180,24 @@
         android:id="@+id/btnEnviar"
         android:textColor="@color/color_primary"
         android:textStyle="bold"
-        android:layout_alignRight="@+id/libroReport"
-        android:layout_alignEnd="@+id/libroReport"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/TiLayoutResultadoGotas"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/factorGoteo"
-        android:layout_below="@+id/txtPaciente"
+        android:text="Factor Goteo"
+        android:textColor="@color/color_texto"
+        android:layout_alignBottom="@+id/imageMacroGota"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp"
-        android:text="Factor Goteo"
-        android:textColor="@color/color_texto" />
+        android:layout_marginBottom="29dp"
+        android:layout_marginLeft="5dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -179,8 +205,11 @@
         android:id="@+id/imageMacroGota"
         android:background="@drawable/ic_macro_gota"
         android:src="@drawable/ic_macro_gota"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/libroReport" />
+        android:layout_marginLeft="96dp"
+        android:layout_marginStart="96dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/factorGoteo"
+        android:layout_toRightOf="@+id/factorGoteo" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -188,23 +217,13 @@
         android:id="@+id/imageMicroGota"
         android:src="@drawable/ic_micro_gota"
         android:visibility="visible"
-        android:layout_below="@+id/txtPaciente"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/imageMacroGota" />
+        android:layout_above="@+id/TiLayoutTiempo"
+        android:layout_toRightOf="@+id/factorGoteo"
+        android:layout_toEndOf="@+id/factorGoteo"
+        android:layout_marginBottom="47dp"
+        android:layout_marginRight="5dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/txtPaciente"
-        android:layout_above="@+id/imageMacroGota"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/color_texto"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
+</RelativeLayout>
 
 </RelativeLayout>

@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.util.Base64;
 
-import org.apache.http.client.HttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,16 +59,24 @@ public class SimWebService {
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod(requestMethod);
 
-                    if(requestMethod.compareTo("POST")==0){
-                        System.out.println("POST");
+                    if(requestMethod.compareTo("POST")==0
+                            || requestMethod.compareTo("PUT")==0
+                             ){
+                        System.out.println("POST/PUT");
                         connection.setDoOutput(true);
-                        //connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                         connection.setFixedLengthStreamingMode(longitud);
                     }
-                    else{
-                        System.out.println("GET");
 
+                    if(requestMethod.compareTo("GET")==0){
+                        System.out.println("GET");
                         connection.setDoInput(true);
+                    }
+                    if(requestMethod.compareTo("DELETE")==0){
+                        System.out.println("DELETE");
+                        connection.setDoOutput(true);
+                        connection.setRequestProperty("Content-Type",
+                                "application/x-www-form-urlencoded");
+
                     }
                     connection.setConnectTimeout(10000);
                     connection.setReadTimeout(15000);
@@ -167,5 +174,8 @@ public class SimWebService {
         out.close ();
         connection.disconnect();
 
+    }
+    public  void delete(){
+        connection.disconnect();
     }
 }

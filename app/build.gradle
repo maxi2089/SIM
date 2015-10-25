@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
    buildToolsVersion '23.0.0'
 
 
@@ -26,5 +26,4 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.android.support:design:22.2.0'
     compile files('libs/gson-2.2.3.jar')
-
 }

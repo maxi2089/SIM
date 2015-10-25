@@ -1,43 +1,164 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
 	tools:context="com.example.maxi.sim.HomeFragment"
-    android:background="@color/color_backgroud">
+    android:background="#010101"
+    >
 
 
-
-    <TextView
+    <RelativeLayout
+        android:id="@+id/cabeceraLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="USUARIO"
-        android:id="@+id/txtUsuario"
-        android:textColor="@color/color_texto"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="@color/color_secondary">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="USUARIO"
+            android:id="@+id/titulo"
+            android:textColor="@color/color_texto"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="ROL"
-        android:id="@+id/txtRol"
-        android:layout_below="@+id/txtUsuario"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/color_texto" />
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#ffffff"
-        android:layout_below="@+id/txtRol"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/txtRo"
-        android:layout_marginTop="20dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="ROL"
+            android:id="@+id/txtRol"
+            android:layout_below="@+id/titulo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/color_texto"
+            android:layout_marginLeft="10dp"
+            android:textStyle="italic" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnModificar"
+            android:src="@android:drawable/ic_input_get"
+            android:layout_alignBottom="@+id/txtRol"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            android:layout_below="@+id/txtRol"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/lineaDivisoria1"
+            android:layout_marginTop="20dp" />
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/detalleLayout"
+            android:layout_below="@+id/cabeceraLayout"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_backgroud"
+            android:layout_alignRight="@+id/cabeceraLayout"
+            android:layout_alignEnd="@+id/cabeceraLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Pacientes Asignados"
+                android:id="@+id/lblPacienteAsginados"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="-"
+                android:id="@+id/txtPacienteAsignados"
+                android:layout_below="@+id/lblPacienteAsginados"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/color_texto"
+                android:numeric="decimal" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:layout_below="@+id/txtPacienteAsignados"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/lineaDivisoria2"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Alertas"
+            android:id="@+id/lblAlertas"
+            android:layout_below="@+id/lineaDivisoria2"
+            android:textColor="@color/color_texto"
+            android:textStyle="bold"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="-"
+            android:id="@+id/txtAlertas"
+            android:layout_below="@+id/lblAlertas"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/color_texto"
+            android:numeric="decimal" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            android:id="@+id/lineaDivisoria3"
+            android:layout_below="@+id/txtAlertas"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@android:drawable/ic_dialog_alert"
+            android:layout_alignRight="@+id/lineaDivisoria2"
+            android:layout_alignEnd="@+id/lineaDivisoria2"
+            android:layout_marginRight="41dp"
+            android:layout_marginEnd="41dp"
+            android:layout_below="@+id/lineaDivisoria2"
+            android:layout_marginTop="25dp" />
+    </RelativeLayout>
 
 </RelativeLayout>

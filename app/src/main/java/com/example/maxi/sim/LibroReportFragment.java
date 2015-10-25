@@ -1,8 +1,14 @@
 package com.example.maxi.sim;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,16 +17,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/**texto
+/**
  * Created by yamila on 27/08/2015.
  */
 public class LibroReportFragment extends Fragment {
@@ -36,36 +44,34 @@ public class LibroReportFragment extends Fragment {
     private TextView txtEdad;
     private TextView txtDiagnostico;
     private ArrayList<Evento> ListaEvento;
+    private ImageButton btnAsignarReponsable;
+    private ImageButton btnEliminar;
+    private ImageButton btnModificar;
+    private Sesion SesionUsuario;
+    private PacienteActivo pacienteActivo;
+    private  fragmentActivo fragActivo;
+    private View rootView;
 
+    private ListaPacientes ListaPaciente;
+
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        View  rootView = inflater.inflate(R.layout.fragment_report, container, false);
+        rootView = inflater.inflate(R.layout.fragment_report, container, false);
 
         //Instanciamos el objeto Lista de eventos
         ListaEvento = new ArrayList<Evento>();
 
-        fragmentActivo fragActivo =  fragmentActivo.getInstance();
+        fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("REPORT");
+        pacienteActivo = PacienteActivo.getInstance();
 
-        //PRUEBA
-       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-      //  SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-       // String currentDateandTime = sdf.format(new Date());
-        //Evento evento = new Evento(currentDateandTime,"Se registro 35 mm de ibuprofeno xxxxxxxxxxxx","Debora Puebla");
 
-      /*  ListaEvento.add(evento);
-        ListaEvento.add(evento);
-        ListaEvento.add(evento);
-        ListaEvento.add(evento);*/
-        //PRUEBA
 
         getEventos(rootView.getContext());
 
-        //Argumentos provenientes del Fragmento de Lista de Pacientes
-        //Paciente Seleccionado
-        pacienteReport = (Paciente)getArguments().getSerializable("PACIENTE");
         //Origen del fragment
-        origen = (String) getArguments().getString("ORIGEN");
+         origen = (String) getArguments().getString("ORIGEN");
 
         //Configuramos los elementos visuales del report
         txtNombre = (TextView)rootView.findViewById(R.id.txtNombre);
@@ -76,13 +82,17 @@ public class LibroReportFragment extends Fragment {
         txtDiagnostico = (TextView)rootView.findViewById(R.id.txtDiagnostico);
 
         //Completamos los elementos visuales
-        txtNombre.setText(pacienteReport.getNombre()+" "+pacienteReport.getApellido());
-        txtDNI.setText("DNI: "+pacienteReport.getDni());
-        txtAltura.setText("Altura: "+pacienteReport.getAltura().toString());
-        txtPeso.setText("Peso:  " + pacienteReport.getAltura().toString());
-        txtEdad.setText("Edad: "+pacienteReport.getEdad().toString());
-       // txtDiagnostico.setText("Diagnostico: "+pacienteReport.getDiagnostico());
-        txtDiagnostico.setText("Diagnostico: "+pacienteReport.getNombre());
+        txtNombre.setText(pacienteActivo.getPaciente().getNombre()+" "+pacienteActivo.getPaciente().getApellido());
+        txtDNI.setText("DNI: "+pacienteActivo.getPaciente().getDni());
+        txtAltura.setText("Altura: "+pacienteActivo.getPaciente().getAltura().toString()+"m");
+        txtPeso.setText("Peso: " +"90"+" Kg.");
+        txtEdad.setText("Edad: "+"1.8");
+
+       //txtPeso.setText("Peso: " + pacienteActivo.getPaciente().getAltura().toString()+" Kg.");
+        //txtEdad.setText("Edad: "+pacienteActivo.getPaciente().getEdad().toString());
+
+       //txtDiagnostico.setText("Diagnostico: "+pacienteActivo.getPaciente().getDiagnostico());
+        txtDiagnostico.setText("Diagnostico: "+pacienteActivo.getPaciente().getNombre());
 
         //Creamos el adpatator para la lista de eventos
         ArrayAdapter<Evento> adaptador = new reportAdapter(rootView.getContext());
@@ -92,13 +102,23 @@ public class LibroReportFragment extends Fragment {
         listaEventos.setAdapter(adaptador);
         listaEventos.setOnItemClickListener((new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
+                Fragment fragment;
 
+                fragment = new ModificarLibroReportFragment();
+
+                if (fragment != null) {
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                } else {
+                    Log.e("Error  ", "Modificar Libro Report");
+                }
             }
         }));
+
+
         //Si el libro report fue abirto del menu de farmaco se crea un boton volver a farmaco
         if(origen.compareTo("FarmacoFragment")== 0){
-
-
           /*  volverOrigen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -122,16 +142,61 @@ public class LibroReportFragment extends Fragment {
                     }
                 }
             });
-*/
+            */
 
         }
-       /* if(pacienteReport != null){
+        SesionUsuario = Sesion.getInstance(1, null, null);
 
+        if (fragActivo.getData().compareTo("REPORT") == 0
+                /* && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0*/) {
+
+            btnAsignarReponsable = (ImageButton) rootView.findViewById(R.id.btnAsignarReponsable);
+            btnAsignarReponsable.setVisibility(View.VISIBLE);
+
+            btnAsignarReponsable.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Fragment fragment;
+
+                    fragment = new GestorAsignacionesFragment();
+
+                     if (fragment != null) {
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                    } else {
+                        Log.e("Error  ", "Asignar Reponsable");
+                    }
+                }
+            });
         }
-        else{
-        }*/
 
+        btnEliminar = (ImageButton)rootView.findViewById(R.id.btnEliminar);
 
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EliminarReport eliminarReport = new EliminarReport();
+                eliminarReport.show(getFragmentManager(), "Eliminar");
+            }});
+
+        btnModificar = (ImageButton)rootView.findViewById(R.id.btnModificar);
+
+        btnModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment;
+
+                fragment = new ModificarLibroReportFragment();
+
+                if (fragment != null) {
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                } else {
+                    Log.e("Error  ", "Asignar Reponsable");
+                }
+            }});
         return rootView;
     }
 
@@ -179,15 +244,15 @@ public class LibroReportFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/LibroReportResource?id=1");
+            service.configurarUrl(URL+"LibroReportResource?id="+pacienteActivo.getPaciente().getIdPaciente());
 
           if (service.conectar(context,1)) {
               String datos;
-              datos = service.get();
+            //  datos = service.get();
             //  System.out.println("Datos: " + datos);
 
              // datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
-             // datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
+              datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
               System.out.println("Datos: " + datos);
 
               Gson gson = new GsonBuilder()
@@ -251,4 +316,71 @@ public class LibroReportFragment extends Fragment {
 
         }
     }
+
+    private boolean deleteLibroReport(Context context){
+        SimWebService service = new SimWebService();
+
+        if (service.validarConexion(context)) {
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("DELETE");
+            service.configurarUrl(URL+"LibroReportResource?id="+pacienteActivo.getPaciente().getIdPaciente());
+
+            if (service.conectar(context, 1)) {
+                service.delete();
+            }else
+                return false;
+        }else
+            return false;
+        return true;
+    }
+
+
+    @SuppressLint("ValidFragment")
+    public class EliminarReport extends DialogFragment {
+        private  Context context;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(getActivity());
+            String mensaje  ="Desea eliminar el Libro Report del paciente "
+                    + pacienteActivo.getPaciente().getNombre()
+                    + " " + pacienteActivo.getPaciente().getApellido() + "?";
+            context = rootView.getContext();
+
+            builder.setMessage(mensaje)
+                    .setTitle( "Eliminar Libro Report")
+                    .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i("Dialogos", "Confirmacion Aceptada.");
+
+                            Fragment fragment;
+                            fragment = new ListaPacientesFragment();
+                            if (fragment != null) {
+                                if(deleteLibroReport(context)) {
+
+                                    fragmentActivo fragActivo = fragmentActivo.getInstance();
+                                    fragActivo.setData("LISTA_REPORT");
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                                    dialog.cancel();
+                                }
+                        }
+                    }})
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i("Dialogos", "Confirmacion Cancelada.");
+                            dialog.cancel();
+                        }
+                    });
+
+            return builder.create();
+        }
+
+
+    }
+
+
 }

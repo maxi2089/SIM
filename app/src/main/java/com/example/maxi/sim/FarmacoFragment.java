@@ -20,15 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.text.DecimalFormat;
 
 
 public class FarmacoFragment extends Fragment {
    // private ArrayList<Paciente> ListaPaciente;
     private ListaPacientes ListaPaciente;
 
-    private Paciente pacienteActivo;
     private EditText volumen;
     private EditText tiempo;
     private TextView resultadoVolumen;
@@ -44,8 +43,8 @@ public class FarmacoFragment extends Fragment {
     private String org;
     private TextView txtPaciente;
     private  View rootView;
-    public FarmacoFragment() {}
-
+    private PacienteActivo pacienteActivo;
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/LibroReportResource";
 
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
@@ -57,11 +56,12 @@ public class FarmacoFragment extends Fragment {
        //ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
         btnReport = (ImageButton) rootView.findViewById(R.id.libroReport);
 
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtLibroReport);
 
+        pacienteActivo = PacienteActivo.getInstance();
 
-        pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
-        txtPaciente.setText(pacienteActivo.getNombre()+" "+pacienteActivo.getApellido());
+        //pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
+        txtPaciente.setText(pacienteActivo.getPaciente().getNombre()+" "+pacienteActivo.getPaciente().getApellido());
 
 
         microGotas = (ImageView)rootView.findViewById(R.id.imageMicroGota);
@@ -80,11 +80,14 @@ public class FarmacoFragment extends Fragment {
                     macroGotas.setVisibility(View.INVISIBLE);
                     microGotas.setVisibility(View.VISIBLE);
                     factorG=60.0;
+                    System.out.println("FACTO GOTEO "+factorG );
                 }else{
                     //MacroGota
                     macroGotas.setVisibility(View.VISIBLE);
                     microGotas.setVisibility(View.INVISIBLE);
                     factorG=20.0;
+                    System.out.println("FACTO GOTEO "+factorG );
+
                 }
 
             }
@@ -105,18 +108,24 @@ public class FarmacoFragment extends Fragment {
                // getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 InputMethodManager inputMethodManager = (InputMethodManager)  getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                if(!volumen.getText().toString().equals("")
+                        && !tiempo.getText().toString().equals("") ){
+                    DecimalFormat df = new DecimalFormat("#####.##");
+                    //Obtenemos los valores ingresados de volumen y tiempo
+                    nVol = Double.parseDouble(volumen.getText().toString());
+                    nTiempo = Double.parseDouble(tiempo.getText().toString());
+                    //Calculamos el resultado en  ml/hr
+                    nResultado = ( nVol / (nTiempo / 60));
+                    resultadoVolumen.setText(df.format(nResultado).toString() + " ml/Hr");
 
-                //Obtenemos los valores ingresados de volumen y tiempo
-                nVol = Double.parseDouble(volumen.getText().toString());
-                nTiempo = Double.parseDouble(tiempo.getText().toString());
-                //Calculamos el resultado en  ml/hr
-                nResultado = nVol / (nTiempo / 60);
-                resultadoVolumen.setText(nResultado.toString() + " ml/Hr");
-                System.out.println("Resultado " + nResultado);
+                    //Calculamos el resultado en  gotas/min
+                    nResultado = ((nVol * factorG) / (nTiempo * 60));
 
-                //Calculamos el resultado en  gotas/min
-                nResultado = (nVol * factorG) / (nTiempo * 60);
-                resultadoGotas.setText(nResultado.toString() + " Gotas/min");
+                    resultadoGotas.setText(df.format(nResultado).toString() + " Gotas/min");
+                }else{
+                    Toast toast = Toast.makeText(rootView.getContext(),"No se puede calcular. No hay datos cargados", Toast.LENGTH_LONG);
+                    toast.show();
+                }
                 }
 
 
@@ -184,7 +193,7 @@ public class FarmacoFragment extends Fragment {
     private void MostrarFragment() {
         // update the main content by replacing fragments
         Fragment fragment =  new LibroReportFragment();
-        if(pacienteActivo != null) {
+        if(pacienteActivo.getPaciente() != null){
 
             //Validamos si el fragment no es nulo
             if (fragment != null) {
@@ -192,10 +201,11 @@ public class FarmacoFragment extends Fragment {
                 //Creamos  Bundle que guardara los datos para enviar al fragment de paciente
                 Bundle  datos = new Bundle();
 
-                datos.putSerializable("PACIENTE", pacienteActivo);
+                //datos.putSerializable("PACIENTE", pacienteActivo);
                 datos.putString("ORIGEN", "FarmacoFragment");
 
                 fragment.setArguments(datos);
+
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
             } else {
@@ -218,7 +228,7 @@ public class FarmacoFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/LibroReportResource");
+            service.configurarUrl(URL);
 
              if (service.conectar(farmacoContext,datos.getBytes().length)) {
                  System.out.println("Datos "+"\n"+datos);

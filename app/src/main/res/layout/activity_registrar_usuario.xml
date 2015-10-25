@@ -121,7 +121,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutSaturometria"
+        android:id="@+id/TiLayoutUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/TiLayoutEmail"
@@ -150,9 +150,9 @@
         android:id="@+id/TiLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TiLayoutSaturometria"
-        android:layout_alignLeft="@+id/TiLayoutSaturometria"
-        android:layout_alignStart="@+id/TiLayoutSaturometria"
+        android:layout_below="@+id/TiLayoutUsuario"
+        android:layout_alignLeft="@+id/TiLayoutUsuario"
+        android:layout_alignStart="@+id/TiLayoutUsuario"
         android:layout_alignEnd="@+id/TiLayoutNombre">
 
         <EditText android:id="@+id/EditTxtPassword"
@@ -178,11 +178,9 @@
         android:id="@+id/TiLayoutPasswordR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/TiLayoutPassword"
-        android:layout_alignLeft="@+id/TiLayoutEmail"
-        android:layout_alignStart="@+id/TiLayoutEmail"
-        android:layout_alignRight="@+id/TiLayoutSaturometria"
-        android:layout_alignEnd="@+id/TiLayoutSaturometria">
+        android:layout_below="@+id/TiLayoutPassword"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <EditText android:id="@+id/EditTxtPasswordR"
             android:layout_width="match_parent"
