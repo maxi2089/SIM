@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by yamila on 04/09/2015.
@@ -35,7 +36,7 @@ public class ListaPacientesFragment  extends Fragment {
     private PacienteActivo pacienteActivo;
     private  ListView listaPaciente;
     private View rootView;
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/PacienteResource?id=";
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/UsuarioResource?id=";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
           rootView = inflater.inflate(R.layout.fragment_lista_paciente, container, false);
@@ -88,8 +89,10 @@ public class ListaPacientesFragment  extends Fragment {
                     fragment = new SignosVitalesFragment();
                 } else if (fragActivo.getData().compareTo("LISTA_REPORT") == 0) {
                     fragment = new LibroReportFragment();
-                } else /*if( fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) )*/  {
+                } else if( fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) {
                     fragment = new GlucosaFragment();
+                }else /*if( fragActivo.getData().compareTo("LISTA_VISITAS") == 0)*/{
+                    fragment = new ProgramarVisitasFragment();
                 }
 
 
@@ -158,7 +161,7 @@ public class ListaPacientesFragment  extends Fragment {
     private void getListaPacientes(){
         ListaPaciente = ListaPacientes.getInstance();
 
-        Paciente paciente;
+        Usuario usuario;
 
         SimWebService service = new SimWebService();
         if(service.validarConexion(rootView.getContext())){
@@ -175,19 +178,45 @@ public class ListaPacientesFragment  extends Fragment {
                         .create();
                 System.out.println("GET: "+datos);
 
-                paciente  = gson.fromJson(datos, Paciente.class);
-                ListaPaciente.setLista(paciente);
+                //paciente  = gson.fromJson(datos, Paciente.class);
+                usuario =  gson.fromJson(datos, Usuario.class);
 
+                if(usuario.getPacientes()!=null){
+                    Iterator<Paciente> iter = usuario.getPacientes().iterator();
+
+                    while (iter.hasNext()){
+                        ListaPaciente.setLista(iter.next());
+                    }
+                }else{
+                    Paciente sinDatos = new Paciente();
+                    sinDatos.setIdPaciente(-1);
+                    sinDatos.setNombre("No");
+                    sinDatos.setApellido(" hay datos");
+                    sinDatos.setPeso(-1.0);
+                    sinDatos.setAltura(-1.0);
+                    sinDatos.setDni(-1);
+                    sinDatos.setEdad(-1);
+                    ListaPaciente.setLista(sinDatos);
+                }
+
+               //
             }
             else {
                 System.out.println("No se recuperaron datos");
-
+                Paciente sinDatos = new Paciente();
+                sinDatos.setIdPaciente(-1);
+                sinDatos.setNombre("No");
+                sinDatos.setApellido(" hay datos");
+                sinDatos.setPeso(-1.0);
+                sinDatos.setAltura(-1.0);
+                sinDatos.setDni(-1);
+                sinDatos.setEdad(-1);
+                ListaPaciente.setLista(sinDatos);
             }
-        }
-        else{
+        } else {
             System.out.println("Red No disponible");
         }
-        paciente = new Paciente(6, "Maximiliano", "Akike", 34809917,/*"105"*/42, 1.7, 90.0/*,"Infarto Agudo del Miocardio"*/);
+        Paciente paciente = new Paciente(6, "Maximiliano", "Akike", 34809917,/*"105"*/42, 1.7, 90.0/*,"Infarto Agudo del Miocardio"*/);
 
         ListaPaciente.setLista(paciente);
         ListaPaciente.setLista(paciente);

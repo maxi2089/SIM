@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         NavItms.add(new Item_objct(titulos[4], NavIcons.getResourceId(4, -1)));
         NavItms.add(new Item_objct(titulos[5], NavIcons.getResourceId(5, -1)));
         NavItms.add(new Item_objct(titulos[6], NavIcons.getResourceId(6, -1)));
+        NavItms.add(new Item_objct(titulos[7], NavIcons.getResourceId(7, -1)));
 
 
         NavAdapter = new NavigationAdapter(this, NavItms);
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         // update the main content by replacing fragments
         Fragment fragment = null;
         fragmentActivo fragActivo = fragmentActivo.getInstance();
+
         switch (position) {
             case 1:
                 fragment = new HomeFragment();
@@ -188,18 +190,23 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new ListaPacientesFragment();
                 break;
             case 7:
+                fragment = new ListaPacientesFragment();
+                fragActivo.setData("LISTA_VISITAS");
+                break;
+            case 8:
                 this.finish();
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-
                 break;
-            case 8:
+            case 9:
                 fragment = new LibroReportFragment();
                 position = 4;
                 break;
-
+            case 10: fragment = new FarmacoFragment();
+                position = 3;
+                break;
             default:
                 //si no esta la opcion mostrara un toast y nos mandara a Home
                 Toast.makeText(getApplicationContext(), "Opcion " + titulos[position - 1] + "no disponible!", Toast.LENGTH_SHORT).show();
@@ -268,15 +275,19 @@ public class MainActivity extends AppCompatActivity {
             MostrarFragment(4,"MAIN");
         } else if (fragActivo.getData() == "ASIGNAR_REPONSABLE") {
             System.out.println("ASIGNAR_REPONSABLE");
-            MostrarFragment(8,"GESTOR_ASIGNACIONES");
+            MostrarFragment(9,"GESTOR_ASIGNACIONES");
 
         } else if (fragActivo.getData() == "MODIFICAR_LIBRO_REPORT") {
             System.out.println("MODIFICAR_LIBRO_REPORT");
-            MostrarFragment(8,"MODIFICAR_LIBRO_REPORT");
+            MostrarFragment(9,"MODIFICAR_LIBRO_REPORT");
 
         }else if (fragActivo.getData() == "MODIFICAR_USUARIO") {
             System.out.println("MODIFICAR_USUARIO");
             MostrarFragment(1,"MODIFICAR_USUARIO");
+
+        }else if (fragActivo.getData() == "FARMACO_REPORT") {
+            System.out.println("FARMACO_REPORT");
+            MostrarFragment(10,"FARMACO_REPORT");
 
         }else {
             MostrarFragment(1,"MAIN");

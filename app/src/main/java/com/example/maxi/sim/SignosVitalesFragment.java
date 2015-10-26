@@ -67,7 +67,7 @@ public class SignosVitalesFragment extends Fragment {
 
        // pacienteActivo = (Paciente) getArguments().getSerializable("PACIENTE");
         pacienteActivo = PacienteActivo.getInstance();
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtLibroReport);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
 
         txtPaciente.setText(pacienteActivo.getPaciente().getNombre() + " " + pacienteActivo.getPaciente().getApellido());
 
@@ -356,28 +356,30 @@ public class SignosVitalesFragment extends Fragment {
 
     private void analizarMediciones() throws IOException {
 
-        vTensionArterial  = editTensionArterial.getText().toString();
-        vTemperatura      = editTemperatura.getText().toString();
+        vTensionArterial = editTensionArterial.getText().toString();
+        vTemperatura = editTemperatura.getText().toString();
         vFrecRespiratoria = editFrecRespiratoria.getText().toString();
 
-        if((editTensionArterial.isEnabled()&& !vTensionArterial.equals(""))){
+        //TENSION ARTERIAL
+        if ((editTensionArterial.isEnabled() && !vTensionArterial.equals(""))) {
 
             getTensionArterialValores(rootView.getContext(), pacienteActivo.getPaciente().getEdad().toString());
 
             float valorTensionArterial = Float.parseFloat(vTensionArterial);
 
-            if( valorTensionArterial < TensionArterial.getValorMinimo()
-                    || valorTensionArterial > TensionArterial.getValorMaximo()){
+            if (valorTensionArterial < TensionArterial.getValorMinimo()
+                    || valorTensionArterial > TensionArterial.getValorMaximo()) {
 
                 btnAlertaTensionArterial.setVisibility(View.VISIBLE);
 
-            }else{
+            } else {
                 btnAlertaTensionArterial.setVisibility(View.INVISIBLE);
             }
 
         }
 
-        if((editFrecRespiratoria.isEnabled()&& !vFrecRespiratoria.equals(""))){
+        //FRECUENCIA RESPIRATORIA
+        if ((editFrecRespiratoria.isEnabled() && !vFrecRespiratoria.equals(""))) {
 
             getFrecRespiratoriaValores(rootView.getContext(), pacienteActivo.getPaciente().getEdad().toString());
 
@@ -385,29 +387,43 @@ public class SignosVitalesFragment extends Fragment {
             float valorFreRepiratoria = Float.parseFloat(vFrecRespiratoria);
 
 
-            if( valorFreRepiratoria < FrecuenciaRepiratoria.getValorMinimo()
-                    || valorFreRepiratoria > FrecuenciaRepiratoria.getValorMaximo()){
+            if (valorFreRepiratoria < FrecuenciaRepiratoria.getValorMinimo()
+                    || valorFreRepiratoria > FrecuenciaRepiratoria.getValorMaximo()) {
 
                 btnAlertaFrecRespiratoria.setVisibility(View.VISIBLE);
-            }else{
+            } else {
 
                 btnAlertaFrecRespiratoria.setVisibility(View.INVISIBLE);
 
             }
         }
 
-        if((editTemperatura.isEnabled()&& !vTemperatura.equals(""))){
+        //TEMPERATURA
+        if ((editTemperatura.isEnabled() && !vTemperatura.equals(""))) {
 
-            getTemperaturaValores(rootView.getContext(),pacienteActivo.getPaciente().getEdad().toString());
+            getTemperaturaValores(rootView.getContext(), pacienteActivo.getPaciente().getEdad().toString());
 
             float valorTemperatura = Float.parseFloat(vTemperatura);
 
-            if( valorTemperatura < Temperatura.getValorMinimo()
-                    || valorTemperatura > Temperatura.getValorMaximo()){
+            if (valorTemperatura < Temperatura.getValorMinimo()
+                    || valorTemperatura > Temperatura.getValorMaximo()) {
                 btnAlertaTemperatura.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 btnAlertaTemperatura.setVisibility(View.INVISIBLE);
+
+            }
+        }
+
+        //SATUROMETRIA
+
+        if ((editSaturometria.isEnabled() && !vSaturometria.equals(""))) {
+
+            float valorSaturometria = Float.parseFloat(vSaturometria);
+
+            if (valorSaturometria > 98.0) {
+                btnAlertaSaturometria.setVisibility(View.VISIBLE);
+            } else {
+                btnAlertaSaturometria.setVisibility(View.INVISIBLE);
 
             }
         }

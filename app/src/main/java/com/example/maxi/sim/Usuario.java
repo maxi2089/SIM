@@ -86,4 +86,12 @@ public class Usuario implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Set<Paciente> getPacientes() {
+        return pacientes;
+    }
+
+    public void setPacientes(Set<Paciente> pacientes) {
+        this.pacientes = pacientes;
+    }
 }

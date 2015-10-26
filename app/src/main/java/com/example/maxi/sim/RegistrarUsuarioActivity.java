@@ -23,8 +23,10 @@ import java.util.List;
 
 public class RegistrarUsuarioActivity extends AppCompatActivity {
     private Spinner spinnerRol;
-    private String RolActivo ;
-    private String[] roles =  {"Enfermero","Medico","Administrador"};;
+    private Integer RolActivo ;
+    private String[] roles =  {"Selecccionar Rol","Administrador","Medico","Enfermero"};
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+
     private EditText EditTxtNombre;
     private EditText EditTxtDni;
     private EditText EditTxtFechaNac;
@@ -33,6 +35,8 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
     private EditText EditTxtPassword;
     private TextInputLayout TiLayoutPassword;
     private TextInputLayout TiLayoutPasswordR;
+    private TextInputLayout TiLayoutUsuario;
+
     public static String  algoritmoEncriptacion = "SHA-256";
 
 
@@ -55,6 +59,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
 
         TiLayoutPassword = (TextInputLayout)findViewById(R.id.TiLayoutPassword);
         TiLayoutPasswordR = (TextInputLayout)findViewById(R.id.TiLayoutPasswordR);
+        TiLayoutUsuario = (TextInputLayout) findViewById(R.id.TiLayoutUsuario);
 
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_spinner_item,roles);
         spinnerRol = (Spinner) findViewById(R.id.spinnerRol);
@@ -67,8 +72,8 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
 
                 if (arg2 != 0) {
                     //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
-                    RolActivo = roles[arg2].toString();
-
+                    RolActivo = arg2;
+                    System.out.println("Rol: "+RolActivo.toString());
 
                 }
             }
@@ -104,24 +109,43 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
                       && !vEmail.equals("")
                       && !vUsuario.equals("")
                       && !vPassword.equals("")
-                      && !vPasswordR.equals("")){
+                      && !vPasswordR.equals("")
+                      && RolActivo!=null){
 
                   if(password.getPasswordEncriptada().compareTo(passwordR.getPasswordEncriptada())==0) {
+                      TiLayoutPasswordR.setErrorEnabled(false);
+                      //if(!verificarUsuario(vUsuario)) {
+                          TiLayoutUsuario.setErrorEnabled(false);
+                          String fechaNacJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
+                          String NombreJson = "\"" + "nombre" + "\"" + ":" + "\"" + vNombre + "\"";
+                          String DniJson = "\"" + "dni" + "\"" + ":" + vDni;
+                          String EmailJson = "\"" + "email" + "\"" + ":" + "\"" + vEmail + "\"";
+                          String UsuarioJson = "\"" + "usuario" + "\"" + ":" + "\"" + vUsuario + "\"";
+                          String PasswordJson = "\"" + "password" + "\"" + ":" + "\"" + password.getPasswordEncriptada() + "\"";
+                          String rolJson = "\"" + "rol" + "\"" + ":{"+ "\"" +"idRol"+"\"" +":" + RolActivo.toString() + "}";
 
-                      String fechaNacJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
-                      String NombreJson = "\"" + "nombre" + "\"" + ":" + "\"" + vNombre + "\"";
-                      String DniJson = "\"" + "dni" + "\"" + ":" + vDni;
-                      String EmailJson = "\"" + "email" + "\"" + ":" + "\"" + vEmail + "\"";
-                      String UsuarioJson = "\"" + "usuario" + "\"" + ":" + vUsuario;
-                      String PasswordJson = "\"" + "password" + "\"" + ":" + "\"" + password.getPasswordEncriptada() + "\"";
+                          StringBuilder datos = new StringBuilder();
 
-                      StringBuilder datos = new StringBuilder();
-
-                      try {
-                          postUsuario(getBaseContext(),datos);
-                      } catch (IOException e) {
-                          e.printStackTrace();
-                      }
+                          datos.append("{");
+                          datos.append(rolJson);
+                          datos.append(",");
+                          datos.append(DniJson);
+                          datos.append(",");
+                          datos.append(NombreJson);
+                          datos.append(",");
+                          datos.append(UsuarioJson);
+                          datos.append(",");
+                          datos.append(PasswordJson);
+                          datos.append("}");
+                          try {
+                              postUsuario(getBaseContext(), datos);
+                          } catch (IOException e) {
+                              e.printStackTrace();
+                          }
+                     /* }else{
+                          TiLayoutUsuario.setErrorEnabled(true);
+                          TiLayoutUsuario.setError("Existe un Usuario con ese nombre");
+                      }*/
                   }
                   else{
 
@@ -170,7 +194,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/UsuarioResources");
+            service.configurarUrl(URL+"UsuarioResources");
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
@@ -181,5 +205,26 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(Context,"Red No Disponible",Toast.LENGTH_LONG);
             toast.show();
         }
+    }
+
+    public boolean verificarUsuario(String usuario){
+        SimWebService service = new SimWebService();
+
+        if (service.validarConexion(this.getApplicationContext())) {
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("GET");
+            service.configurarUrl(URL + "UsuarioResources?nombre=" + usuario);
+
+            if (service.conectar(this.getApplicationContext(), 1)) {
+                String datos;
+                datos = service.get();
+                return true;
+            }
+        } else {
+            Toast toast = Toast.makeText(this.getApplicationContext(), "Red No Disponible", Toast.LENGTH_LONG);
+            toast.show();
+        }
+        return false;
     }
 }

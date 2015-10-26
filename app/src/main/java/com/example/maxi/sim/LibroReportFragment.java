@@ -117,34 +117,7 @@ public class LibroReportFragment extends Fragment {
         }));
 
 
-        //Si el libro report fue abirto del menu de farmaco se crea un boton volver a farmaco
-        if(origen.compareTo("FarmacoFragment")== 0){
-          /*  volverOrigen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Fragment fragment = null;
-                    fragment = new FarmacoFragment();
 
-                    if (fragment != null) {
-                        volverOrigen.setVisibility(View.INVISIBLE);
-
-                        Bundle pacientes = new Bundle();
-                        pacientes.putSerializable("PACIENTE",pacienteReport);
-                        pacientes.putString("ORG","LIBRO_REPORT");
-
-                        fragment.setArguments(pacientes);
-                        FragmentManager fragmentManager = getFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-                    } else {
-                        //Si el fragment es nulo mostramos un mensaje de error.
-                        Log.e("Error  ", "No se puedo volver al fragment");
-                    }
-                }
-            });
-            */
-
-        }
         SesionUsuario = Sesion.getInstance(1, null, null);
 
         if (fragActivo.getData().compareTo("REPORT") == 0
@@ -197,6 +170,11 @@ public class LibroReportFragment extends Fragment {
                     Log.e("Error  ", "Asignar Reponsable");
                 }
             }});
+
+        //Si el libro report fue abirto del menu de farmaco se crea un boton volver a farmaco
+        if(origen.compareTo("FARMACO")== 0){
+            fragActivo.setData("FARMACO_REPORT");
+        }
         return rootView;
     }
 
@@ -308,10 +286,28 @@ public class LibroReportFragment extends Fragment {
                       ListaEvento.add(evento);
                   }
 
+              }else{
+                  evento = new Evento();
+                  evento.setFecha("No hay datos");
+                  evento.setRegistro("No hay datos");
+                  evento.setResponsable("No hay datos");
+                  ListaEvento.add(evento);
               }
 
-          }
+          }else{
+              evento = new Evento();
+              evento.setFecha("No hay datos");
+              evento.setRegistro("No hay datos");
+              evento.setResponsable("No hay datos");
+              ListaEvento.add(evento);
+            }
         } else {
+
+            evento = new Evento();
+            evento.setFecha("No hay datos");
+            evento.setRegistro("No hay datos");
+            evento.setResponsable("No hay datos");
+            ListaEvento.add(evento);
             System.out.println("Red No disponible");
 
         }

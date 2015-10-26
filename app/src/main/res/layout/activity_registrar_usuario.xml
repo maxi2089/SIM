@@ -207,7 +207,10 @@
         android:id="@+id/spinnerRol"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/TiLayoutFechaNac"
-        android:layout_alignEnd="@+id/TiLayoutFechaNac" />
+        android:layout_alignEnd="@+id/TiLayoutFechaNac"
+        android:foregroundTint="@color/color_texto"
+        android:prompt="@string/seleccion_rol"
+        />
 
     <Button
         android:layout_width="wrap_content"

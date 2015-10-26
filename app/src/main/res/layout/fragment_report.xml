@@ -103,9 +103,9 @@
             android:background="#ffffff"
             android:id="@+id/lineaDiv2"
             android:layout_below="@+id/textView3"
-            android:layout_alignStart="@+id/lineaDiv1"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="5dp" />
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignStart="@+id/textView3"
+            android:layout_marginTop="5dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -137,32 +137,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnAsignarReponsable"
-            android:src="@mipmap/ic_asignar_responsable"
+            android:src="@drawable/asignar"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:contentDescription="Gestion de Asignaciones"
-            android:layout_alignBottom="@+id/lineaDiv2" />
+            android:background="@color/color_secondary"
+            android:layout_above="@+id/lineaDiv2" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnEliminar"
-            android:src="@android:drawable/ic_menu_delete"
+            android:src="@drawable/delete"
+            android:background="@color/color_secondary"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/btnAsignarReponsable"
-            android:layout_toStartOf="@+id/btnAsignarReponsable"
-            android:layout_alignBottom="@+id/btnAsignarReponsable" />
+            android:layout_toStartOf="@+id/btnAsignarReponsable" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnModificar"
-            android:src="@android:drawable/ic_input_get"
+            android:src="@drawable/editar"
             android:layout_toLeftOf="@+id/btnEliminar"
             android:layout_toStartOf="@+id/btnEliminar"
             android:layout_alignBottom="@+id/btnEliminar"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:background="@color/color_secondary" />
 
     </RelativeLayout>
 

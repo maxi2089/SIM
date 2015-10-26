@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String  algoritmoEncriptacion = "SHA-256";
     private TextInputLayout txtInputLayoutPass;
     private TextInputLayout txtInputLayoutUser;
+    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
 
 
     public boolean validaUsuario() throws JSONException {
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println("Red disponible");
             service.configurarMetodo("GET");
 
-            service.configurarUrl("http://192.168.0.4:8080/simWebService/resources/UsuarioResource?usuario=" + usuarioLogin.getUsuario());
+            service.configurarUrl(URL+"UsuarioResource?usuario=" + usuarioLogin.getUsuario());
 
 
 
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(usuarioBD.getUsuario().compareTo(usuarioLogin.getUsuario())== 0
                             && usuarioBD.getPassword().compareTo(usuarioLogin.getPassword())==0){
-
+                        txtInputLayoutPass.setErrorEnabled(false);
                         System.out.println("Usuario OK");
                         usuarioLogin.setPassword("");
                         usuarioLogin.setDni(usuarioBD.getDni());
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     else{
                         txtInputLayoutPass.setErrorEnabled(true);
-                        txtInputLayoutPass.setError("Error: Usuario Invalido");
+                        txtInputLayoutPass.setError("Password Incorrecta");
                         userOk = false;
                     }
                 }

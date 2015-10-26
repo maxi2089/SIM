@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Modificar Libro Report"
-            android:id="@+id/txtLibroReport"
+            android:id="@+id/txtPaciente"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"

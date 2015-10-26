@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/txtLibroReport"
+        android:id="@+id/txtPaciente"
         android:textStyle="bold"
         android:textColor="@color/color_texto"
         style="@style/Base.TextAppearance.AppCompat.Title"
@@ -31,21 +31,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnGuardar"
-        android:src="@android:drawable/ic_menu_save"
+        android:src="@drawable/guardar"
         android:background="@color/color_secondary"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/btnAnalizar"
-        android:layout_toStartOf="@+id/btnAnalizar" />
+        android:layout_toStartOf="@+id/btnAnalizar"
+        android:layout_marginRight="7dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnAnalizar"
-        android:src="@android:drawable/ic_menu_search"
+        android:src="@drawable/examinar"
         android:background="@color/color_secondary"
-        android:layout_alignTop="@+id/txtLibroReport"
+        android:layout_alignTop="@+id/txtPaciente"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
     </RelativeLayout>
 
     <RelativeLayout android:layout_width="wrap_content"

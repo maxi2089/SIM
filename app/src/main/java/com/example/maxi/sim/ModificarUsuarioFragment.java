@@ -28,7 +28,7 @@ public class ModificarUsuarioFragment  extends Fragment{
     private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
     public static final String  algoritmoEncriptacion = "SHA-256";
 
-    private String[] roles =  {"Rol","Enfermero","Medico"};;
+    private String[] roles =  {"Seleccionar Rol","Enfermero","Medico"};;
     private String RolActivo ;
 
     private EditText EditTxtNombre;
@@ -145,6 +145,7 @@ public class ModificarUsuarioFragment  extends Fragment{
                         String UsuarioJson = "\"" + "usuario" + "\"" + ":" + vUsuario;
                         datos.append(",");
                         datos.append(UsuarioJson);
+                        TiLayoutUsuario.setErrorEnabled(false);
                     }else{
                         TiLayoutUsuario.setErrorEnabled(true);
                         TiLayoutUsuario.setError("Existe un usuario con ese nombre");
@@ -159,6 +160,8 @@ public class ModificarUsuarioFragment  extends Fragment{
                             String PasswordJson = "\"" + "password" + "\"" + ":" + "\"" + password.getPasswordEncriptada() + "\"";
                             datos.append(",");
                             datos.append(PasswordJson);
+                            TiLayoutPasswordR.setErrorEnabled(false);
+
                         }
                         else {
                             TiLayoutPasswordR.setErrorEnabled(true);

@@ -42,10 +42,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnModificar"
-            android:src="@android:drawable/ic_input_get"
             android:layout_alignBottom="@+id/txtRol"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/titulo"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/editar"
+            android:background="@color/color_secondary" />
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -153,12 +156,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView2"
             android:src="@android:drawable/ic_dialog_alert"
+            android:layout_above="@+id/lineaDivisoria3"
             android:layout_alignRight="@+id/lineaDivisoria2"
-            android:layout_alignEnd="@+id/lineaDivisoria2"
-            android:layout_marginRight="41dp"
-            android:layout_marginEnd="41dp"
-            android:layout_below="@+id/lineaDivisoria2"
-            android:layout_marginTop="25dp" />
+            android:layout_alignEnd="@+id/lineaDivisoria2" />
     </RelativeLayout>
 
 </RelativeLayout>

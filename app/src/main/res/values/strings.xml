@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SIM</string>
+    <string name="nombre_aplicacion">Sistema de Internacion\n y Monitoreo</string>
+
     <string name="action_settings">Opciones</string>
     <string name="title_activity_login">Ingresar - SIM</string>
     <string name="ingresar">Ingresar</string>
@@ -14,6 +16,7 @@
     <string name="closeDrawer">Menu cerrado</string>
     <string name="hello_world">Hello world!</string>
     <string name="titulo_registrar_usuario">Registrarse</string>
+    <string name="seleccion_rol">Seleccionar Rol</string>
 
     <string name="volumen">Volumen(ml)</string>
     <string name="tiempo">Tiempo(min)</string>
@@ -31,18 +34,9 @@
     <string name="FechaNac">Fecha Nacimiento</string>
     <string name="Telefono">Telefono o Celular</string>
     <string name="Email">Correo Electronico</string>
-
-
-
     <string name="Altura">Altura</string>
     <string name="Peso">Peso</string>
-
-
-
-
-
-
-
+    <string name="Anotacion">Anotacion</string>
 
 
     <string-array name="nav_options">
@@ -52,25 +46,31 @@
         <item>Libro Report</item>
         <item>Signos Vitales</item>
         <item>Glucosa</item>
+        <item>Gestion Visitas</item>
         <item>Cerrar Sesion</item>
-
-
-
     </string-array>
 
     <array name="navigation_iconos">
-        <item>@mipmap/ic_corazon</item>
+        <item>@mipmap/ic_home</item>
         <item>@mipmap/ic_corazon</item>
         <item>@mipmap/ic_goteo</item>
         <item>@mipmap/ic_libro_report</item>
         <item>@mipmap/ic_signos_vitales</item>
-        <item>@drawable/ecg_icono</item>
-        <item>@drawable/ecg_icono</item>
+        <item>@mipmap/ic_glucosa</item>
+        <item>@mipmap/ic_calendario</item>
+        <item>@mipmap/ic_exit</item>
     </array>
     <string name="title_activity_monitoreo">MonitoreoActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_registrar_usuario">RegistrarUsuarioActivity</string>
+    <string name="title_activity_registrar_usuario">Registrar Usuario</string>
     <string name="title_activity_add_new_photo">AddNewPhoto</string>
+
+
+
+    <string name="date_label_set">Press the button to set the date</string>
+    <string name="date_button_set">Set Date</string>
+    <string name="date_view_set">The Date is: </string>
+    <string name="date_selected"></string>
 </resources>

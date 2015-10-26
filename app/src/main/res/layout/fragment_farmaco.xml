@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/txtLibroReport"
+        android:id="@+id/txtPaciente"
         android:textColor="@color/color_texto"
         style="@style/Base.TextAppearance.AppCompat.Title"
         android:layout_centerVertical="true"
@@ -34,11 +34,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/libroReport"
-        android:background="@mipmap/ic_launcher"
-        android:src="@mipmap/ic_libro_report"
+        android:src="@drawable/report"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@color/color_secondary"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="1dp" />
 
     </RelativeLayout>
 
@@ -56,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="65dp">
+        android:layout_marginTop="75dp">
 
         <EditText android:id="@+id/TxtVolumen"
             android:layout_width="match_parent"
@@ -193,37 +196,35 @@
         android:id="@+id/factorGoteo"
         android:text="Factor Goteo"
         android:textColor="@color/color_texto"
-        android:layout_alignBottom="@+id/imageMacroGota"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="29dp"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginTop="39dp" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageMacroGota"
-        android:background="@drawable/ic_macro_gota"
-        android:src="@drawable/ic_macro_gota"
-        android:layout_marginLeft="96dp"
-        android:layout_marginStart="96dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/factorGoteo"
-        android:layout_toRightOf="@+id/factorGoteo" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageMicroGota"
-        android:src="@drawable/ic_micro_gota"
-        android:visibility="visible"
-        android:layout_above="@+id/TiLayoutTiempo"
-        android:layout_toRightOf="@+id/factorGoteo"
-        android:layout_toEndOf="@+id/factorGoteo"
-        android:layout_marginBottom="47dp"
-        android:layout_marginRight="5dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageMacroGota"
+            android:src="@drawable/ic_macro_gota"
+            android:visibility="visible"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/factorGoteo"
+            android:layout_toEndOf="@+id/factorGoteo" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageMicroGota"
+            android:src="@drawable/ic_micro_gota"
+            android:visibility="invisible"
+            android:layout_alignBottom="@+id/factorGoteo"
+            android:layout_toRightOf="@+id/factorGoteo"
+            android:layout_toEndOf="@+id/factorGoteo"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="30dp" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

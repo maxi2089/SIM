@@ -53,7 +53,7 @@ public class GestorAsignacionesFragment extends Fragment {
         btnGuardar = (Button)rootView.findViewById(R.id.btnGuardar);
 
         //Paciente Seleccionado
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtLibroReport);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
         txtPaciente.setText(pacienteActivo.getPaciente().getNombre()+" "+pacienteActivo.getPaciente().getApellido());
 
         ListaResponsables = new ArrayList<String>();

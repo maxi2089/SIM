@@ -35,11 +35,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnCrearLibReport"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/nuevo"
         android:visibility="visible"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@color/color_secondary"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="5dp" />
 
     </RelativeLayout>
 

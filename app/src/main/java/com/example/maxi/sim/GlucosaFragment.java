@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,7 +32,7 @@ public class GlucosaFragment extends Fragment {
         fragmentActivo fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("GLUCOSA");
 
-        txtPaciente = (TextView) rootView.findViewById(R.id.txtLibroReport);
+        txtPaciente = (TextView) rootView.findViewById(R.id.txtPaciente);
         TxtGlucosa = (EditText) rootView.findViewById(R.id.TxtGlucosa);
         pacienteActivo = PacienteActivo.getInstance();
         //pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");

@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.net.URL;
 import java.text.DecimalFormat;
 
 
@@ -56,7 +55,7 @@ public class FarmacoFragment extends Fragment {
        //ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
         btnReport = (ImageButton) rootView.findViewById(R.id.libroReport);
 
-        txtPaciente = (TextView)rootView.findViewById(R.id.txtLibroReport);
+        txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
 
         pacienteActivo = PacienteActivo.getInstance();
 
@@ -202,7 +201,7 @@ public class FarmacoFragment extends Fragment {
                 Bundle  datos = new Bundle();
 
                 //datos.putSerializable("PACIENTE", pacienteActivo);
-                datos.putString("ORIGEN", "FarmacoFragment");
+                datos.putString("ORIGEN", "FARMACO");
 
                 fragment.setArguments(datos);
 

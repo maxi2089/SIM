@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Usuario: 1111"
-            android:id="@+id/txtLibroReport"
+            android:id="@+id/txtPaciente"
             android:textStyle="bold"
             android:textColor="@color/color_texto"
             style="@style/Base.TextAppearance.AppCompat.Title"
@@ -27,10 +27,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnGuardar"
-            android:src="@android:drawable/ic_menu_save"
+            android:src="@drawable/guardar"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_secondary"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="5dp" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/detalleLayout"
@@ -251,7 +255,8 @@
         android:layout_marginTop="10dp"
         android:background="@color/color_backgroud"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:prompt="@string/seleccion_rol" />
 
     </RelativeLayout>
 
