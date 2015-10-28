@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TypedArray NavIcons;
     private NavigationAdapter NavAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
-    private String URL ="http://192.168.0.3:8080/simWebService/resources/MedicionResource";
+    private String URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main);
+        Url urlServer = Url.getInstance();
+        URL = urlServer.getUrl();
 
 
 

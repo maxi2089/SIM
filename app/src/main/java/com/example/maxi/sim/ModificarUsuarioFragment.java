@@ -1,6 +1,7 @@
 package com.example.maxi.sim;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,7 +27,8 @@ import java.io.IOException;
 public class ModificarUsuarioFragment  extends Fragment{
     private View rootView;
     private Sesion sesion;
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    //private static final String URL = "http:configurarUrl//192.168.0.3:8080/simWebService/resources/";
+    private Url URL;
     public static final String  algoritmoEncriptacion = "SHA-256";
 
     private String[] roles =  {"Seleccionar Rol","Enfermero","Medico"};;
@@ -44,7 +47,7 @@ public class ModificarUsuarioFragment  extends Fragment{
     private EditText EditTxtPasswordR;
     private ImageButton btnGuardar;
     private Spinner spinnerRol;
-
+    private TextView txtTituloUsuario;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_modificar_usuario, container, false);
@@ -53,6 +56,8 @@ public class ModificarUsuarioFragment  extends Fragment{
         fragActivo.setData("MODIFICAR_USUARIO");
 
         sesion = Sesion.getInstance();
+
+        URL = Url.getInstance();
 
         EditTxtNombre = (EditText) rootView.findViewById(R.id.EditTxtNombre);
         EditTxtDni = (EditText)  rootView.findViewById(R.id.EditTxtDni);
@@ -65,6 +70,9 @@ public class ModificarUsuarioFragment  extends Fragment{
         TiLayoutPassword = (TextInputLayout) rootView.findViewById(R.id.TiLayoutPassword);
         TiLayoutPasswordR = (TextInputLayout) rootView.findViewById(R.id.TiLayoutPasswordR);
         TiLayoutUsuario = (TextInputLayout) rootView.findViewById(R.id.TiLayoutUsuario);
+
+        txtTituloUsuario = (TextView)rootView.findViewById(R.id.txtPaciente);
+        txtTituloUsuario.setText("Usuario : "+String.format("%04d",sesion.getUser().getIdUsuario()));
 
         inicializarCampos();
 
@@ -169,10 +177,17 @@ public class ModificarUsuarioFragment  extends Fragment{
                             datos_ok = false;
                         }
                 }
+                if(!vEmail.equals("") && vEmail.compareTo(sesion.getUser().getEmail())!=0){
+
+                    String EmailJson = "\"" + "mail" + "\"" + ":" + "\"" + vEmail + "\"";
+                    datos.append(",");
+                    datos.append(EmailJson);
+                }
                 datos.append("}");
                 //String fechaNacJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
                 //String EmailJson = "\"" + "email" + "\"" + ":" + "\"" + vEmail + "\"";
                 System.out.println(datos);
+
                 if(datos_ok) {
                    /* try {
                         //updateUsuario(datos);
@@ -195,11 +210,13 @@ public class ModificarUsuarioFragment  extends Fragment{
             System.out.println("Red disponible");
 
             service.configurarMetodo("PUT");
-            service.configurarUrl(URL+"UsuarioResources?id="+sesion.getUser().getIdUsuario());
+            service.configurarUrl(URL.getUrl()+"UsuarioResource?id="+sesion.getUser().getIdUsuario());
 
             if (service.conectar(rootView.getContext(),datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
                 service.post(datos.toString());
+                DialogoExito dialogo = new DialogoExito();
+                dialogo.show(getFragmentManager(),"Informacion");
             }
         }
         else{
@@ -216,7 +233,7 @@ public class ModificarUsuarioFragment  extends Fragment{
                 System.out.println("Red disponible");
 
                 service.configurarMetodo("GET");
-                service.configurarUrl(URL + "UsuarioResources?nombre=" + usuario);
+                service.configurarUrl(URL.getUrl() + "UsuarioResources?nombre=" + usuario);
 
                 if (service.conectar(rootView.getContext(), 1)) {
                     String datos;
@@ -234,7 +251,8 @@ public class ModificarUsuarioFragment  extends Fragment{
         EditTxtNombre.setText(sesion.getUser().getNombre());
         EditTxtDni.setText(Integer.toString(sesion.getUser().getDni()));
         //EditTxtFechaNac.setText(sesion.getUser().getFechaNac());
-        //EditTxtEmail.setText(sesion.getUser().getEmail());
+        System.out.println("Correo " + sesion.getUser().getEmail());
+        EditTxtEmail.setText(sesion.getUser().getEmail());
         EditTxtUsuario.setText(sesion.getUser().getUsuario());
     }
 

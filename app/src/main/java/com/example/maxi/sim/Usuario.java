@@ -21,6 +21,7 @@ public class Usuario implements Serializable {
     private String usuario;
     private String password;
     private Set<Paciente> pacientes = new HashSet<>();
+    private  String mail;
 
     public Usuario() {
     }
@@ -30,13 +31,22 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    public Usuario(Integer idUsuario, Rol rol, int dni, String nombre, String usuario, String password) {
+    public Usuario(Integer idUsuario, Rol rol, int dni, String nombre, String usuario, String password, String email) {
         this.idUsuario = idUsuario;
         this.rol = rol;
         this.dni = dni;
         this.nombre = nombre;
         this.usuario = usuario;
         this.password = password;
+        this.mail = email;
+    }
+
+    public String getEmail() {
+        return mail;
+    }
+
+    public void setEmail(String email) {
+        this.mail = email;
     }
 
     public Integer getIdUsuario() {

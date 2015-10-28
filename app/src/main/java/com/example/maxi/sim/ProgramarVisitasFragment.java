@@ -24,8 +24,8 @@ import java.util.Calendar;
  */
 public class ProgramarVisitasFragment extends DialogFragment {
     private  View rootView;
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
-
+   // private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    private String URL;
     private DatePicker datePicker;
     private Calendar calendar;
     private TextView txtFecha;
@@ -36,6 +36,8 @@ public class ProgramarVisitasFragment extends DialogFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_programar_visita, container, false);
+        Url urlServer = Url.getInstance();
+        URL = urlServer.getUrl();
 
         btnCalendario = (ImageButton)rootView.findViewById(R.id.btnCalendario);
         txtFecha = (TextView)rootView.findViewById(R.id.txtFecha);

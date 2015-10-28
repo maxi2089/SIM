@@ -210,14 +210,14 @@
         android:layout_alignEnd="@+id/TiLayoutFechaNac"
         android:foregroundTint="@color/color_texto"
         android:prompt="@string/seleccion_rol"
-        />
+        android:popupTheme="@color/color_secondary" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registrarse"
         android:id="@+id/btnRegistrarse"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/TiLayoutPasswordR"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -37,7 +37,7 @@ public class CrearLibroReportFragment extends Fragment {
     private Button btnGuardar;
     private View rootView;
     private fragmentActivo fragActivo;
-
+    private String URL;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +47,8 @@ public class CrearLibroReportFragment extends Fragment {
         fragActivo = fragmentActivo.getInstance();
         fragActivo.setData("CREAR_LIBRO_REPORT");
 
+        Url urlServer = Url.getInstance();
+        URL = urlServer.getUrl();
 
 
         TiLayoutNombre = (TextInputLayout) rootView.findViewById(R.id.TiLayoutNombre);
@@ -165,7 +167,7 @@ public class CrearLibroReportFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl("http://192.168.0.3:8080/simWebService/resources/LibroReportResource");
+            service.configurarUrl(URL+"LibroReportResource");
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);

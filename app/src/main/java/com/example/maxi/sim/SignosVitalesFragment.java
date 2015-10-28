@@ -57,10 +57,12 @@ public class SignosVitalesFragment extends Fragment {
     private ImageButton btnAlertaTemperatura;
     private ImageButton btnAlertaTensionArterial;
 
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
-
+   // private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    private String URL;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_signos_vitales, container, false);
+        Url urlServer = Url.getInstance();
+        URL = urlServer.getUrl();
 
         fragmentActivo fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("SIGNOS");
@@ -261,7 +263,7 @@ public class SignosVitalesFragment extends Fragment {
 
                         datosJson.append(descJson);
                         datosJson.append(comillasJson);//"
-                        datosJson.append("Temperatura");
+                        datosJson.append("temperatura");
                         datosJson.append(comillasJson); //"
 
                         datosJson.append(",");
@@ -359,6 +361,7 @@ public class SignosVitalesFragment extends Fragment {
         vTensionArterial = editTensionArterial.getText().toString();
         vTemperatura = editTemperatura.getText().toString();
         vFrecRespiratoria = editFrecRespiratoria.getText().toString();
+        vSaturometria = editSaturometria.getText().toString();
 
         //TENSION ARTERIAL
         if ((editTensionArterial.isEnabled() && !vTensionArterial.equals(""))) {
@@ -376,6 +379,9 @@ public class SignosVitalesFragment extends Fragment {
                 btnAlertaTensionArterial.setVisibility(View.INVISIBLE);
             }
 
+        }else
+        {
+            btnAlertaTensionArterial.setVisibility(View.INVISIBLE);
         }
 
         //FRECUENCIA RESPIRATORIA
@@ -396,6 +402,8 @@ public class SignosVitalesFragment extends Fragment {
                 btnAlertaFrecRespiratoria.setVisibility(View.INVISIBLE);
 
             }
+        }else{
+            btnAlertaFrecRespiratoria.setVisibility(View.INVISIBLE);
         }
 
         //TEMPERATURA
@@ -412,6 +420,8 @@ public class SignosVitalesFragment extends Fragment {
                 btnAlertaTemperatura.setVisibility(View.INVISIBLE);
 
             }
+        }else{
+            btnAlertaTemperatura.setVisibility(View.INVISIBLE);
         }
 
         //SATUROMETRIA
@@ -420,12 +430,16 @@ public class SignosVitalesFragment extends Fragment {
 
             float valorSaturometria = Float.parseFloat(vSaturometria);
 
-            if (valorSaturometria > 98.0) {
+            if (valorSaturometria > 90.0) {
                 btnAlertaSaturometria.setVisibility(View.VISIBLE);
             } else {
                 btnAlertaSaturometria.setVisibility(View.INVISIBLE);
 
             }
+        }
+        else{
+            btnAlertaSaturometria.setVisibility(View.INVISIBLE);
+
         }
     }
 

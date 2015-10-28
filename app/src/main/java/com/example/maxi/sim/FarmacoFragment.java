@@ -43,14 +43,17 @@ public class FarmacoFragment extends Fragment {
     private TextView txtPaciente;
     private  View rootView;
     private PacienteActivo pacienteActivo;
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/LibroReportResource";
-
+    //private static final String URL = "http://192.168.0.3:8080/simWebService/resources/LibroReportResource";
+    private String URL;
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
          rootView = inflater.inflate(R.layout.fragment_farmaco, container, false);
 
         fragmentActivo fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("FARMACO");
+
+        Url urlServer = Url.getInstance();
+        URL = urlServer.getUrl();
 
        //ListaPaciente = (ArrayList<Paciente>)getArguments().getSerializable("LISTA");
         btnReport = (ImageButton) rootView.findViewById(R.id.libroReport);
@@ -227,7 +230,7 @@ public class FarmacoFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl(URL);
+            service.configurarUrl(URL+"LibroReportResource");
 
              if (service.conectar(farmacoContext,datos.getBytes().length)) {
                  System.out.println("Datos "+"\n"+datos);

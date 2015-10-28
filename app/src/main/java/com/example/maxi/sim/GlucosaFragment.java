@@ -3,11 +3,13 @@ package com.example.maxi.sim;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +20,12 @@ import java.util.Date;
 
 public class GlucosaFragment extends Fragment {
 
-    private Button   btnGuardar;
+    private ImageButton   btnGuardar;
     private TextView txtPaciente;
     private EditText TxtGlucosa;
     private PacienteActivo pacienteActivo;
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/MedicionResource";
-
+   // private static final String URL = "http://192.168.0.3:8080/simWebService/resources/MedicionResource";
+    private String URL;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,15 +33,16 @@ public class GlucosaFragment extends Fragment {
         final View rootView  = inflater.inflate(R.layout.fragment_glucosa, container, false);
         fragmentActivo fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("GLUCOSA");
+        Url urlServer = Url.getInstance();
+        URL = urlServer.getUrl();
 
         txtPaciente = (TextView) rootView.findViewById(R.id.txtPaciente);
         TxtGlucosa = (EditText) rootView.findViewById(R.id.TxtGlucosa);
         pacienteActivo = PacienteActivo.getInstance();
-        //pacienteActivo = (Paciente)getArguments().getSerializable("PACIENTE");
-        txtPaciente.setText(pacienteActivo.getPaciente().getNombre()+" "+pacienteActivo.getPaciente().getApellido());
+        txtPaciente.setText(pacienteActivo.getPaciente().getNombre() + " " + pacienteActivo.getPaciente().getApellido());
 
 
-        btnGuardar = (Button) rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
 
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +109,7 @@ public class GlucosaFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl(URL);
+            service.configurarUrl(URL+"MedicionResource");
 
             if (service.conectar(farmacoContext,datos.toString().getBytes().length)) {
                 System.out.println("Datos "+"\n"+datos);
@@ -121,6 +124,7 @@ public class GlucosaFragment extends Fragment {
             toast.show();
         }
     }
+
 
 
 

@@ -38,6 +38,18 @@
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/color_texto" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGuardar"
+            android:src="@drawable/guardar"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_secondary"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="5dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -51,7 +63,10 @@
         android:layout_alignEnd="@+id/cabeceraLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="5dp">
 
 
         <ListView
@@ -61,7 +76,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_above="@+id/btnGuardar"
             android:divider="@color/color_texto"
             android:dividerHeight="1dp"
             android:foregroundTint="@color/color_texto"
@@ -72,13 +86,6 @@
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/color_texto" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:id="@+id/btnGuardar"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
 

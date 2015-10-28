@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/color_secondary">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +29,20 @@
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="5dp" />
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGuardar"
+            android:src="@drawable/guardar"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_secondary"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="5dp" />
         </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/detalleLayout"
         android:layout_below="@+id/cabeceraLayout"
@@ -55,29 +69,15 @@
             android:layout_alignLeft="@+id/TxtUser"
             android:layout_alignStart="@+id/TxtUser"
             android:textColorHint="#ffffffff"
-            android:hint="@string/Glucosa"
             android:textStyle="italic"
             android:selectAllOnFocus="true"
             android:textColor="#ffffffff"
             android:backgroundTint="#ffffffff"
             android:editable="true"
             android:enabled="true"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:hint="@string/Glucosa" />
 
     </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Guardar"
-        android:id="@+id/btnGuardar"
-        android:layout_below="@+id/TiLayoutGlucosa"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
 </RelativeLayout>
 </RelativeLayout>

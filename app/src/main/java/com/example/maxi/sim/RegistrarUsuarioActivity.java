@@ -25,8 +25,8 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
     private Spinner spinnerRol;
     private Integer RolActivo ;
     private String[] roles =  {"Selecccionar Rol","Administrador","Medico","Enfermero"};
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
-
+    //private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    private String URL;
     private EditText EditTxtNombre;
     private EditText EditTxtDni;
     private EditText EditTxtFechaNac;
@@ -49,6 +49,10 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
 
+        Url urlServer = Url.getInstance();
+
+        URL = urlServer.getUrl();
+
         EditTxtNombre = (EditText) findViewById(R.id.EditTxtNombre);
         EditTxtDni = (EditText) findViewById(R.id.EditTxtDni);
         EditTxtFechaNac =  (EditText) findViewById(R.id.EditTxtFechaNac);
@@ -65,6 +69,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
         spinnerRol = (Spinner) findViewById(R.id.spinnerRol);
         spinnerRol.setAdapter(adaptador);
 
+        spinnerRol.setPopupBackgroundResource(R.color.color_secondary);
         spinnerRol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
@@ -119,7 +124,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
                           String fechaNacJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
                           String NombreJson = "\"" + "nombre" + "\"" + ":" + "\"" + vNombre + "\"";
                           String DniJson = "\"" + "dni" + "\"" + ":" + vDni;
-                          String EmailJson = "\"" + "email" + "\"" + ":" + "\"" + vEmail + "\"";
+                          String EmailJson = "\"" + "mail" + "\"" + ":" + "\"" + vEmail + "\"";
                           String UsuarioJson = "\"" + "usuario" + "\"" + ":" + "\"" + vUsuario + "\"";
                           String PasswordJson = "\"" + "password" + "\"" + ":" + "\"" + password.getPasswordEncriptada() + "\"";
                           String rolJson = "\"" + "rol" + "\"" + ":{"+ "\"" +"idRol"+"\"" +":" + RolActivo.toString() + "}";
@@ -136,6 +141,8 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
                           datos.append(UsuarioJson);
                           datos.append(",");
                           datos.append(PasswordJson);
+                          datos.append(",");
+                          datos.append(EmailJson);
                           datos.append("}");
                           try {
                               postUsuario(getBaseContext(), datos);
@@ -194,11 +201,14 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl(URL+"UsuarioResources");
+            service.configurarUrl(URL+"UsuarioResource");
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
                 service.post(datos.toString());
+
+                DialogoExito dialogo = new DialogoExito();
+                dialogo.show(getFragmentManager(), "Informacion");
             }
         }
         else{
@@ -214,7 +224,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl(URL + "UsuarioResources?nombre=" + usuario);
+            service.configurarUrl(URL + "UsuarioResource?nombre=" + usuario);
 
             if (service.conectar(this.getApplicationContext(), 1)) {
                 String datos;

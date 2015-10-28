@@ -32,11 +32,7 @@ import java.util.Iterator;
  * Created by yamila on 27/08/2015.
  */
 public class LibroReportFragment extends Fragment {
-    private Paciente pacienteReport;
     private String origen;
-    private Button volverOrigen;
-    //private ArrayList<Paciente> ListaPaciente;
-
     private TextView txtNombre;
     private TextView txtDNI;
     private TextView txtAltura;
@@ -51,16 +47,18 @@ public class LibroReportFragment extends Fragment {
     private PacienteActivo pacienteActivo;
     private  fragmentActivo fragActivo;
     private View rootView;
+    private TextView txtLibroReport;
 
-    private ListaPacientes ListaPaciente;
-
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
-
+   // private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    private String URL;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_report, container, false);
 
         //Instanciamos el objeto Lista de eventos
         ListaEvento = new ArrayList<Evento>();
+
+        Url urlServer = Url.getInstance();
+        URL = urlServer.getUrl();
 
         fragActivo =  fragmentActivo.getInstance();
         fragActivo.setData("REPORT");
@@ -80,9 +78,12 @@ public class LibroReportFragment extends Fragment {
         txtPeso = (TextView)rootView.findViewById(R.id.txtPeso);
         txtEdad = (TextView)rootView.findViewById(R.id.txtEdad);
         txtDiagnostico = (TextView)rootView.findViewById(R.id.txtDiagnostico);
+        txtLibroReport = (TextView)rootView.findViewById(R.id.txtLibroReportId);
 
+        txtLibroReport.setText("Libro Report: "+String.format("%04d",pacienteActivo.getPaciente().getIdPaciente()));
         //Completamos los elementos visuales
         txtNombre.setText(pacienteActivo.getPaciente().getNombre()+" "+pacienteActivo.getPaciente().getApellido());
+
         txtDNI.setText("DNI: "+pacienteActivo.getPaciente().getDni());
         txtAltura.setText("Altura: "+pacienteActivo.getPaciente().getAltura().toString()+"m");
         txtPeso.setText("Peso: " +"90"+" Kg.");

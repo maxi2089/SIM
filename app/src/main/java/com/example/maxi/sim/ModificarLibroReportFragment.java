@@ -42,8 +42,8 @@ public class ModificarLibroReportFragment extends Fragment {
     private PacienteActivo pacienteActivo;
     private ListaPacientes ListaPaciente;
 
-    private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
-
+    //private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    private String URL;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_modificar_report, container, false);
 
@@ -52,6 +52,9 @@ public class ModificarLibroReportFragment extends Fragment {
         fragActivo.setData("MODIFICAR_LIBRO_REPORT");
         pacienteActivo = PacienteActivo.getInstance();
 
+        Url urlServer = Url.getInstance();
+
+        URL = urlServer.getUrl();
 
 
         TiLayoutNombre = (TextInputLayout) rootView.findViewById(R.id.TiLayoutNombre);
@@ -156,6 +159,7 @@ public class ModificarLibroReportFragment extends Fragment {
         EditTxtEdad.setText(pacienteActivo.getPaciente().getEdad().toString());
         EditTxtAltura.setText(pacienteActivo.getPaciente().getAltura().toString());
         EditTxtPeso.setText(pacienteActivo.getPaciente().getPeso().toString());
+
     }
 
     private void updatePacienteReport(Context Context, StringBuilder datos) throws IOException {
@@ -171,6 +175,9 @@ public class ModificarLibroReportFragment extends Fragment {
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
                 service.post(datos.toString());
+
+                DialogoExito dialogo2 = new DialogoExito();
+                dialogo2.show(getFragmentManager(), "Informacion");
             }
         }
         else{
