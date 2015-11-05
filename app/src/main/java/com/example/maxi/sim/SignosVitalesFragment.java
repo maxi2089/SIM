@@ -1,9 +1,15 @@
 package com.example.maxi.sim;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +63,13 @@ public class SignosVitalesFragment extends Fragment {
     private ImageButton btnAlertaTemperatura;
     private ImageButton btnAlertaTensionArterial;
 
-   // private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    private Boolean tensionFueraRango=false;
+    private Boolean frecRespiFueraRango=false;
+    private Boolean temperaturaFueraRango=false;
+    private Boolean saturometriaFueraRango=false;
+
+
+    // private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
     private String URL;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_signos_vitales, container, false);
@@ -302,6 +314,7 @@ public class SignosVitalesFragment extends Fragment {
 
                     try {
                         System.out.println(datosJson.toString());
+
                         putSignosVitales(rootView.getContext(), datosJson);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -318,8 +331,8 @@ public class SignosVitalesFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                try {
-                    analizarMediciones();
+                try {analizarMediciones
+                    ();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -374,14 +387,17 @@ public class SignosVitalesFragment extends Fragment {
                     || valorTensionArterial > TensionArterial.getValorMaximo()) {
 
                 btnAlertaTensionArterial.setVisibility(View.VISIBLE);
+                tensionFueraRango = true;
 
             } else {
                 btnAlertaTensionArterial.setVisibility(View.INVISIBLE);
+                tensionFueraRango = false;
             }
 
         }else
         {
             btnAlertaTensionArterial.setVisibility(View.INVISIBLE);
+            tensionFueraRango = false;
         }
 
         //FRECUENCIA RESPIRATORIA
@@ -397,13 +413,16 @@ public class SignosVitalesFragment extends Fragment {
                     || valorFreRepiratoria > FrecuenciaRepiratoria.getValorMaximo()) {
 
                 btnAlertaFrecRespiratoria.setVisibility(View.VISIBLE);
+                frecRespiFueraRango = true;
+
             } else {
 
                 btnAlertaFrecRespiratoria.setVisibility(View.INVISIBLE);
-
+                frecRespiFueraRango = true;
             }
         }else{
             btnAlertaFrecRespiratoria.setVisibility(View.INVISIBLE);
+            frecRespiFueraRango = false;
         }
 
         //TEMPERATURA
@@ -416,12 +435,16 @@ public class SignosVitalesFragment extends Fragment {
             if (valorTemperatura < Temperatura.getValorMinimo()
                     || valorTemperatura > Temperatura.getValorMaximo()) {
                 btnAlertaTemperatura.setVisibility(View.VISIBLE);
+                temperaturaFueraRango = true;
+
             } else {
                 btnAlertaTemperatura.setVisibility(View.INVISIBLE);
+                temperaturaFueraRango = false;
 
             }
         }else{
             btnAlertaTemperatura.setVisibility(View.INVISIBLE);
+            temperaturaFueraRango = false;
         }
 
         //SATUROMETRIA
@@ -432,14 +455,32 @@ public class SignosVitalesFragment extends Fragment {
 
             if (valorSaturometria > 90.0) {
                 btnAlertaSaturometria.setVisibility(View.VISIBLE);
+                saturometriaFueraRango = true;
+
             } else {
                 btnAlertaSaturometria.setVisibility(View.INVISIBLE);
+                saturometriaFueraRango = false;
 
             }
         }
         else{
             btnAlertaSaturometria.setVisibility(View.INVISIBLE);
+            saturometriaFueraRango = false;
 
+        }
+
+        if(saturometriaFueraRango
+                ||temperaturaFueraRango
+                ||frecRespiFueraRango
+                ||tensionFueraRango) {
+
+            Bundle bundle =new Bundle();
+            bundle.putString("MSG","Desea enviar un alerta al los reponsables del paciente?");
+            bundle.putString("TITULO","Signos Vitales Fuera de Rango");
+
+            EnvioAlerta alerta = new EnvioAlerta();
+            alerta.setArguments(bundle);
+            alerta.show(getFragmentManager(), "Alerta Signos");
         }
     }
 
@@ -522,5 +563,36 @@ public class SignosVitalesFragment extends Fragment {
             Toast toast = Toast.makeText(farmacoContext,"Red No Disponible",Toast.LENGTH_LONG);
             toast.show();
         }
+    }
+
+    public class EnviarAlerta extends DialogFragment {
+        private  Context context;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(getActivity());
+            String mensaje  ="Desea Enviar un Alerta a los responsables asignados?";
+            context = rootView.getContext();
+
+            builder.setMessage(mensaje)
+                    .setTitle( "Signos Vitales Fuera de Rangos")
+                    .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i("Dialogos", "Confirmacion Aceptada.");
+                               dialog.cancel();
+                        }})
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i("Dialogos", "Confirmacion Cancelada.");
+                            dialog.cancel();
+                        }
+                    });
+
+            return builder.create();
+        }
+
+
     }
 }

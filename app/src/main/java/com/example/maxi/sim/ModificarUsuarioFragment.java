@@ -32,7 +32,7 @@ public class ModificarUsuarioFragment  extends Fragment{
     public static final String  algoritmoEncriptacion = "SHA-256";
 
     private String[] roles =  {"Seleccionar Rol","Enfermero","Medico"};;
-    private String RolActivo ;
+    private int RolActivo ;
 
     private EditText EditTxtNombre;
     private EditText EditTxtDni;
@@ -48,6 +48,14 @@ public class ModificarUsuarioFragment  extends Fragment{
     private ImageButton btnGuardar;
     private Spinner spinnerRol;
     private TextView txtTituloUsuario;
+
+    private String vNombre;
+    private String vDni;
+    private String vFechaNac;
+    private String vEmail;
+    private String vUsuario;
+    private String vPassword ;
+    private String vPasswordR;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_modificar_usuario, container, false);
@@ -86,7 +94,7 @@ public class ModificarUsuarioFragment  extends Fragment{
                 if (arg2 != 0) {
                     //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
                     System.out.println("Numero " + arg2);
-                    RolActivo = roles[arg2].toString();
+                    RolActivo = arg2;
 
                 }
             }
@@ -103,13 +111,13 @@ public class ModificarUsuarioFragment  extends Fragment{
             @Override
             public void onClick(View v) {
 
-                String vNombre = EditTxtNombre.getText().toString();
-                String vDni = EditTxtDni.getText().toString();
-                String vFechaNac = EditTxtFechaNac.getText().toString();
-                String vEmail = EditTxtEmail.getText().toString();
-                String vUsuario = EditTxtUsuario.getText().toString();
-                String vPassword = EditTxtPassword.getText().toString();
-                String vPasswordR = EditTxtPasswordR.getText().toString();
+                vNombre = EditTxtNombre.getText().toString();
+                vDni = EditTxtDni.getText().toString();
+                vFechaNac = EditTxtFechaNac.getText().toString();
+                vEmail = EditTxtEmail.getText().toString();
+                vUsuario = EditTxtUsuario.getText().toString();
+                vPassword = EditTxtPassword.getText().toString();
+                vPasswordR = EditTxtPasswordR.getText().toString();
 
                 Boolean datos_ok = true;
 
@@ -127,8 +135,9 @@ public class ModificarUsuarioFragment  extends Fragment{
 
                 System.out.println(RolActivo);
                 System.out.println(sesion.getUser().getRol().getNombreRol());
-                if(RolActivo != null && RolActivo.compareTo(sesion.getUser().getRol().getNombreRol())!=0){
-                    String rolJson = "\"" + "rol" + "\"" + ":" + "\"" + RolActivo + "\"";
+
+                if((RolActivo == 1 || RolActivo == 2 ) && RolActivo!=sesion.getUser().getRol().getIdRol()){
+                    String rolJson = "\"" + "rol" + "\"" + ":{idRol:"  + Integer.toString(RolActivo+1) + "}";
                     datos.append(",");
                     datos.append(rolJson);
                 }
@@ -189,11 +198,13 @@ public class ModificarUsuarioFragment  extends Fragment{
                 System.out.println(datos);
 
                 if(datos_ok) {
-                   /* try {
-                        //updateUsuario(datos);
+                   try {
+                        updateUsuario(datos);
+                        //actualizarSesion();
+                        //inicializarCampos();
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }*/
+                    }
                 }else{
                     Toast toast = Toast.makeText(rootView.getContext(),"Existen datos incorrectos. Por favor, corrija los datos y presione guardar nuevamente",Toast.LENGTH_LONG);
                     toast.show();
@@ -210,11 +221,11 @@ public class ModificarUsuarioFragment  extends Fragment{
             System.out.println("Red disponible");
 
             service.configurarMetodo("PUT");
-            service.configurarUrl(URL.getUrl()+"UsuarioResource?id="+sesion.getUser().getIdUsuario());
+           // service.configurarUrl(URL.getUrl()+"UsuarioResource?usuario="+sesion.getUser().getUsuario());
+            service.configurarUrl(URL.getUrl()+"UsuarioResource?id="+"1");
 
             if (service.conectar(rootView.getContext(),datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
-                service.post(datos.toString());
                 DialogoExito dialogo = new DialogoExito();
                 dialogo.show(getFragmentManager(),"Informacion");
             }
@@ -233,7 +244,7 @@ public class ModificarUsuarioFragment  extends Fragment{
                 System.out.println("Red disponible");
 
                 service.configurarMetodo("GET");
-                service.configurarUrl(URL.getUrl() + "UsuarioResources?nombre=" + usuario);
+                service.configurarUrl(URL.getUrl() + "UsuarioResources?usuario=" + usuario);
 
                 if (service.conectar(rootView.getContext(), 1)) {
                     String datos;
@@ -256,5 +267,29 @@ public class ModificarUsuarioFragment  extends Fragment{
         EditTxtUsuario.setText(sesion.getUser().getUsuario());
     }
 
+    private void actualizarSesion() {
+        SimWebService service = new SimWebService();
+        if (service.validarConexion(rootView.getContext())) {
+            System.out.println("Red disponible");
+
+            service.configurarMetodo("GET");
+            service.configurarUrl(URL + "UsuarioResource?usuario=" + vNombre);
+
+            if (service.conectar(rootView.getContext(), 0)) {
+                String datos;
+                datos = service.get();
+
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd")
+                        .create();
+                System.out.println("GET: " + datos);
+
+                sesion.setUser(gson.fromJson(datos, Usuario.class));
+
+            } else {
+                System.out.println("Red No disponible");
+            }
+        }
+    }
 
 }

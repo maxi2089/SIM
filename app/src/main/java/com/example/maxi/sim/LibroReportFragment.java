@@ -86,14 +86,14 @@ public class LibroReportFragment extends Fragment {
 
         txtDNI.setText("DNI: "+pacienteActivo.getPaciente().getDni());
         txtAltura.setText("Altura: "+pacienteActivo.getPaciente().getAltura().toString()+"m");
-        txtPeso.setText("Peso: " +"90"+" Kg.");
-        txtEdad.setText("Edad: "+"1.8");
+       // txtPeso.setText("Peso: " +"90"+" Kg.");
+       // txtEdad.setText("Edad: "+"1.8");
 
-       //txtPeso.setText("Peso: " + pacienteActivo.getPaciente().getAltura().toString()+" Kg.");
-        //txtEdad.setText("Edad: "+pacienteActivo.getPaciente().getEdad().toString());
+       txtPeso.setText("Peso: " + pacienteActivo.getPaciente().getAltura().toString()+" Kg.");
+        txtEdad.setText("Edad: "+pacienteActivo.getPaciente().getEdad().toString());
 
        //txtDiagnostico.setText("Diagnostico: "+pacienteActivo.getPaciente().getDiagnostico());
-        txtDiagnostico.setText("Diagnostico: "+pacienteActivo.getPaciente().getNombre());
+        txtDiagnostico.setText("Diagnostico: "+"Infato Agudo Miocardio"/*pacienteActivo.getPaciente().getNombre()*/);
 
         //Creamos el adpatator para la lista de eventos
         ArrayAdapter<Evento> adaptador = new reportAdapter(rootView.getContext());
@@ -227,16 +227,20 @@ public class LibroReportFragment extends Fragment {
 
           if (service.conectar(context,1)) {
               String datos;
-            //  datos = service.get();
-            //  System.out.println("Datos: " + datos);
-
-             // datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
-              datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
+              datos = service.get();
               System.out.println("Datos: " + datos);
 
+             // datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
+             // datos = "{"+"\""+"idLibroReport"+"\":"+"5"+","+"\""+"fechaAlta"+"\":"+"\""+"2015-10-11"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\":"+"{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"["+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+","+"{"+"\""+"fecha"+"\""+":"+"\""+"2015-10-11"+"\""+","+"\""+"descripcion"+"\""+":"+"\""+"oxigeno"+"\""+","+"\""+"oxigenoEnSangre"+"\""+":"+88.0+"}"+"]"+"}";
+              System.out.println("Datos: " + datos);
+
+             /* Gson gson = new GsonBuilder()
+                      .setDateFormat("yyyy/MM/dd")
+                      .create();*/
               Gson gson = new GsonBuilder()
-                      .setDateFormat("yyyy-MM-dd")
+                      .setDateFormat("dd/mm/yyyy")
                       .create();
+
 
               LibroReport libroreport = gson.fromJson(datos, LibroReport.class);
               System.out.println("Paciente: " + libroreport.getPaciente().getApellido());

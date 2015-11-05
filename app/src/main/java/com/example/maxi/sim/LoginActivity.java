@@ -30,69 +30,13 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout txtInputLayoutPass;
     private TextInputLayout txtInputLayoutUser;
     private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
+    //private static final String URL = "http://192.168.0.137:8090/SimWebService/resources/";
+
     private Url urlServer;
     //PRUEBA
     private ListaPacientes ListaPaciente;
     private Usuario usuario;
 
-    public boolean validaUsuario() throws JSONException {
-        boolean userOk = false;
-
-
-        SimWebService service = new SimWebService();
-        if (service.validarConexion(this.getApplicationContext())) {
-
-            System.out.println("Red disponible");
-            service.configurarMetodo("GET");
-
-            service.configurarUrl(URL + "UsuarioResource?usuario=" + usuarioLogin.getUsuario());
-
-
-            if (service.conectar(this.getApplicationContext(), 0)) {
-                String datos;
-                datos = service.get();
-                if (datos.isEmpty()) {
-                    txtInputLayoutPass.setErrorEnabled(true);
-                    txtInputLayoutPass.setError("Error: No se pudo recuperar datos del usuario");
-                    userOk = false;
-                } else {
-
-                    Gson gson = new Gson();
-
-                    Usuario usuarioBD = gson.fromJson(datos, Usuario.class);
-
-                    System.out.println("User " + usuarioBD.getUsuario());
-                    System.out.println("Rol " + usuarioBD.getRol());
-
-                    if (usuarioBD.getUsuario().compareTo(usuarioLogin.getUsuario()) == 0
-                            && usuarioBD.getPassword().compareTo(usuarioLogin.getPassword()) == 0) {
-                        txtInputLayoutPass.setErrorEnabled(false);
-                        System.out.println("Usuario OK");
-                        usuarioLogin.setPassword("");
-                        usuarioLogin.setDni(usuarioBD.getDni());
-                        usuarioLogin.setNombre(usuarioBD.getNombre());
-                        usuarioLogin.setRol(usuarioBD.getRol());
-                        usuarioLogin.setIdUsuario(usuarioBD.getIdUsuario());
-                        userOk = true;
-                    } else {
-                        txtInputLayoutPass.setErrorEnabled(true);
-                        txtInputLayoutPass.setError("Password Incorrecta");
-                        userOk = false;
-                    }
-                }
-                System.out.println("..................");
-            } else {
-
-                txtInputLayoutPass.setErrorEnabled(true);
-                txtInputLayoutPass.setError("Error: Red no disponible");
-            }
-        } else {
-            txtInputLayoutPass.setErrorEnabled(true);
-            txtInputLayoutPass.setError("Error: Red no disponible");
-            userOk = false;
-        }
-        return userOk;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,18 +129,71 @@ public class LoginActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public boolean validaUsuario() throws JSONException {
+        boolean userOk = false;
 
+
+        SimWebService service = new SimWebService();
+        if (service.validarConexion(this.getApplicationContext())) {
+
+            System.out.println("Red disponible");
+            service.configurarMetodo("GET");
+
+            service.configurarUrl(URL + "UsuarioResource?usuario=" + usuarioLogin.getUsuario());
+
+
+            if (service.conectar(this.getApplicationContext(), 0)) {
+                String datos;
+                datos = service.get();
+                if (datos.isEmpty()) {
+                    txtInputLayoutPass.setErrorEnabled(true);
+                    txtInputLayoutPass.setError("Error: No se pudo recuperar datos del usuario");
+                    userOk = false;
+                } else {
+
+                    Gson gson = new Gson();
+
+                    Usuario usuarioBD = gson.fromJson(datos, Usuario.class);
+
+                    System.out.println("User " + usuarioBD.getUsuario());
+                    System.out.println("Rol " + usuarioBD.getRol());
+
+                    if (usuarioBD.getUsuario().compareTo(usuarioLogin.getUsuario()) == 0
+                            && usuarioBD.getPassword().compareTo(usuarioLogin.getPassword()) == 0) {
+                        txtInputLayoutPass.setErrorEnabled(false);
+                        System.out.println("Usuario OK");
+                        usuarioLogin.setPassword("");
+                        usuarioLogin.setDni(usuarioBD.getDni());
+                        usuarioLogin.setNombre(usuarioBD.getNombre());
+                        usuarioLogin.setRol(usuarioBD.getRol());
+                        usuarioLogin.setIdUsuario(usuarioBD.getIdUsuario());
+                        userOk = true;
+                    } else {
+                        txtInputLayoutPass.setErrorEnabled(true);
+                        txtInputLayoutPass.setError("Password Incorrecta");
+                        userOk = false;
+                    }
+                }
+                System.out.println("..................");
+            } else {
+
+                txtInputLayoutPass.setErrorEnabled(true);
+                txtInputLayoutPass.setError("Error: Red no disponible");
+            }
+        } else {
+            txtInputLayoutPass.setErrorEnabled(true);
+            txtInputLayoutPass.setError("Error: Red no disponible");
+            userOk = false;
+        }
+        return userOk;
+    }
     private void getListaPacientes() {
-        ListaPaciente = ListaPacientes.getInstance();
-        ListaPaciente.getLista().clear();
-
-
         SimWebService service = new SimWebService();
         if (service.validarConexion(this.getApplicationContext())) {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl(URL + "UsuarioResource?id=" + 1);
+            service.configurarUrl(URL + "UsuarioResource?usuario=" +"mgonzalez");
 
             if (service.conectar(this.getApplicationContext(), 0)) {
                 String datos;

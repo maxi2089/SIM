@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl(URL+"UsuarioResource?id="+sesion.getUser().getIdUsuario());
+            service.configurarUrl(URL+"UsuarioResource?usuario="+sesion.getUser().getUsuario());
 
             if(service.conectar(rootView.getContext(),0)) {
                 String datos;

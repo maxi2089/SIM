@@ -38,11 +38,15 @@ public class ListaPacientesFragment  extends Fragment {
     private View rootView;
     //private static final String URL = "http://192.168.0.3:8080/simWebService/resources/UsuarioResource?id=";
     private String URL;
+    private Sesion sesion;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
           rootView = inflater.inflate(R.layout.fragment_lista_paciente, container, false);
 
         Url urlServer = Url.getInstance();
         URL = urlServer.getUrl();
+
+        sesion = Sesion.getInstance();
 
         //Seccion seleccionada
         fragActivo = fragmentActivo.getInstance();
@@ -169,7 +173,7 @@ public class ListaPacientesFragment  extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl(URL+"UsuarioResource?id="+"1");
+            service.configurarUrl(URL+"UsuarioResource?usuario="+sesion.getUser().getUsuario());
 
             if(service.conectar(rootView.getContext(),0)) {
                 String datos;

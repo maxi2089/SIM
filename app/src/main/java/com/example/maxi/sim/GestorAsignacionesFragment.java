@@ -138,11 +138,12 @@ public class GestorAsignacionesFragment extends Fragment {
                 }
 
                 if(!responsableBorrar.isEmpty()) {
-                        try {
-                            eliminarAsignacion();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                      //  try {
+                           // eliminarAsignacion();
+                            System.out.println("BORRANDO");
+                        //} catch (IOException e) {
+                          //  e.printStackTrace();
+                        //}
                  }else{
                     if(noHuboCambio==1){
                         Toast toast = Toast.makeText(rootView.getContext(),"No se registraron cambios de asignacion",Toast.LENGTH_LONG);

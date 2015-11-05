@@ -224,7 +224,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl(URL + "UsuarioResource?nombre=" + usuario);
+            service.configurarUrl(URL + "UsuarioResource?usuario=" + usuario);
 
             if (service.conectar(this.getApplicationContext(), 1)) {
                 String datos;
