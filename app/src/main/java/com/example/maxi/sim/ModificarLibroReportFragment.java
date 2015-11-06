@@ -74,7 +74,7 @@ public class ModificarLibroReportFragment extends Fragment {
 
         inicializarLibroReport();
 
-        btnGuardar = (Button) rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (Button) rootView.findViewById(R.id.btnCrearVisita);
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

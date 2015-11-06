@@ -1,15 +1,9 @@
 package com.example.maxi.sim;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.TextInputLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +107,7 @@ public class SignosVitalesFragment extends Fragment {
 
 
         //Guardar
-        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnCrearVisita);
 
         cbSaturometria.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,7 +309,7 @@ public class SignosVitalesFragment extends Fragment {
                     try {
                         System.out.println(datosJson.toString());
 
-                        putSignosVitales(rootView.getContext(), datosJson);
+                        postSignosVitales(rootView.getContext(), datosJson);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -345,7 +339,7 @@ public class SignosVitalesFragment extends Fragment {
 
     }
 
-    private void putSignosVitales(Context Context, StringBuilder datos) throws IOException {
+    private void postSignosVitales(Context Context, StringBuilder datos) throws IOException {
 
         SimWebService service = new SimWebService();
 
@@ -565,34 +559,7 @@ public class SignosVitalesFragment extends Fragment {
         }
     }
 
-    public class EnviarAlerta extends DialogFragment {
-        private  Context context;
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            AlertDialog.Builder builder =
-                    new AlertDialog.Builder(getActivity());
-            String mensaje  ="Desea Enviar un Alerta a los responsables asignados?";
-            context = rootView.getContext();
-
-            builder.setMessage(mensaje)
-                    .setTitle( "Signos Vitales Fuera de Rangos")
-                    .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Log.i("Dialogos", "Confirmacion Aceptada.");
-                               dialog.cancel();
-                        }})
-                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Log.i("Dialogos", "Confirmacion Cancelada.");
-                            dialog.cancel();
-                        }
-                    });
-
-            return builder.create();
-        }
 
 
-    }
+
 }

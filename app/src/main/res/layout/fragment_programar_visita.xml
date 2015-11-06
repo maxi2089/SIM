@@ -19,7 +19,7 @@
             android:textColor="@color/color_texto"
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:clickable="true"
-            android:layout_alignTop="@+id/btnGuardar"
+            android:layout_alignTop="@+id/btnCrearVisita"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp" />
@@ -27,7 +27,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnGuardar"
+            android:id="@+id/btnCrearVisita"
             android:src="@drawable/guardar"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"

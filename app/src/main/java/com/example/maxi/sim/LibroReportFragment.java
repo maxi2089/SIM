@@ -8,7 +8,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -86,10 +83,7 @@ public class LibroReportFragment extends Fragment {
 
         txtDNI.setText("DNI: "+pacienteActivo.getPaciente().getDni());
         txtAltura.setText("Altura: "+pacienteActivo.getPaciente().getAltura().toString()+"m");
-       // txtPeso.setText("Peso: " +"90"+" Kg.");
-       // txtEdad.setText("Edad: "+"1.8");
-
-       txtPeso.setText("Peso: " + pacienteActivo.getPaciente().getAltura().toString()+" Kg.");
+        txtPeso.setText("Peso: " + pacienteActivo.getPaciente().getAltura().toString()+" Kg.");
         txtEdad.setText("Edad: "+pacienteActivo.getPaciente().getEdad().toString());
 
        //txtDiagnostico.setText("Diagnostico: "+pacienteActivo.getPaciente().getDiagnostico());
@@ -116,9 +110,6 @@ public class LibroReportFragment extends Fragment {
                 }
             }
         }));
-
-
-
         SesionUsuario = Sesion.getInstance(1, null, null);
 
         if (fragActivo.getData().compareTo("REPORT") == 0

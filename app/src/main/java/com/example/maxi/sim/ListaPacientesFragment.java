@@ -3,16 +3,13 @@ package com.example.maxi.sim;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,7 +18,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -99,7 +95,7 @@ public class ListaPacientesFragment  extends Fragment {
                 } else if( fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) {
                     fragment = new GlucosaFragment();
                 }else /*if( fragActivo.getData().compareTo("LISTA_VISITAS") == 0)*/{
-                    fragment = new ProgramarVisitasFragment();
+                    fragment = new VisitasFragment();
                 }
 
 

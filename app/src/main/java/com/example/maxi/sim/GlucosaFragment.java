@@ -3,11 +3,9 @@ package com.example.maxi.sim;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -42,7 +40,7 @@ public class GlucosaFragment extends Fragment {
         txtPaciente.setText(pacienteActivo.getPaciente().getNombre() + " " + pacienteActivo.getPaciente().getApellido());
 
 
-        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnCrearVisita);
 
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,20 +51,20 @@ public class GlucosaFragment extends Fragment {
                     Dialogo dialogo = new Dialogo();
                     Bundle bundle = new Bundle();
                     bundle.putString("TITULO", "Nivel de Glucosa fuera de rango");
-                    bundle.putString("MENSAJE", "Se recomienda administrar XXmmg de insulina,Desea enviar un alerta?");
+                    bundle.putString("MENSAJE", "Se recomienda administrar XXmmg de insulina."+"\n"+"Desea enviar un alerta?");
 
                     dialogo.setArguments(bundle);
                     dialogo.show(getFragmentManager(), "Nivel");
 
                     StringBuilder datosJson = new StringBuilder();
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String currentDateandTime = sdf.format(new Date());
 
                     String IdlibroReport = "\"" + "idLibroReport" + "\"" + ":" + "5";
                     String glucosaJson = "\"" + "glucosa" + "\"" + ":"+vGlucosa;
-                    String fechaJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
-                    //String fechaJson = "\"" + "fecha" + "\"" + ":" + "\"" + currentDateandTime.toString() + "\"";
+                    //String fechaJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
+                    String fechaJson = "\"" + "fecha" + "\"" + ":" + "\"" + currentDateandTime.toString() + "\"";
                     String descJson = "\"" + "descripcion" + "\"" + ":" + "\"" + "nivel glucosa" + "\"";
 
                     datosJson.append("{");

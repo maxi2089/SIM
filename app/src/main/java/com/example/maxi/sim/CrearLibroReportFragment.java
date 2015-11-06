@@ -7,8 +7,8 @@ import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class CrearLibroReportFragment extends Fragment {
     private EditText EditTxtAltura;
     private EditText EditTxtPeso;
 
-    private Button btnGuardar;
+    private ImageButton btnGuardar;
     private View rootView;
     private fragmentActivo fragActivo;
     private String URL;
@@ -73,7 +73,7 @@ public class CrearLibroReportFragment extends Fragment {
         EditTxtPeso = (EditText) rootView.findViewById(R.id.EditTxtPeso);
 
 
-        btnGuardar = (Button) rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnCrearVisita);
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -17,7 +17,6 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 
 import java.util.Calendar;
-import java.util.Iterator;
 
 public class LoginActivity extends AppCompatActivity {
     private Usuario usuarioLogin;

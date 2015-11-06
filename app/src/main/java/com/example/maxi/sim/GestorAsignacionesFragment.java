@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,7 +59,7 @@ public class GestorAsignacionesFragment extends Fragment {
         ListaResponsableView = (ListView) rootView.findViewById(R.id.listaPacienteAsignacion);
 
         //Button para guardar las asignaciones
-        btnGuardar = (ImageButton)rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (ImageButton)rootView.findViewById(R.id.btnCrearVisita);
 
         //Paciente Seleccionado
         txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);

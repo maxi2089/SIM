@@ -1,7 +1,6 @@
 package com.example.maxi.sim;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -105,7 +103,7 @@ public class ModificarUsuarioFragment  extends Fragment{
             }
         });
 
-        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnCrearVisita);
 
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override

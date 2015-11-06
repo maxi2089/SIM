@@ -29,7 +29,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnGuardar"
+        android:id="@+id/btnCrearVisita"
         android:src="@drawable/guardar"
         android:background="@color/color_secondary"
         android:layout_centerVertical="true"

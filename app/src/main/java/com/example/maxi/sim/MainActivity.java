@@ -19,9 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.ArrayList;
 
 
@@ -209,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
             case 10: fragment = new FarmacoFragment();
                 position = 3;
                 break;
+            case 11: fragment = new VisitasFragment();
+                position = 7;
+                break;
             default:
                 //si no esta la opcion mostrara un toast y nos mandara a Home
                 Toast.makeText(getApplicationContext(), "Opcion " + titulos[position - 1] + "no disponible!", Toast.LENGTH_SHORT).show();
@@ -291,10 +291,17 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("FARMACO_REPORT");
             MostrarFragment(10,"FARMACO_REPORT");
 
+        }else if (fragActivo.getData() == "PACIENTE_VISITA") {
+            System.out.println("PACIENTE_VISITA");
+            MostrarFragment(7,"PACIENTE_VISITA");
+
+        }else if (fragActivo.getData() == "CREAR_VISITA") {
+            System.out.println("CREAR_VISITA");
+            MostrarFragment(11,"CREAR_VISITA");
         }else {
             MostrarFragment(1,"MAIN");
         }
-        System.out.println("Salir del ONpresed");
+        System.out.println("SALIR DEL ON PRESED");
 
 
     }

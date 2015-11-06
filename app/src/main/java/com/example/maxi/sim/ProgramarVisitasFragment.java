@@ -30,19 +30,25 @@ public class ProgramarVisitasFragment extends DialogFragment {
     private Calendar calendar;
     private TextView txtFecha;
     private TextView txtHora;
+    private TextView txtObservacion;
     private ImageButton btnCalendario;
     private int year, month, day;
     private ImageButton btnHora;
+    private fragmentActivo fragActivo;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_programar_visita, container, false);
         Url urlServer = Url.getInstance();
         URL = urlServer.getUrl();
 
+        fragActivo = fragmentActivo.getInstance();
+        fragActivo.setData("CREAR_VISITA");
+
         btnCalendario = (ImageButton)rootView.findViewById(R.id.btnCalendario);
+
         txtFecha = (TextView)rootView.findViewById(R.id.txtFecha);
         txtHora = (TextView)rootView.findViewById(R.id.txtHora);
-
+        txtObservacion = (TextView) rootView.findViewById(R.id.txtObservacion);
         btnCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -57,12 +63,11 @@ public class ProgramarVisitasFragment extends DialogFragment {
         btnHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
                 DialogFragment newFragment = new TimeFragment();
                 newFragment.show(getFragmentManager(), "TimePicker");
-
             }
         });
+
 
         return rootView;
     }
@@ -103,7 +108,36 @@ public class ProgramarVisitasFragment extends DialogFragment {
 
 
     }
-    private void postLibroReport(Context Context, StringBuilder datos) throws IOException {
+
+    private void crearVisita() throws IOException {
+        String fecha = txtFecha.getText().toString();
+        String hora = txtHora.getText().toString();
+        String observacion = txtObservacion.getText().toString();
+
+        if(!fecha.equals("")
+                && !hora.equals("")){
+            StringBuilder datosJson = new StringBuilder();
+            String fechaHoraJson   = "\""+"fechaVisita"+"\""+":"+"\""+fecha+" "+hora+"\"";
+
+
+            datosJson.append("{");
+            datosJson.append(fechaHoraJson);
+
+            if(!observacion.equals("")) {
+                datosJson.append(",");
+                String observacionJson = "\""+"observacion"+"\""+":"+"\"" + observacion + "\"";
+                datosJson.append(observacionJson);
+            }
+
+            datosJson.append("}");
+            postVisita(rootView.getContext(),datosJson);
+        }else{
+            Toast toast = Toast.makeText(rootView.getContext(),"Debe completar los campos de fecha y hora",Toast.LENGTH_LONG);
+            toast.show();
+        }
+
+    }
+    private void postVisita(Context Context, StringBuilder datos) throws IOException {
 
         SimWebService service = new SimWebService();
 
@@ -111,7 +145,7 @@ public class ProgramarVisitasFragment extends DialogFragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("POST");
-            service.configurarUrl(URL+"LibroReportResource");
+            service.configurarUrl(URL+"VisitaResource");
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
