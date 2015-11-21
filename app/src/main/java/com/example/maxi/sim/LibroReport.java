@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Created by yamila on 26/09/2015.
  */
-public class LibroReport implements java.io.Serializable {
+public class LibroReport   extends CommonDto implements java.io.Serializable {
     private Integer idLibroReport;
     private Date fechaAlta;
     private Date fechaBaja;

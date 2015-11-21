@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yamila on 16/10/2015.
  */
-public class Rol implements Serializable {
+public class Rol  extends CommonDto implements Serializable {
 
     private Integer idRol;
     private String nombreRol;

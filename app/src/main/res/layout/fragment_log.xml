@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
-
     <RelativeLayout
         android:id="@+id/cabeceraLayout"
         android:layout_width="wrap_content"
@@ -12,21 +11,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Paciente: 0001"
+            android:text="Registro Movimientos"
             android:id="@+id/txtPaciente"
             android:textStyle="bold"
             android:textColor="@color/color_texto"
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:clickable="true"
-            android:layout_centerVertical="true"
+            android:layout_alignBottom="@+id/btnGuardar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnCrearVisita"
-            android:src="@drawable/nuevo"
+            android:id="@+id/btnGuardar"
+            android:src="@drawable/guardar"
             android:background="@color/color_secondary"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
@@ -35,21 +34,19 @@
             android:layout_marginRight="1dp"
             android:layout_marginBottom="5dp" />
     </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/detalleLayout"
-        android:layout_below="@+id/cabeceraLayout"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/color_backgroud">
+        android:background="@color/color_backgroud"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/cabeceraLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listVisitas"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+
+
     </RelativeLayout>
 </RelativeLayout>

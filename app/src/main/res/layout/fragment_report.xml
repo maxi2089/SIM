@@ -144,7 +144,8 @@
             android:layout_alignParentEnd="true"
             android:contentDescription="Gestion de Asignaciones"
             android:background="@color/color_secondary"
-            android:layout_above="@+id/lineaDiv2" />
+            android:layout_above="@+id/lineaDiv2"
+            android:visibility="invisible" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -154,7 +155,8 @@
             android:background="@color/color_secondary"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/btnAsignarReponsable"
-            android:layout_toStartOf="@+id/btnAsignarReponsable" />
+            android:layout_toStartOf="@+id/btnAsignarReponsable"
+            android:visibility="invisible" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -165,7 +167,8 @@
             android:layout_toStartOf="@+id/btnEliminar"
             android:layout_alignBottom="@+id/btnEliminar"
             android:layout_alignParentTop="true"
-            android:background="@color/color_secondary" />
+            android:background="@color/color_secondary"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -176,15 +179,13 @@
         android:layout_height="wrap_content"
         android:background="#010101"
         android:layout_marginTop="5dp"
-        >
+         >
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listEventos"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listEventos"
+                 />
     </RelativeLayout>
 
 

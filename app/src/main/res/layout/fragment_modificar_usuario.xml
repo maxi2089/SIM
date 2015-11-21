@@ -26,7 +26,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnCrearVisita"
+            android:id="@+id/btnGuardar"
             android:src="@drawable/guardar"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
@@ -49,9 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinnerRol"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_alignLeft="@+id/spinnerRol"
+        android:layout_alignStart="@+id/spinnerRol">
 
         <EditText android:id="@+id/EditTxtNombre"
             android:layout_width="match_parent"
@@ -75,13 +74,11 @@
         android:id="@+id/TiLayoutDni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginRight="180dp"
         android:layout_below="@+id/TiLayoutNombre"
-        android:layout_alignRight="@+id/TiLayoutNombre"
-        android:layout_alignEnd="@+id/TiLayoutNombre"
-        android:layout_marginLeft="5dp">
+        android:layout_alignLeft="@+id/TiLayoutNombre"
+        android:layout_alignStart="@+id/TiLayoutNombre"
+        android:layout_toStartOf="@+id/txtFecha"
+        android:layout_alignEnd="@id/TiLayoutNombre">
 
         <EditText android:id="@+id/EditTxtDni"
             android:layout_width="match_parent"
@@ -101,47 +98,16 @@
             android:textColorLink="@color/color_texto" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutFechaNac"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/TiLayoutDni"
-        android:layout_alignLeft="@+id/TiLayoutDni"
-        android:layout_alignStart="@+id/TiLayoutDni"
-        android:layout_marginStart="180dp"
-        android:layout_alignRight="@+id/TiLayoutNombre"
-        android:layout_alignEnd="@+id/TiLayoutNombre"
-        android:layout_marginRight="5dp">
-
-        <EditText android:id="@+id/EditTxtFechaNac"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date|text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/FechaNac"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="#ffffffff"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
         android:id="@+id/TiLayoutEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/TiLayoutFechaNac"
-        android:layout_alignEnd="@+id/TiLayoutFechaNac"
-        android:layout_below="@+id/TiLayoutFechaNac"
+            android:layout_below="@+id/btnCalendario"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp">
+        android:layout_marginLeft="5dp"
+            android:layout_marginTop="1dp">
 
         <EditText android:id="@+id/EditTxtEmail"
             android:layout_width="match_parent"
@@ -165,11 +131,8 @@
         android:id="@+id/TiLayoutUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TiLayoutEmail"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp">
+        android:layout_alignEnd="@+id/TiLayoutNombre"
+        android:layout_below="@+id/TiLayoutEmail">
 
         <EditText android:id="@+id/EditTxtUsuario"
             android:layout_width="match_parent"
@@ -194,9 +157,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/TiLayoutUsuario"
-        android:layout_alignLeft="@+id/TiLayoutUsuario"
-        android:layout_alignStart="@+id/TiLayoutUsuario"
-        android:layout_alignEnd="@+id/TiLayoutNombre">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <EditText android:id="@+id/EditTxtPassword"
             android:layout_width="match_parent"
@@ -257,6 +219,42 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:prompt="@string/seleccion_rol" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCalendario"
+            android:src="@drawable/calendario"
+            android:background="@color/color_backgroud"
+            android:layout_below="@+id/txtFechaNac"
+            android:layout_alignLeft="@+id/TiLayoutDni"
+            android:layout_alignStart="@+id/TiLayoutDni"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="DD - MM - YYYY"
+            android:id="@+id/txtFecha"
+            android:layout_alignBottom="@+id/btnCalendario"
+            android:layout_alignLeft="@+id/TiLayoutNombre"
+            android:layout_alignStart="@+id/TiLayoutNombre"
+            android:layout_marginLeft="48dp"
+            android:layout_marginStart="48dp"
+            android:textColor="@color/color_texto" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Fecha de Nacimiento"
+            android:id="@+id/txtFechaNac"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/TiLayoutDni"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/color_texto" />
 
     </RelativeLayout>
 

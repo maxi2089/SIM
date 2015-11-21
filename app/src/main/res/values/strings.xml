@@ -39,7 +39,20 @@
     <string name="Anotacion">Anotacion</string>
 
 
-    <string-array name="nav_options">
+    <string-array name="nav_admin_options">
+        <item>Home</item>
+        <item>Libro Report</item>
+        <item>Cerrar Sesion</item>
+    </string-array>
+    <string-array name="nav_medico_options">
+        <item>Home</item>
+        <item>Electrocardiograma</item>
+        <item>Farmaco</item>
+        <item>Libro Report</item>
+        <item>Gestion Visitas</item>
+        <item>Cerrar Sesion</item>
+    </string-array>
+    <string-array name="nav_enfermero_options">
         <item>Home</item>
         <item>Electrocardiograma</item>
         <item>Farmaco</item>
@@ -50,7 +63,7 @@
         <item>Cerrar Sesion</item>
     </string-array>
 
-    <array name="navigation_iconos">
+    <array name="navigation_iconos_enfermero">
         <item>@mipmap/ic_home</item>
         <item>@mipmap/ic_corazon</item>
         <item>@mipmap/ic_goteo</item>
@@ -60,6 +73,21 @@
         <item>@mipmap/ic_calendario</item>
         <item>@mipmap/ic_exit</item>
     </array>
+
+    <array name="navigation_iconos_medico">
+        <item>@mipmap/ic_home</item>
+        <item>@mipmap/ic_corazon</item>
+        <item>@mipmap/ic_goteo</item>
+        <item>@mipmap/ic_libro_report</item>
+        <item>@mipmap/ic_calendario</item>
+        <item>@mipmap/ic_exit</item>
+    </array>
+
+    <array name="navigation_iconos_admin">
+        <item>@mipmap/ic_home</item>
+        <item>@mipmap/ic_libro_report</item>
+        <item>@mipmap/ic_exit</item>
+    </array>
     <string name="title_activity_monitoreo">MonitoreoActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -67,10 +95,10 @@
     <string name="title_activity_registrar_usuario">Registrar Usuario</string>
     <string name="title_activity_add_new_photo">AddNewPhoto</string>
 
-
-
-    <string name="date_label_set">Press the button to set the date</string>
-    <string name="date_button_set">Set Date</string>
-    <string name="date_view_set">The Date is: </string>
-    <string name="date_selected"></string>
+    <string name="gcm_send_message">Token retrieved and sent to server! You can now use gcmsender to
+        send downstream messages to this app.</string>
+    <string name="registering_message">Generating InstanceID token...</string>
+    <string name="token_error_message">An error occurred while either fetching the InstanceID token,
+        sending the fetched token to the server or subscribing to the PubSub topic. Please try
+        running the sample again.</string>
 </resources>

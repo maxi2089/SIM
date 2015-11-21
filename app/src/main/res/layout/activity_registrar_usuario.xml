@@ -6,218 +6,282 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.maxi.sim.RegistrarUsuarioActivity"
     android:background="@color/color_backgroud">
-
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutNombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerRol"
-        android:layout_centerHorizontal="true">
-
-        <EditText android:id="@+id/EditTxtNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/Nombre"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="@color/color_texto"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutDni"
+    <RelativeLayout
+        android:id="@+id/cabeceraLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginRight="180dp"
-        android:layout_below="@+id/TiLayoutNombre"
-        android:layout_alignRight="@+id/TiLayoutNombre"
-        android:layout_alignEnd="@+id/TiLayoutNombre">
+        android:background="@color/color_secondary">
 
-        <EditText android:id="@+id/EditTxtDni"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number|text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Registrar Usuario"
+            android:id="@+id/txtPaciente"
+            android:textStyle="bold"
+            android:textColor="@color/color_texto"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:clickable="true"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/Dni"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="#ffffffff"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginLeft="5dp" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutFechaNac"
-        android:layout_width="match_parent"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGuardar"
+            android:src="@drawable/guardar"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_secondary"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="5dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/detalleLayout"
+        android:layout_below="@+id/cabeceraLayout"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/TiLayoutDni"
-        android:layout_alignLeft="@+id/TiLayoutDni"
-        android:layout_alignStart="@+id/TiLayoutDni"
-        android:layout_marginStart="180dp"
-        android:layout_alignRight="@+id/TiLayoutNombre"
-        android:layout_alignEnd="@+id/TiLayoutNombre">
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_backgroud">
 
-        <EditText android:id="@+id/EditTxtFechaNac"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TiLayoutNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date|text"
+            android:layout_below="@+id/spinnerRol"
+            android:layout_alignLeft="@+id/spinnerRol"
+            android:layout_alignStart="@+id/spinnerRol"
+            android:layout_marginTop="5dp">
+
+            <EditText android:id="@+id/EditTxtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/Nombre"
+                android:textColorHint="@color/color_texto"
+                android:textStyle="italic"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/color_texto"
+                android:backgroundTint="@color/color_texto"
+                android:editable="true"
+                android:enabled="true"
+                android:textColorLink="@color/color_texto" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TiLayoutDni"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TiLayoutNombre"
+            android:layout_alignLeft="@+id/TiLayoutNombre"
+            android:layout_alignStart="@+id/TiLayoutNombre"
+            android:layout_toStartOf="@+id/txtFecha"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <EditText android:id="@+id/EditTxtDni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number|text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/Dni"
+                android:textColorHint="@color/color_texto"
+                android:textStyle="italic"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/color_texto"
+                android:backgroundTint="#ffffffff"
+                android:editable="true"
+                android:enabled="true"
+                android:textColorLink="@color/color_texto" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Fecha de Nacimiento"
+            android:id="@+id/txtFechaNac"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/FechaNac"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="#ffffffff"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_below="@+id/TiLayoutDni"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/color_texto" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/TiLayoutFechaNac"
-        android:layout_alignEnd="@+id/TiLayoutFechaNac"
-        android:layout_below="@+id/TiLayoutFechaNac"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <EditText android:id="@+id/EditTxtEmail"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TiLayoutEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textWebEmailAddress|text"
+            android:layout_below="@+id/btnCalendario"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/Email"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="#ffffffff"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TiLayoutEmail"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+            <EditText android:id="@+id/EditTxtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebEmailAddress|text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/Email"
+                android:textColorHint="@color/color_texto"
+                android:textStyle="italic"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/color_texto"
+                android:backgroundTint="#ffffffff"
+                android:editable="true"
+                android:enabled="true"
+                android:textColorLink="@color/color_texto" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText android:id="@+id/EditTxtUsuario"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TiLayoutUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/usuario"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="@color/color_texto"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_alignEnd="@+id/TiLayoutNombre"
+            android:layout_below="@+id/TiLayoutEmail">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TiLayoutUsuario"
-        android:layout_alignLeft="@+id/TiLayoutUsuario"
-        android:layout_alignStart="@+id/TiLayoutUsuario"
-        android:layout_alignEnd="@+id/TiLayoutNombre">
+            <EditText android:id="@+id/EditTxtUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/usuario"
+                android:textColorHint="@color/color_texto"
+                android:textStyle="italic"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/color_texto"
+                android:backgroundTint="@color/color_texto"
+                android:editable="true"
+                android:enabled="true"
+                android:textColorLink="@color/color_texto" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText android:id="@+id/EditTxtPassword"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TiLayoutPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_below="@+id/TiLayoutUsuario"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText android:id="@+id/EditTxtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/password"
+                android:textColorHint="@color/color_texto"
+                android:textStyle="italic"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/color_texto"
+                android:backgroundTint="@color/color_texto"
+                android:editable="true"
+                android:enabled="true"
+                android:textColorLink="@color/color_texto"
+                android:password="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TiLayoutPasswordR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TiLayoutPassword"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/password"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="@color/color_texto"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto"
-            android:password="true" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TiLayoutPasswordR"
-        android:layout_width="match_parent"
+            <EditText android:id="@+id/EditTxtPasswordR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:hint="@string/password"
+                android:textColorHint="@color/color_texto"
+                android:textStyle="italic"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/color_texto"
+                android:backgroundTint="@color/color_texto"
+                android:editable="true"
+                android:enabled="true"
+                android:textColorLink="@color/color_texto"
+                android:password="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerRol"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_backgroud"
+            android:layout_marginLeft="5dp"
+            android:prompt="@string/seleccion_rol" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCalendario"
+            android:src="@drawable/calendario"
+            android:background="@color/color_backgroud"
+            android:layout_below="@+id/txtFechaNac"
+            android:layout_alignLeft="@+id/txtFechaNac"
+            android:layout_alignStart="@+id/TiLayoutDni"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="DD - MM - YYYY"
+            android:id="@+id/txtFecha"
+            android:layout_alignBottom="@+id/btnCalendario"
+            android:layout_alignLeft="@+id/TiLayoutNombre"
+            android:layout_alignStart="@+id/TiLayoutNombre"
+            android:layout_marginLeft="48dp"
+            android:layout_marginStart="48dp"
+            android:textColor="@color/color_texto" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/progressLayout"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TiLayoutPassword"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_backgroud"
+        android:visibility="invisible"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
-
-        <EditText android:id="@+id/EditTxtPasswordR"
-            android:layout_width="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/cabeceraLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ProgressBar
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:hint="@string/password"
-            android:textColorHint="@color/color_texto"
-            android:textStyle="italic"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/color_texto"
-            android:backgroundTint="@color/color_texto"
-            android:editable="true"
-            android:enabled="true"
-            android:textColorLink="@color/color_texto"
-            android:password="true" />
-    </android.support.design.widget.TextInputLayout>
+            android:id="@+id/barraProg"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerRol"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/TiLayoutFechaNac"
-        android:layout_alignEnd="@+id/TiLayoutFechaNac"
-        android:foregroundTint="@color/color_texto"
-        android:prompt="@string/seleccion_rol"
-        android:popupTheme="@color/color_secondary" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registrarse"
-        android:id="@+id/btnRegistrarse"
-        android:layout_below="@+id/TiLayoutPasswordR"
-        android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 </RelativeLayout>

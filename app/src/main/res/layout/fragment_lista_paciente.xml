@@ -62,9 +62,7 @@
         android:headerDividersEnabled="false"
         android:divider="@drawable/abc_list_divider_mtrl_alpha"
         android:drawSelectorOnTop="true"
-
-
-        />
+       />
 
 </RelativeLayout>
 

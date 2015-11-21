@@ -107,7 +107,7 @@ public class SignosVitalesFragment extends Fragment {
 
 
         //Guardar
-        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnCrearVisita);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
 
         cbSaturometria.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +187,7 @@ public class SignosVitalesFragment extends Fragment {
                     //String datosJson = new String();
                     String comillasJson = "\"";
                     String descJson = comillasJson + "descripcion" + comillasJson + ":";
-                    String fechaJson = comillasJson + "fecha" + comillasJson + ":" + comillasJson + "Oct 10, 2015 9:24:43 PM"/*currentDateandTime.toString()*/ + comillasJson;
+                    String fechaJson = comillasJson + "fecha" + comillasJson + ":" + comillasJson + "20/05/2015 12:15"/*currentDateandTime.toString()*/ + comillasJson;
 
                     //datos ="{"+"\""+"idPaciente"+"\":"+"5"+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+"}";
                     StringBuilder datosJson = new StringBuilder();
@@ -197,15 +197,17 @@ public class SignosVitalesFragment extends Fragment {
                     datosJson.append("idLibroReport");
                     datosJson.append(comillasJson);//"
                     datosJson.append(":");
-                    datosJson.append("5");
-                    datosJson.append(",");
+                    datosJson.append(pacienteActivo.getPaciente().getIdPaciente().toString());
+                    datosJson.append(","+"\""+"mediciones"+"\""+":[");
+
 
                     //Auxiliares
                     boolean primero = false;
 
                     if (editSaturometria.isEnabled() && !vSaturometria.equals("")) {
 
-                       // datosJson.append("{");
+                        datosJson.append("{");
+
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -222,7 +224,7 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
                         datosJson.append(vSaturometria);
-                        //datosJson.append("}");
+                        datosJson.append("}");
 
                         primero = true;
 
@@ -235,7 +237,7 @@ public class SignosVitalesFragment extends Fragment {
                         } else {
                             primero = true;
                         }
-                       // datosJson.append("{");
+                        datosJson.append("{");
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -248,10 +250,11 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(",");
 
                         datosJson.append(comillasJson); //"
-                        datosJson.append("TensionArterial");
+                        datosJson.append("tensionArterial");
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
-                        datosJson.append(vSaturometria);
+                        datosJson.append(vTensionArterial);
+                        datosJson.append("}");
 
 
                     }
@@ -262,7 +265,7 @@ public class SignosVitalesFragment extends Fragment {
                         } else {
                             primero = true;
                         }
-                        //datosJson.append("{");
+                        datosJson.append("{");
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -279,6 +282,7 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
                         datosJson.append(vTemperatura);
+                        datosJson.append("}");
 
                     }
                     if (editFrecRespiratoria.isEnabled() && !vFrecRespiratoria.equals("")) {
@@ -286,7 +290,7 @@ public class SignosVitalesFragment extends Fragment {
                         if (primero) {
                             datosJson.append(",");
                         }
-                        //datosJson.append("{");
+                        datosJson.append("{");
                         datosJson.append(fechaJson);
 
                         datosJson.append(",");
@@ -299,12 +303,13 @@ public class SignosVitalesFragment extends Fragment {
                         datosJson.append(",");
 
                         datosJson.append(comillasJson); //"
-                        datosJson.append("FrecuenciaRespiratoria");
+                        datosJson.append("frecuenciaRespiratoria");
                         datosJson.append(comillasJson);// "
                         datosJson.append(":");
                         datosJson.append(vFrecRespiratoria);
+                        datosJson.append("}");
                     }
-                    datosJson.append("}");
+                    datosJson.append("]}");
 
                     try {
                         System.out.println(datosJson.toString());
@@ -351,7 +356,7 @@ public class SignosVitalesFragment extends Fragment {
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos "+"\n"+datos);
-                service.post(datos.toString());
+                service.write(datos.toString());
                 System.out.println("-------------");
 
             }
@@ -447,7 +452,7 @@ public class SignosVitalesFragment extends Fragment {
 
             float valorSaturometria = Float.parseFloat(vSaturometria);
 
-            if (valorSaturometria > 90.0) {
+            if (valorSaturometria < 90.0) {
                 btnAlertaSaturometria.setVisibility(View.VISIBLE);
                 saturometriaFueraRango = true;
 
@@ -512,7 +517,7 @@ public class SignosVitalesFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl(URL+"ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+            service.configurarUrl(URL+"ValoresTemperaturaResource?edad="+edad);
 
             if (service.conectar(farmacoContext,1)){
                 String datos;
@@ -538,7 +543,7 @@ public class SignosVitalesFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("GET");
-            service.configurarUrl(URL+"ValoresFrecuenciaRespiratoriaResource?edad="+edad);
+            service.configurarUrl(URL+"ValoresTensionArterialResource?edad="+edad);
 
             if (service.conectar(farmacoContext,1)){
                 String datos;

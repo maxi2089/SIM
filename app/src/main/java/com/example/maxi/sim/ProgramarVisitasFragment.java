@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -30,11 +31,12 @@ public class ProgramarVisitasFragment extends DialogFragment {
     private Calendar calendar;
     private TextView txtFecha;
     private TextView txtHora;
-    private TextView txtObservacion;
+    private EditText editObservacion;
     private ImageButton btnCalendario;
     private int year, month, day;
     private ImageButton btnHora;
     private fragmentActivo fragActivo;
+    private ImageButton btnGuardar;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         rootView = inflater.inflate(R.layout.fragment_programar_visita, container, false);
@@ -45,10 +47,13 @@ public class ProgramarVisitasFragment extends DialogFragment {
         fragActivo.setData("CREAR_VISITA");
 
         btnCalendario = (ImageButton)rootView.findViewById(R.id.btnCalendario);
+        btnGuardar  = (ImageButton) rootView.findViewById(R.id.btnGuardar);
 
         txtFecha = (TextView)rootView.findViewById(R.id.txtFecha);
         txtHora = (TextView)rootView.findViewById(R.id.txtHora);
-        txtObservacion = (TextView) rootView.findViewById(R.id.txtObservacion);
+
+        editObservacion = (EditText) rootView.findViewById(R.id.TxtAnotacion);
+
         btnCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -68,12 +73,20 @@ public class ProgramarVisitasFragment extends DialogFragment {
             }
         });
 
-
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                try {
+                    crearVisita();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            });
         return rootView;
     }
 
     public class DateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
@@ -88,7 +101,6 @@ public class ProgramarVisitasFragment extends DialogFragment {
         public void populateSetDate(int year, int month, int day) {
             txtFecha.setText(day+"/"+month+"/"+year);
         }
-
     }
 
     public class TimeFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -112,10 +124,10 @@ public class ProgramarVisitasFragment extends DialogFragment {
     private void crearVisita() throws IOException {
         String fecha = txtFecha.getText().toString();
         String hora = txtHora.getText().toString();
-        String observacion = txtObservacion.getText().toString();
+        String observacion = editObservacion.getText().toString();
 
-        if(!fecha.equals("")
-                && !hora.equals("")){
+        if(fecha.compareTo("DD - MM - YYYY") !=0
+                && hora.compareTo("HH:MM")!=0){
             StringBuilder datosJson = new StringBuilder();
             String fechaHoraJson   = "\""+"fechaVisita"+"\""+":"+"\""+fecha+" "+hora+"\"";
 
@@ -130,10 +142,12 @@ public class ProgramarVisitasFragment extends DialogFragment {
             }
 
             datosJson.append("}");
-            postVisita(rootView.getContext(),datosJson);
+            System.out.println(datosJson.toString());
+            //postVisita(rootView.getContext(),datosJson);
         }else{
             Toast toast = Toast.makeText(rootView.getContext(),"Debe completar los campos de fecha y hora",Toast.LENGTH_LONG);
             toast.show();
+            System.out.println("toast");
         }
 
     }
@@ -149,7 +163,7 @@ public class ProgramarVisitasFragment extends DialogFragment {
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
-                service.post(datos.toString());
+                service.write(datos.toString());
             }
         }
         else{

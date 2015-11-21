@@ -45,7 +45,7 @@ public class LibroReportFragment extends Fragment {
     private  fragmentActivo fragActivo;
     private View rootView;
     private TextView txtLibroReport;
-
+    private Sesion sesion;
    // private static final String URL = "http://192.168.0.3:8080/simWebService/resources/";
     private String URL;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -61,7 +61,7 @@ public class LibroReportFragment extends Fragment {
         fragActivo.setData("REPORT");
         pacienteActivo = PacienteActivo.getInstance();
 
-
+        sesion = Sesion.getInstance();
 
         getEventos(rootView.getContext());
 
@@ -95,26 +95,13 @@ public class LibroReportFragment extends Fragment {
         ListView listaEventos = (ListView) rootView.findViewById(R.id.listEventos);
         //Asignamos el adaptador a al lista de eventos
         listaEventos.setAdapter(adaptador);
-        listaEventos.setOnItemClickListener((new AdapterView.OnItemClickListener() {
+        /*listaEventos.setOnItemClickListener((new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                Fragment fragment;
-
-                fragment = new ModificarLibroReportFragment();
-
-                if (fragment != null) {
-
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-                } else {
-                    Log.e("Error  ", "Modificar Libro Report");
-                }
+                System.out.println("POSITION " + position);
             }
-        }));
-        SesionUsuario = Sesion.getInstance(1, null, null);
+        }));*/
 
-        if (fragActivo.getData().compareTo("REPORT") == 0
-                /* && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0*/) {
-
+        if(sesion.getUser().getRol().getIdRol()==1) {
             btnAsignarReponsable = (ImageButton) rootView.findViewById(R.id.btnAsignarReponsable);
             btnAsignarReponsable.setVisibility(View.VISIBLE);
 
@@ -134,39 +121,43 @@ public class LibroReportFragment extends Fragment {
                     }
                 }
             });
-        }
 
-        btnEliminar = (ImageButton)rootView.findViewById(R.id.btnEliminar);
 
-        btnEliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EliminarReport eliminarReport = new EliminarReport();
-                eliminarReport.show(getFragmentManager(), "Eliminar");
-            }});
-
-        btnModificar = (ImageButton)rootView.findViewById(R.id.btnModificar);
-
-        btnModificar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment;
-
-                fragment = new ModificarLibroReportFragment();
-
-                if (fragment != null) {
-
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-                } else {
-                    Log.e("Error  ", "Asignar Reponsable");
+            btnEliminar = (ImageButton) rootView.findViewById(R.id.btnEliminar);
+            btnEliminar.setVisibility(View.VISIBLE);
+            btnEliminar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EliminarReport eliminarReport = new EliminarReport();
+                    eliminarReport.show(getFragmentManager(), "Eliminar");
                 }
-            }});
+            });
 
-        //Si el libro report fue abirto del menu de farmaco se crea un boton volver a farmaco
-        if(origen.compareTo("FARMACO")== 0){
-            fragActivo.setData("FARMACO_REPORT");
+            btnModificar = (ImageButton) rootView.findViewById(R.id.btnModificar);
+            btnModificar.setVisibility(View.VISIBLE);
+
+            btnModificar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Fragment fragment;
+
+                    fragment = new ModificarLibroReportFragment();
+
+                    if (fragment != null) {
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                    } else {
+                        Log.e("Error  ", "Asignar Reponsable");
+                    }
+                }
+            });
         }
+            //Si el libro report fue abirto del menu de farmaco se crea un boton volver a farmaco
+            if (origen.compareTo("FARMACO") == 0) {
+                fragActivo.setData("FARMACO_REPORT");
+            }
+
         return rootView;
     }
 
@@ -251,7 +242,7 @@ public class LibroReportFragment extends Fragment {
                       } else {
                           if ((medDto.getGlucosa() != null) && !(medDto.getGlucosa().isEmpty())) {
                               evento.setFecha(medDto.getFecha().toString());
-                              evento.setRegistro("Nivel de Glucosa " + medDto.getGlucosa());
+                              evento.setRegistro("Nivel de Glucosa " + medDto.getDosis());
                               evento.setResponsable(medDto.getDescripcion());
                           } else {
                               if ((medDto.getFreceunciaRespiratoria() != null) && !(medDto.getFreceunciaRespiratoria().isEmpty())) {

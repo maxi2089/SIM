@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class FarmacoFragment extends Fragment {
@@ -136,47 +138,43 @@ public class FarmacoFragment extends Fragment {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Conectarse con el web service para que envie el msj al enfermero a cargo
-                //Se postea en el libro report
-                String datos = new String();
-            // datos ="{"+"\""+"idLibroReport"+"\""+":"+0+","+"\""+"fechaAlta"+"\":"+"\""+"2015-09-16"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\""+":"+"{"+"\""+"idPaciente"+"\""+":"+0+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}}";
-              //datos ="{"+"\""+"fechaAlta"+"\":"+"\""+"Oct 10, 2015"+"\""+","+"\""+"fechaBaja"+"\""+":"+"\""+"Oct 15, 2015"+"\""+","+"\""+"estado"+"\":"+"\""+"ACTIVO"+"\""+","+"\""+"paciente"+"\""+":"+"{"+"\""+"idPaciente"+"\""+":"+0+","+"\""+"dni"+"\":"+"34809913"+","+"\""+"nombre"+"\":"+"\""+"Maxi"+"\""+","+"\""+"apellido"+"\":"+"\""+"Akike"+"\""+","+"\""+"edad"+"\":"+"26"+","+"\""+"altura"+"\":"+"1.75"+","+"\""+"peso"+"\""+":"+"1.8"+"}"+","+"\""+"medicions"+"\""+":"+"[]"+"}";
-               datos= "{"
-                        +"\""+"fechaAlta"+"\":"+"\""+"Oct 10, 2015 9:24:43 PM"+"\""
-                        +","
-                        +"\""+"fechaBaja"+"\""+":"+"\""+"Oct 10, 2015 9:24:43 PM"+"\""
-                        +","
-                        +"\""+"estado"+"\":"+"\""+"Activo"+"\""
-                        +","
-                        +"\""+"paciente"+"\""+":"+"{"
-                        +"\""+"idPaciente"+"\""+":"+0
-                        +","
-                        +"\""+"dni"+"\":"+"34"
-                        +","
-                        +"\""+"nombre"+"\":"+"\""+"Maxi"+"\""
-                        +","
-                        +"\""+"apellido"+"\":"+"\""+"Akike"+"\""
-                        +","
-                        +"\""+"edad"+"\":"+"26"
-                        +","
-                        +"\""+"altura"+"\":"+"1.8"
-                        +","
-                        +"\""+"peso"+"\""+":"+"90.0"+"}"
-                        +","
-                        +"\""+"medicions"+"\""+":"
-                        +"[]"+"}";
-           try {
-                    setFarmaco(rootView.getContext(),datos);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                datos = "Administrar:xxxxxx \n"
-                        +"Factor Goteo(ml x h): "+resultadoVolumen.getText()+"\n"
-                        +"Factor Goteo(gotas x min): "+resultadoGotas.getText()+"\n"
-                ;
+                if (!volumen.getText().toString().equals("")
+                        && !tiempo.getText().toString().equals("")
+                        && !resultadoGotas.getText().toString().equals("")
+                        && !resultadoVolumen.getText().toString().equals("")) {
+                    StringBuilder datos = new StringBuilder();
 
-            }
-        });
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    String currentDateandTime = sdf.format(new Date());
+
+                    String libroReportJson = "\""+"idLibroReport"+"\""+":"+pacienteActivo.getPaciente().getIdPaciente().toString();
+                    String fechaJson       = "\""+"fecha"        +"\""+":"+"\""+currentDateandTime.toString()+"\"";
+                    String volumeJson      = "\""+"volumen"      +"\""+":"+resultadoVolumen.getText().toString() ;
+                    String gotasJson       = "\""+"gotas"        +"\""+":"+resultadoGotas.getText().toString() ;
+
+                    datos.append("{");
+                    datos.append(libroReportJson);
+                    datos.append(",");
+                    datos.append(fechaJson);
+                    datos.append(",");
+                    datos.append(volumeJson);
+                    datos.append(",");
+                    datos.append(gotasJson);
+                    datos.append("}");
+
+
+                    try {
+                        setFarmaco(rootView.getContext(), datos.toString());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast toast = Toast.makeText(rootView.getContext(), "No se puede calcular. No hay datos cargados", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+
+            }});
 
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,7 +232,7 @@ public class FarmacoFragment extends Fragment {
 
              if (service.conectar(farmacoContext,datos.getBytes().length)) {
                  System.out.println("Datos "+"\n"+datos);
-                 service.post(datos);
+                 service.write(datos);
                  System.out.println("-------------");
 
              }

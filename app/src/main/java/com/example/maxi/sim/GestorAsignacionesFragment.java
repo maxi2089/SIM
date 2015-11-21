@@ -59,7 +59,7 @@ public class GestorAsignacionesFragment extends Fragment {
         ListaResponsableView = (ListView) rootView.findViewById(R.id.listaPacienteAsignacion);
 
         //Button para guardar las asignaciones
-        btnGuardar = (ImageButton)rootView.findViewById(R.id.btnCrearVisita);
+        btnGuardar = (ImageButton)rootView.findViewById(R.id.btnGuardar);
 
         //Paciente Seleccionado
         txtPaciente = (TextView)rootView.findViewById(R.id.txtPaciente);
@@ -137,12 +137,12 @@ public class GestorAsignacionesFragment extends Fragment {
                 }
 
                 if(!responsableBorrar.isEmpty()) {
-                      //  try {
-                           // eliminarAsignacion();
+                        try {
+                           eliminarAsignacion();
                             System.out.println("BORRANDO");
-                        //} catch (IOException e) {
-                          //  e.printStackTrace();
-                        //}
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                  }else{
                     if(noHuboCambio==1){
                         Toast toast = Toast.makeText(rootView.getContext(),"No se registraron cambios de asignacion",Toast.LENGTH_LONG);
@@ -240,7 +240,7 @@ public class GestorAsignacionesFragment extends Fragment {
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos "+"\n"+datos);
-                service.post(datos.toString());
+                service.write(datos.toString());
                 System.out.println("-------------");
 
             }
@@ -260,7 +260,12 @@ public class GestorAsignacionesFragment extends Fragment {
             System.out.println("Red disponible");
 
             service.configurarMetodo("DELETE");
-            service.configurarUrl(URL+"PacienteResource/asignacion?IdPaciente="
+
+            System.out.println("Datos " + (URL+"PacienteResource/asignacion?idPaciente="
+                    +pacienteActivo.getPaciente().getIdPaciente()
+                    +"&idUsuario="+idUsuario));
+
+            service.configurarUrl(URL+"PacienteResource/asignacion?idPaciente="
                     +pacienteActivo.getPaciente().getIdPaciente()
                     +"&idUsuario="+idUsuario);
 

@@ -64,6 +64,8 @@ public class SimWebService {
                              ){
                         System.out.println("POST/PUT");
                         connection.setDoOutput(true);
+                        connection.setRequestProperty("Accept-Encoding","gzip,deflate");
+                        connection.setRequestProperty("Content-Type","text/json");
                         connection.setFixedLengthStreamingMode(longitud);
                     }
 
@@ -74,9 +76,7 @@ public class SimWebService {
                     if(requestMethod.compareTo("DELETE")==0){
                         System.out.println("DELETE");
                         connection.setDoOutput(true);
-                        connection.setRequestProperty("Content-Type",
-                                "application/x-www-form-urlencoded");
-
+                        /*connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");*/
                     }
                     connection.setConnectTimeout(10000);
                     connection.setReadTimeout(15000);
@@ -157,19 +157,22 @@ public class SimWebService {
                     System.out.println("Linea " + i + " " + objeto.toString());
 
                 }*/
+                connection.disconnect();
 
                 return result;
             }catch (IOException e) {
                 e.printStackTrace();
             }
+            connection.disconnect();
+
             return null;
         }
 
-    public void post(String dato) throws IOException {
+    public void write(String dato) throws IOException {
 
         //Send request
         DataOutputStream out = new DataOutputStream (connection.getOutputStream ());
-        out.writeBytes (dato);
+        out.writeBytes(dato);
         out.flush ();
         out.close ();
         connection.disconnect();

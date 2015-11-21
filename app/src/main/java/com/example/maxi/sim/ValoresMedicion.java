@@ -3,7 +3,7 @@ package com.example.maxi.sim;
 /**
  * Created by yamila on 18/10/2015.
  */
-public class ValoresMedicion {
+public class ValoresMedicion  extends CommonDto {
     private float valorMinimo;
     private float valorMaximo;
 

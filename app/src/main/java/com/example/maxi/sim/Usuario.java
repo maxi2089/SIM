@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Usuario implements Serializable {
+public class Usuario  extends CommonDto implements Serializable {
     private Integer idUsuario;
     private Rol rol;
     private int dni;
@@ -21,7 +21,8 @@ public class Usuario implements Serializable {
     private String usuario;
     private String password;
     private Set<Paciente> pacientes = new HashSet<>();
-    private  String mail;
+    private String mail;
+    //private String fechaNac;
 
     public Usuario() {
     }

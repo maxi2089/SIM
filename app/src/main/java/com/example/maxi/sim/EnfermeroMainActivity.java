@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class EnfermeroMainActivity extends AppCompatActivity {
     private String[] titulos;
     private DrawerLayout NavDrawerLayout;
     private ListView NavList;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Url urlServer = Url.getInstance();
         URL = urlServer.getUrl();
 
@@ -66,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         NavList.addHeaderView(header);
 
-        NavIcons = getResources().obtainTypedArray(R.array.navigation_iconos);
+        NavIcons = getResources().obtainTypedArray(R.array.navigation_iconos_enfermero);
 
-        titulos = getResources().getStringArray(R.array.nav_options);
+        titulos = getResources().getStringArray(R.array.nav_enfermero_options);
 
         NavItms = new ArrayList<Item_objct>();
 
@@ -194,9 +196,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 8:
                 this.finish();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
+                /*Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);*/
+                Intent intent = new Intent(EnfermeroMainActivity.this,LoginActivity.class);
                 startActivity(intent);
                 break;
             case 9:
@@ -206,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
             case 10: fragment = new FarmacoFragment();
                 position = 3;
                 break;
-            case 11: fragment = new VisitasFragment();
+            case 11: fragment = new ListaVisitasFragment();
                 position = 7;
                 break;
             default:

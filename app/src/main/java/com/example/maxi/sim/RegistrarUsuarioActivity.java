@@ -1,20 +1,44 @@
 package com.example.maxi.sim;
 
+import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistrarUsuarioActivity extends AppCompatActivity {
     private Spinner spinnerRol;
@@ -24,41 +48,66 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
     private String URL;
     private EditText EditTxtNombre;
     private EditText EditTxtDni;
-    private EditText EditTxtFechaNac;
     private EditText EditTxtEmail;
     private EditText EditTxtUsuario;
     private EditText EditTxtPassword;
     private TextInputLayout TiLayoutPassword;
     private TextInputLayout TiLayoutPasswordR;
     private TextInputLayout TiLayoutUsuario;
+    private TextInputLayout TiLayoutCorreo;
+    private TextView txtFecha;
+    private ImageButton btnCalendario;
 
     public static String  algoritmoEncriptacion = "SHA-256";
 
+    String vNombre;
+    String vDni;
+    String vFechaNac;
+    String vEmail;
+    String vUsuario;
+    String vPassword;
+    String vPasswordR;
+    ContraseñaEnciptada password ;
+    ContraseñaEnciptada passwordR;
 
     private EditText EditTxtPasswordR;
-    private Button btnRegistrarse;
-
-
+    private ImageButton btnRegistrarse;
+    private RelativeLayout progressLayout;
+    private RelativeLayout detalle;
+    private ProgressBar barraProg;
+    //Registro Gooogle API
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "MainActivity";
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private String token;
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Url urlServer = Url.getInstance();
 
         URL = urlServer.getUrl();
 
+        progressLayout = (RelativeLayout)findViewById(R.id.progressLayout);
+        detalle = (RelativeLayout)findViewById(R.id.detalleLayout);
+
         EditTxtNombre = (EditText) findViewById(R.id.EditTxtNombre);
         EditTxtDni = (EditText) findViewById(R.id.EditTxtDni);
-        EditTxtFechaNac =  (EditText) findViewById(R.id.EditTxtFechaNac);
-        EditTxtEmail = (EditText) findViewById(R.id.EditTxtEmail);
         EditTxtUsuario = (EditText) findViewById(R.id.EditTxtUsuario);
         EditTxtPasswordR =(EditText) findViewById(R.id.EditTxtPasswordR);
         EditTxtPassword =(EditText) findViewById(R.id.EditTxtPassword);
+        EditTxtEmail = (EditText) findViewById(R.id.EditTxtEmail);
+
+        txtFecha = (TextView) findViewById(R.id.txtFecha);
+        btnCalendario = (ImageButton) findViewById(R.id.btnCalendario);
 
         TiLayoutPassword = (TextInputLayout)findViewById(R.id.TiLayoutPassword);
         TiLayoutPasswordR = (TextInputLayout)findViewById(R.id.TiLayoutPasswordR);
         TiLayoutUsuario = (TextInputLayout) findViewById(R.id.TiLayoutUsuario);
+        TiLayoutCorreo = (TextInputLayout) findViewById(R.id.TiLayoutEmail);
 
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_spinner_item,roles);
         spinnerRol = (Spinner) findViewById(R.id.spinnerRol);
@@ -73,7 +122,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
                 if (arg2 != 0) {
                     //Posicion del spinner debe coincidir con la posicion de la lista de pacientes..
                     RolActivo = arg2;
-                    System.out.println("Rol: "+RolActivo.toString());
+                    System.out.println("Rol: " + RolActivo.toString());
 
                 }
             }
@@ -84,21 +133,33 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
             }
         });
 
-        btnRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
+        btnCalendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                DialogFragment newFragment = new DateFragment();
+                newFragment.show(getFragmentManager(), "DatePicker");
+
+            }
+        });
+
+        btnRegistrarse = (ImageButton) findViewById(R.id.btnGuardar);
         btnRegistrarse.setOnClickListener(new View.OnClickListener() {
           @Override
               public void onClick(View v) {
+              detalle.setVisibility(View.INVISIBLE);
+              progressLayout.setVisibility(View.VISIBLE);
 
-              String vNombre = EditTxtNombre.getText().toString();
-              String vDni = EditTxtDni.getText().toString();
-              String vFechaNac = EditTxtFechaNac.getText().toString();
-              String vEmail = EditTxtEmail.getText().toString();
-              String vUsuario = EditTxtUsuario.getText().toString();
-              String vPassword = EditTxtPassword.getText().toString();
-              String vPasswordR = EditTxtPasswordR.getText().toString();
+              vNombre = EditTxtNombre.getText().toString();
+              vDni = EditTxtDni.getText().toString();
+              vFechaNac = txtFecha.getText().toString();
+              vEmail = EditTxtEmail.getText().toString();
+              vUsuario = EditTxtUsuario.getText().toString();
+              vPassword = EditTxtPassword.getText().toString();
+              vPasswordR = EditTxtPasswordR.getText().toString();
 
-              ContraseñaEnciptada password = new ContraseñaEnciptada();
-              ContraseñaEnciptada passwordR = new ContraseñaEnciptada();
+              password = new ContraseñaEnciptada();
+              passwordR = new ContraseñaEnciptada();
 
               password.EncriptarContraseña(vPassword,algoritmoEncriptacion);
               passwordR.EncriptarContraseña(vPasswordR,algoritmoEncriptacion);
@@ -114,55 +175,98 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
 
                   if(password.getPasswordEncriptada().compareTo(passwordR.getPasswordEncriptada())==0) {
                       TiLayoutPasswordR.setErrorEnabled(false);
-                      //if(!verificarUsuario(vUsuario)) {
+                      if(verificarUsuario(vUsuario)) {
                           TiLayoutUsuario.setErrorEnabled(false);
-                          String fechaNacJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
-                          String NombreJson = "\"" + "nombre" + "\"" + ":" + "\"" + vNombre + "\"";
-                          String DniJson = "\"" + "dni" + "\"" + ":" + vDni;
-                          String EmailJson = "\"" + "mail" + "\"" + ":" + "\"" + vEmail + "\"";
-                          String UsuarioJson = "\"" + "usuario" + "\"" + ":" + "\"" + vUsuario + "\"";
-                          String PasswordJson = "\"" + "password" + "\"" + ":" + "\"" + password.getPasswordEncriptada() + "\"";
-                          String rolJson = "\"" + "rol" + "\"" + ":{"+ "\"" +"idRol"+"\"" +":" + RolActivo.toString() + "}";
-
-                          StringBuilder datos = new StringBuilder();
-
-                          datos.append("{");
-                          datos.append(rolJson);
-                          datos.append(",");
-                          datos.append(DniJson);
-                          datos.append(",");
-                          datos.append(NombreJson);
-                          datos.append(",");
-                          datos.append(UsuarioJson);
-                          datos.append(",");
-                          datos.append(PasswordJson);
-                          datos.append(",");
-                          datos.append(EmailJson);
-                          datos.append("}");
-                          try {
-                              postUsuario(getBaseContext(), datos);
-                          } catch (IOException e) {
-                              e.printStackTrace();
+                          if(validarCorreo(vEmail)){
+                              registrarGoogleApi();
+                          }else{
+                              progressLayout.setVisibility(View.INVISIBLE);
+                              detalle.setVisibility(View.VISIBLE);
+                              TiLayoutCorreo.setErrorEnabled(true);
+                              TiLayoutCorreo.setError("Formato de Correo Electronico Incorrecto");
                           }
-                     /* }else{
-                          TiLayoutUsuario.setErrorEnabled(true);
-                          TiLayoutUsuario.setError("Existe un Usuario con ese nombre");
-                      }*/
+                       }
+
                   }
                   else{
-
+                      progressLayout.setVisibility(View.INVISIBLE);
+                      detalle.setVisibility(View.VISIBLE);
                       TiLayoutPasswordR.setErrorEnabled(true);
                       TiLayoutPasswordR.setError("Las contraseñas no coinciden");
+
                   }
               }
               else{
+                  progressLayout.setVisibility(View.INVISIBLE);
+                  detalle.setVisibility(View.VISIBLE);
                   Toast toastRequerido = Toast.makeText(getBaseContext(),
                           "Todos los campos deben ser completados", Toast.LENGTH_LONG);
                   toastRequerido.show();
+
               }
 
           }
           });
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("RCV1");
+
+               SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                System.out.println("sentToken: "+sentToken );
+
+                if (sentToken) {
+                    System.out.println("GCM: " + getString(R.string.gcm_send_message));
+                    token = intent.getStringExtra("TOKEN");
+                    System.out.println("TOKEEEEN "+token);
+                    TiLayoutUsuario.setErrorEnabled(false);
+                    TiLayoutCorreo.setErrorEnabled(false);
+                    String fechaNacJson = "\"" + "fecha" + "\"" + ":" + "\"" + "Oct 10, 2015 9:24:43 PM" + "\"";
+                    String NombreJson = "\"" + "nombre" + "\"" + ":" + "\"" + vNombre + "\"";
+                    String DniJson = "\"" + "dni" + "\"" + ":" + vDni;
+                    String EmailJson = "\"" + "mail" + "\"" + ":" + "\"" + vEmail + "\"";
+                    String UsuarioJson = "\"" + "usuario" + "\"" + ":" + "\"" + vUsuario + "\"";
+                    String PasswordJson = "\"" + "password" + "\"" + ":" + "\"" + password.getPasswordEncriptada() + "\"";
+                    String rolJson = "\"" + "rol" + "\"" + ":{" + "\"" + "idRol" + "\"" + ":" + RolActivo.toString() + "}";
+                    String tokenJson = "\"" + "mensajeRegId" + "\"" + ":" + "\"" + token + "\"";
+                    StringBuilder datos = new StringBuilder();
+
+                    datos.append("{");
+                    datos.append(rolJson);
+                    datos.append(",");
+                    datos.append(DniJson);
+                    datos.append(",");
+                    datos.append(NombreJson);
+                    datos.append(",");
+                    datos.append(UsuarioJson);
+                    datos.append(",");
+                    datos.append(PasswordJson);
+                    datos.append(",");
+                    datos.append(EmailJson);
+                    datos.append(",");
+                    datos.append(tokenJson);
+                    datos.append("}");
+
+                     try {
+                    postUsuario(getBaseContext(), datos);
+                    System.out.println(datos);
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+
+                } else {
+                    progressLayout.setVisibility(View.INVISIBLE);
+                    detalle.setVisibility(View.VISIBLE);
+                    Toast toastRequerido = Toast.makeText(getBaseContext(),
+                            "Error: No es posible completar el registro. Comuniquese con Administracion.", Toast.LENGTH_LONG);
+                    toastRequerido.show();
+                }
+            }
+        };
 
 
     }
@@ -200,13 +304,17 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
-                service.post(datos.toString());
+                service.write(datos.toString());
 
+                progressLayout.setVisibility(View.INVISIBLE);
+                detalle.setVisibility(View.VISIBLE);
                 DialogoExito dialogo = new DialogoExito();
                 dialogo.show(getFragmentManager(), "Informacion");
             }
         }
         else{
+            progressLayout.setVisibility(View.INVISIBLE);
+            detalle.setVisibility(View.VISIBLE);
             Toast toast = Toast.makeText(Context,"Red No Disponible",Toast.LENGTH_LONG);
             toast.show();
         }
@@ -224,12 +332,89 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
             if (service.conectar(this.getApplicationContext(), 1)) {
                 String datos;
                 datos = service.get();
-                return true;
+                Gson gson = new Gson();
+                Usuario usuarioVerf = gson.fromJson(datos, Usuario.class);
+                if (usuarioVerf.getError().compareTo("OK")!=0) {
+                    return true;
+                }else{
+                    progressLayout.setVisibility(View.INVISIBLE);
+                    detalle.setVisibility(View.VISIBLE);
+                    TiLayoutUsuario.setErrorEnabled(true);
+                    TiLayoutUsuario.setError("Existe un Usuario con ese nombre");
+                    return false;
+                }
             }
         } else {
+            progressLayout.setVisibility(View.INVISIBLE);
+            detalle.setVisibility(View.VISIBLE);
             Toast toast = Toast.makeText(this.getApplicationContext(), "Red No Disponible", Toast.LENGTH_LONG);
             toast.show();
         }
         return false;
+    }
+
+    private boolean validarCorreo(String correo){
+        final String PATTERN_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(PATTERN_EMAIL);
+        Matcher matcher = pattern.matcher(correo);
+        return matcher.matches();
+    }
+
+    public class DateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar calendar = Calendar.getInstance();
+            int yy = calendar.get(Calendar.YEAR);
+            int mm = calendar.get(Calendar.MONTH);
+            int dd = calendar.get(Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog(getActivity(), this, yy, mm, dd);
+        }
+        public void onDateSet(DatePicker view, int yy, int mm, int dd) {
+            populateSetDate(yy, mm+1, dd);
+        }
+        public void populateSetDate(int year, int month, int day) {
+            txtFecha.setText(day+"/"+month+"/"+year);
+        }
+
+    }
+    private void registrarGoogleApi(){
+
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            System.out.println("GET TOKEN");
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+
+    }
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+    }
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                System.out.println(TAG + ": This device is not supported." );
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 }

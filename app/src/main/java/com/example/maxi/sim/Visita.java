@@ -6,22 +6,22 @@ import java.util.Date;
 /**
  * Created by yamila on 04/11/2015.
  */
-public class Visita {
+public class Visita  extends CommonDto{
 
-    private Date   fechaVisita;
+    private String   fechaVisita;
     private String Observacion;
 
 
-    public Visita(Date fechaVisita, String observacion) {
+    public Visita(String fechaVisita, String observacion) {
         this.fechaVisita = fechaVisita;
         Observacion = observacion;
     }
 
-    public Date getFechaVisita() {
+    public String getFechaVisita() {
         return fechaVisita;
     }
 
-    public void setFechaVisita(Date fechaVisita) {
+    public void setFechaVisita(String fechaVisita) {
         this.fechaVisita = fechaVisita;
     }
 

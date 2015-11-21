@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by yamila on 27/09/2015.
  */
-public class MedicionDto {
+public class MedicionDto   extends CommonDto{
 
     private Integer idMedicion;
     private LibroReport libroreport;

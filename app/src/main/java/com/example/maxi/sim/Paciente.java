@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yamila on 26/09/2015.
  */
-public class Paciente implements Serializable {
+public class Paciente  extends CommonDto implements Serializable {
     private Integer idPaciente;
     private Integer dni;
     private String nombre;

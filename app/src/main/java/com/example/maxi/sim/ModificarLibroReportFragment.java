@@ -7,8 +7,8 @@ import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -35,7 +35,7 @@ public class ModificarLibroReportFragment extends Fragment {
     private EditText EditTxtEdad;
     private EditText EditTxtAltura;
     private EditText EditTxtPeso;
-    private Button btnGuardar;
+    private ImageButton btnGuardar;
 
     private View rootView;
     private fragmentActivo fragActivo;
@@ -74,7 +74,7 @@ public class ModificarLibroReportFragment extends Fragment {
 
         inicializarLibroReport();
 
-        btnGuardar = (Button) rootView.findViewById(R.id.btnCrearVisita);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +95,6 @@ public class ModificarLibroReportFragment extends Fragment {
 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                     String currentDateandTime = sdf.format(new Date());
-
 
                     String NombreJson = "\"" + "nombre" + "\"" + ":" + "\"" + vNombre + "\"";
                     String ApellidoJson = "\"" + "apellido" + "\"" + ":" + "\"" + vApellido + "\"";
@@ -174,7 +173,7 @@ public class ModificarLibroReportFragment extends Fragment {
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
-                service.post(datos.toString());
+                service.write(datos.toString());
 
                 DialogoExito dialogo2 = new DialogoExito();
                 dialogo2.show(getFragmentManager(), "Informacion");

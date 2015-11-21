@@ -73,7 +73,7 @@ public class CrearLibroReportFragment extends Fragment {
         EditTxtPeso = (EditText) rootView.findViewById(R.id.EditTxtPeso);
 
 
-        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnCrearVisita);
+        btnGuardar = (ImageButton) rootView.findViewById(R.id.btnGuardar);
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,7 +171,7 @@ public class CrearLibroReportFragment extends Fragment {
 
             if (service.conectar(Context,datos.toString().getBytes().length)) {
                 System.out.println("Datos " + "\n" + datos);
-                service.post(datos.toString());
+                service.write(datos.toString());
             }
         }
         else{

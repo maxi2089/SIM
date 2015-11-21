@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Created by yamila on 26/10/2015.
  */
-public class AsignacionPaciente implements java.io.Serializable  {
+public class AsignacionPaciente  extends CommonDto implements java.io.Serializable  {
 
         private Integer idPaciente;
 

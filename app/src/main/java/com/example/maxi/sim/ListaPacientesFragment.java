@@ -51,7 +51,7 @@ public class ListaPacientesFragment  extends Fragment {
 
         //SI ES ADMINISTRADOR SE ACTIVA UN BOTON QUE PERMITE CREAR LIBROS REPORTS
         if (fragActivo.getData().compareTo("LISTA_REPORT") == 0
-               /* && SesionUsuario.getUser().getRol().compareTo("ADMINISTRADOR")==0*/) {
+                && SesionUsuario.getUser().getRol().getIdRol()==1) {
 
             btnCrearLibReport = (ImageButton) rootView.findViewById(R.id.btnCrearLibReport);
             btnCrearLibReport.setVisibility(View.VISIBLE);
@@ -94,9 +94,12 @@ public class ListaPacientesFragment  extends Fragment {
                     fragment = new LibroReportFragment();
                 } else if( fragActivo.getData().compareTo("LISTA_GLUCOSA") == 0) {
                     fragment = new GlucosaFragment();
-                }else /*if( fragActivo.getData().compareTo("LISTA_VISITAS") == 0)*/{
-                    fragment = new VisitasFragment();
+                }else if( fragActivo.getData().compareTo("LISTA_VISITAS") == 0){
+                    fragment = new ListaVisitasFragment();
+                }else{
+                    fragment = null;
                 }
+
 
 
                 if (fragment != null) {
